@@ -1,12 +1,8 @@
 
 
-  
 
 
 
-
-
-  
 
 
 <!doctype html>
@@ -20,9 +16,9 @@
   
   
   
-    <meta name="description" content>
+    <meta name="description" content="漏洞原理：ActiveMQ是apache的一套消息中间件，支持java消息服务、集群、Spring Framework等。Apache ActiveMQ 5.13.0之前5.x版本中存在安全漏洞，该漏洞源于程序没有限制可在代理中序列化的类。远程攻击者可借助特制的序列化的Java消息服务（JMS）ObjectMessage对象利用该漏洞执行任意代码。这个漏洞会开启61616和8161这两个端口...">
   
-  <title>归档: 2019 [ liu ]</title>
+  <title>第一天 [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -41,6 +37,15 @@
 <body>
 <div class="side-navigate hide-area">
   
+  
+    <div class="item next">
+      <a href="/2019/07/20/post-name/ttt/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        第一天
+      </div>
+    </div>
   
 </div>
 <div id="outer-container" class="hide-area">
@@ -66,7 +71,7 @@
           </li>
         
           
-            <li class="active">
+            <li>
           
             <a href="/archives">Archives</a>
             
@@ -112,168 +117,64 @@
     <div id="content-inner">
       
       
-  <article>
-    
+  
 
-  <div id="recent-posts">
-    <h1>归档
-    
-        <span class="posts-count">
-        共
-        4
-        
-            文章
-        
-        </span>
-    
-    </h1>
-    
-    
-        
-        
-            
-        
-        
-    
-        
-        
-        
-    
-        
-        
-        
-    
-        
-        
-        
-    
-    
-    
-        
-        
-            
-            <h3 class="archive-year-title">2019
-            
-                <span class="posts-count">
-                共
-                4
-                
-                    文章
-                
-                </span>
-            
-            </h3>
-        
-        <div class="post-title-item">
-  
-  <a href="/2019/07/20/post-name/">
-  
-    post_name
-  
-  </a>
-  <p class="page-title-sub">
-    <span id="post-title-date">7-20</span>
-    
-    
-    
-      <br>
+  <article id="post">
+    <h1>第一天</h1>
+    <p class="page-title-sub">
+      <span id="post-title-date">撰写于 2019-07-20</span>
+      
+        <span id="post-title-updated">修改于 2019-07-20</span>
       
       
-    
-  </p>
-  
-</div>
-    
+      
+      <span id="post-title-tags">
+      标签
+      
+      
         
         
-        <div class="post-title-item">
-  
-  <a href="/2019/07/20/hello-world/">
-  
-    Hello World
-  
-  </a>
-  <p class="page-title-sub">
-    <span id="post-title-date">7-20</span>
-    
-    
-    
-      <br>
+        <a href="/tags/ActiveMQ反序列化漏洞（CVE-2015-5254）/">ActiveMQ反序列化漏洞（CVE-2015-5254）</a>
       
+      </span>
       
+    </p>
     
-  </p>
-  
-</div>
-    
-        
-        
-        <div class="post-title-item">
-  
-  <a href="/2019/07/20/1 day/666/">
-  
-    第一天
-  
-  </a>
-  <p class="page-title-sub">
-    <span id="post-title-date">7-20</span>
-    
-    
-    <span id="post-title-tags">
-    标签
-    
-    
-      
-      
-      <a href="/tags/ActiveMQ反序列化漏洞（CVE-2015-5254）/">ActiveMQ反序列化漏洞（CVE-2015-5254）</a>
-    
-    </span>
-    
-    
-      <br>
-      
-      
-    
-  </p>
-  
-</div>
-    
-        
-        
-        <div class="post-title-item">
-  
-  <a href="/2019/07/20/post-name/ttt/">
-  
-    第一天
-  
-  </a>
-  <p class="page-title-sub">
-    <span id="post-title-date">7-20</span>
-    
-    
-    <span id="post-title-tags">
-    标签
-    
-    
-      
-      
-      <a href="/tags/ActiveMQ反序列化漏洞（CVE-2015-5254）/">ActiveMQ反序列化漏洞（CVE-2015-5254）</a>
-    
-    </span>
-    
-    
-      <br>
-      
-      
-    
-  </p>
-  
-</div>
-    
-  </div>
-
+    <p>漏洞原理：<br>ActiveMQ是apache的一套消息中间件，支持java消息服务、集群、Spring Framework等。<br>Apache ActiveMQ 5.13.0之前5.x版本中存在安全漏洞，该漏洞源于程序没有限制可在代理中序列化的类。远程攻击者可借助特制的序列化的Java消息服务（JMS）ObjectMessage对象利用该漏洞执行任意代码。<br>这个漏洞会开启61616和8161这两个端口，其中61616是用来工作的端口；8161是WEb管理页面端口。<br>序列化是将对象的状态信息转换为可以存储或传输的形式的过程。在序列化期间，对象将其当前状态写入临时或持久性的存储区。以后，可以直接从存储区中读取或反序列化对象的状态，重新创建该对象。</p>
+<blockquote>
+<ul>
+<li>1、构造（可以使用ysoserial）可执行命令的序列化对象。</li>
+<li>2、作为一个消息，访问61616端口</li>
+<li>3、访问web管理页面，读取消息，触发漏洞</li>
+</ul>
+</blockquote>
+<p><img src="/.io//222.png" alt="1"></p>
 
   </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
+  <div class="random-toc">
+    <h2>目录</h2>
+    
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+
+  
+
+  
+    <a href="/2019/07/20/post-name/ttt/" class="next">下一篇 第一天 &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
 
       
       
