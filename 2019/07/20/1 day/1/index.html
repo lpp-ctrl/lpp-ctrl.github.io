@@ -18,7 +18,7 @@
   
     <meta name="description" content="漏洞原理：ActiveMQ是apache的一套消息中间件，支持java消息服务、集群、Spring Framework等。Apache ActiveMQ 5.13.0之前5.x版本中存在安全漏洞，该漏洞源于程序没有限制可在代理中序列化的类。远程攻击者可借助特制的序列化的Java消息服务（JMS）ObjectMessage对象利用该漏洞执行任意代码。这个漏洞会开启61616和8161这两个端口...">
   
-  <title>ActiveMQ反序列化漏洞（CVE-2015-5254） [ liu ]</title>
+  <title>漏洞复现（CVE-2015-5254） [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -129,16 +129,16 @@
   
 
   <article id="post">
-    <h1>ActiveMQ反序列化漏洞（CVE-2015-5254）</h1>
+    <h1>漏洞复现（CVE-2015-5254）</h1>
     <p class="page-title-sub">
-      <span id="post-title-date">撰写于 2019-07-20</span>
+      <span id="post-title-date">Created at 2019-07-20</span>
       
-        <span id="post-title-updated">修改于 2019-07-21</span>
+        <span id="post-title-updated">Updated at 2019-08-02</span>
       
       
       
       <span id="post-title-tags">
-      标签
+      Tag
       
       
         
@@ -181,10 +181,10 @@
 
   </article>
   <div class="random-toc-area">
-  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
-  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
   <div class="random-toc">
-    <h2>目录</h2>
+    <h2>Table of Content</h2>
     <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理："><span class="toc-text">漏洞原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞复现："><span class="toc-text">漏洞复现：</span></a></li></ol>
   </div>
 </div>
@@ -192,13 +192,13 @@
   
 <nav id="pagination">
   
-    <a href="/2019/07/21/1 day/5/" class="prev">&larr; 上一篇 nginx文件解析漏洞</a>
+    <a href="/2019/07/21/1 day/5/" class="prev">&larr; Prev post nginx文件解析漏洞</a>
   
 
   
 
   
-    <a href="/2019/07/20/1 day/2/" class="next">下一篇 CouchDB 未授权访问漏洞CVE-2017-12635 &rarr;</a>
+    <a href="/2019/07/20/1 day/2/" class="next">Next post CouchDB 未授权访问漏洞CVE-2017-12635 &rarr;</a>
   
 </nav>
 
