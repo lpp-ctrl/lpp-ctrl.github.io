@@ -1,0 +1,374 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="author" content="liu-ctrl">
+  
+  
+  
+  
+    <meta name="description" content="##一、账号管理
+###1.检查是否存在空密码的账户awk -F: ‘( $2 == “!!” ) { print $1 }’ /etc/shadow，如果返回值为没有，即代表不存在空密码的账户&emsp;&emsp;
+###2.删除或锁定无用账户more  /etc/passwd  &amp;&amp;  more  /etc/shadow看是否存在以下用户listen、adm、webse...">
+  
+  <title>Linux基线加固 [ liu ]</title>
+  
+  
+    <link rel="shortcut icon" href="/hollow.ico">
+  
+  
+  <link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+  
+</head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+    <div class="item prev">
+      <a href="/2019/07/20/1 day/8/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        Drupal Drupalgeddon 2远程代码执行漏洞CVE-2018-7600
+      </div>
+    </div>
+  
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onclick="openUserCard()">
+          <img id="avatar" src="https://avatars3.githubusercontent.com/u/13285397?s=460&v=4">
+          <div id="homelink">liu</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/index.html">Home</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/categories">Categories</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="https://github.com/Baileyswu">Github</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  
+
+  <article id="post">
+    <h1>Linux基线加固</h1>
+    <p class="page-title-sub">
+      <span id="post-title-date">撰写于 2019-06-11</span>
+      
+        <span id="post-title-updated">修改于 2019-08-03</span>
+      
+      
+      <span id="post-title-categories">分类
+      
+      
+        
+        
+        <a href="/categories/基线加固/">基线加固</a>
+      
+      </span>
+      
+      
+      <span id="post-title-tags">
+      标签
+      
+      
+        
+        
+        <a href="/tags/Linux基线加固/">Linux基线加固</a>
+      
+      </span>
+      
+    </p>
+    
+    <hr>
+<p>##一、账号管理</p>
+<p>###1.检查是否存在空密码的账户<br>awk -F: ‘( $2 == “!!” ) { print $1 }’ /etc/shadow，如果返回值为没有，即代表不存在空密码的账户<br>&emsp;<br>&emsp;</p>
+<p>###2.删除或锁定无用账户<br>more  /etc/passwd  &amp;&amp;  more  /etc/shadow看是否存在以下用户listen、adm、webservd、nobody、nobody4、noaccess、lp、uucp，若无用可进行锁定.<br>锁定用户：将/etc/passwd中的shell域设置为/bin/false<br>删除用户：usedel  username（一般不使用删除用户，都是锁定用户即可）<br>$emsp;<br>&emsp;</p>
+<p>###3.不使用最近的口令<br>执行cat  /etc/pam.d/system-auth，检查passwd  required  pam_unix.so所在行是否存在remember=5，执行ls  /etc/security/opasswd 检查是否存在/etc/security/opasswd该文件<br>&emsp;<br>创建文件/etc/security/opasswd，并设置权限：touch  /etc/security/opasswd<br>chown  root:root  /etc/security/opasswd<br>chmod  600  /etc/security/opasswd<br>修改策略设置：vi  /etc/pam.d/system-auth在passwd  required  pam_unix.so所在行添加remember=5，保存退出。<br>/etc/pam.d/system-auth文件设置不当将导致操作系统登录认证不成功，使配置生效需重启服务器。<br>&emsp;<br>&emsp;</p>
+<p>###4.禁止超级管理员用户账号远程登录<br>远程登录会增加信息泄漏的风险，攻击者可利用远程登录客户端的漏洞获取超级管理员权限，威胁系统安全，如采用telnet协议登录，则安全威胁更为严重。<br>&emsp;<br>检查telnet，more  /etc/pam.d/login默认情况下root是不能telnet连上主机的，检查下列未被注释：auth  required  pam_securetty.so<br>检查SSH，more  /etc/ssh/sshd_config检查下列行设置是否为no并且将此行未被注释：PermitrootLogin  no<br>禁止超级用户管理员运程登录的正确设置为：PermitrootLogin  no<br>&emsp;<br>禁止root用户远程telnet登录系统：vi  /etc/pam.d/login<br>去掉auth  required  pam_securetty  so，前面的注释掉，保存退出。<br>禁止root用户远程ssh登录系统：vi  /etc/ssh/sshd_config修改PermitrootLogin  no（不能讲此行注销掉），保存退出。<br>重新启动ssh服务：service  sshd  restart<br>改变维护人员操作习惯，必须新建一个能够执行交互式登录的普通用户并能够通过su来提权，需要重启服务，可能带来新的威胁。<br>&emsp;<br>&emsp;</p>
+<p>###5.给用户账号非配相应的账户组<br>more /etc/group，查看每个组中的用户或每个用户属于那个组。<br>确认需要修改用户组的用户，usermod -g group  username<br>&emsp;<br>&emsp;</p>
+<p>###6.设置口令并满足复杂程度<br>执行more  /etc/login.defs<br>检查PASS_MAX_DAYS、PASS_MIN_LEN、PASS_MIN_DAYS、PASS_WARN_AGE等参数<br>&emsp;<br>修改策略设置：<br>vi  /etc/login.defs<br>修改PASS_MIN_LEN为8  （密码最小长度为8位）<br>修改PASS_MAX_DAYS为90   （密码不超过90天就要改变）<br>修改PASS_MIN_DAYS为0   （密码可以每天都改）<br>修改PASS_WARN_AGF为7   （在90天内临近的最后七天提醒修改密码）<br>保存退出。<br>&emsp;<br>&emsp;</p>
+<p>###7.设定连续认证失败次数<br>配置当前用户连续认证失败次数超过6次（不含6次），锁定该用户使用的账号。注意只对自然人使用的账号做此限制。执行cat  /etc/pam.d/system-auth检查是否存在：<br>auth  required  pam_tally2.so  deny=3<br>unlock_time=120  even_deny_root<br>root_unlocak_time=60<br>&emsp;<br>修改策略设置：vi  /etc/pam.d/system-auth 添加：auth  required  pam_tall2.so  deny=6  unlock_time=120  even_deny_root  root_unlock_time=60<br>使配置生效要重启服务器，root账户不在锁定的范围内。账户被锁定后，可使用faillog  -u  username  -r 或 pam_tally  –user  username  –reset 解锁<br>&emsp;<br>&emsp;</p>
+<p>###8.检查是否存在除了root之外UID为0的用户<br>执行awk  -F:  ‘($3 == 0){print  $1}’  /etc/passwd  返回值只有root，删除除了root之外的用户（在这里不要删除，锁定用户即可）<br>&emsp;<br>&emsp;</p>
+<p>###9.用户及用户组相关权限设置<br>为passwd、shadow、group文件权限设置，上述文件是否涉及系统权限管理的关键文件，应防止其被非法用户的恶意修改。<br>修改文件权限：<br>chmod  644  /etc/passwd<br>chmod  400  /etc/shadow<br>chmod  644  /etc/group<br>&emsp;<br>&emsp;</p>
+<p>###10.检查root目录权限是否为700，保证仅有系统管理员拥有对其的访问控制权限<br>执行ls  -lad  /root<br>查看root目录的权限。<br>设置700权限给/root，chown  root:root  /root .  chmod  700  /root<br>&emsp;<br>&emsp;</p>
+<p>###11.设置系统umask值<br>执行more  /etc/profile 检查系统的umask值<br>修改umask值，vi  /etc/profile  将umask值修改为027保存并退出<br>source  /etc/profile<br>umask设置不当可能导致某应用无法正确自动创建目录或文件，从而运行异常。<br>&emsp;<br>&emsp;</p>
+<p>##二、日志配置</p>
+<p>###1.设置syslog系统日志<br>ls –l 查看下列日志文件权限<br>/var/log/messages 、 /var/log/secure 、  /var/log/maillog 、 /var/log/cron、<br> /var/log/spooler、/var/log/boot.log<br> 修改上述日志权限为640即可，保证日志的读写权限，chmod  640  *<br> &emsp;<br> &emsp;</p>
+<p> ###2.设置日志服务器<br> 执行：<br>more /etc/rsyslog.conf<br>存在类似如下语句：<br><em>.</em>   @192.168.0.1<br>&emsp;<br>修改配置：<br>#vi /etc/rsyslog.conf<br>加上这一行：<br> <em>.</em>   @192.168.0.1<br>可以将”<em>.</em>“替换为你实际需要的日志信息。比如：kern.* / mail.* 等等。192.168.0.1修改为实际的日志服务器。<em>.</em>和@之间为一个Tab。<br>&emsp;<br>重启syslog服务，/etc/init.d/rsyslogd stop<br>/etc/init.d/rsyslogd start<br>&emsp;<br>&emsp;</p>
+<p>###3.配置syslog<br>执行：<br>more /etc/rsyslog.conf<br>存在类似如下语句：<br><em>.err;kern.debug;daemon.notice;           /var/log/messages<br>cron.</em>                                       /var/log/cron<br>&emsp;<br>修改配置：<br>vi /etc/rsyslog.conf<br>配置类似如下语句，并保存退出：<br><em>.err;kern.debug;daemon.notice;            /var/log/messages<br>cron.</em>                                       /var/log/cron<br>authpriv.*                /var/log/secure<br>&emsp;<br>重启syslog服务， /etc/init.d/syslog restart<br>&emsp;<br>&emsp;</p>
+<p>###4.启动FTP日志记录<br>执行：<br>cat /etc/vsftpd/vsftpd.conf |grep xferlog<br>检查是否有以下行<br>xferlog_enable=YES<br>xferlog_file=/var/log/vsftpd.log<br>且未被注释<br>&emsp;<br>修改配置：<br>vi /etc/vsftpd/vsftpd.conf<br>取消以下行注释<br>xferlog_enable=YES<br>xferlog_file=/var/log/vsftpd.log<br>&emsp;<br>&emsp;</p>
+<p>##三、配置IP协议安全等设置</p>
+<p>###1.取消telnet远程登录，采用ssh远程登录<br>查看SSH、telnet服务状态：<br>netstat –an|grep 22<br>netstat –an|grep 23<br>SSH服务状态查看结果为：有LISTEN状态记录<br>telnet服务状态查看结果为：无LISTEN状态记录<br>&emsp;<br>关闭telent开启ssh：<br>1、编辑#vi /etc/xinetd.d/telnet文件，把disable项改为yes,即disable = yes<br>然后运行services xinetd restart，telnet就可以关闭掉了<br>2、安装ssh软件包，通过#/etc/init.d/sshd start来启动SSH<br>&emsp;<br>&emsp;</p>
+<p>###2. 设定远程登录的IP地址范围<br>查看/etc/hosts.allow和/etc/hosts.deny两个文件中是否设定了IP范围限制<br>cat /etc/hosts.allow<br>cat /etc/hosts.deny<br>&emsp;<br>编辑/etc/hosts.allow和/etc/hosts.deny两个文件，文件的配置格式为：<br>Service:host [or network/netmask]:allow/deny<br>vi /etc/hosts.allow<br>增加一行 service: 允许访问的IP，举例如下：<br>all:192.168.4.44:allow #允许单个IP访问所有服务进程<br>sshd:192.168.1.0/24:allow #允许192.168.1.0/24的整个网段访问SSH服务进程<br>vi /etc/hosts.deny<br>增加一行 all:all:DENY<br>&emsp;<br>&emsp;</p>
+<p>###3.禁止ICMP重定向<br>使用如下命令查看：<br>sysctl -n net.ipv4.conf.all.accept_redirects<br>返回结果应为0<br>&emsp;<br>执行：<br>用以下命令修改net.ipv4.conf.all.accept_redirects的值为0<br>sysctl -w net.ipv4.conf.all.accept_redirects=”0”<br>&emsp;<br>&emsp;</p>
+<p>###4.禁止源路由转发<br>使用如下命令查看：<br>sysctl -n net.ipv4.conf.all.accept_source_route<br>返回结果应为0<br>&emsp;<br>执行：<br>用以下命令修改net.ipv4.conf.all.accept_source_route的值为0<br>sysctl -w net.ipv4.conf.all.accept_source_route =”1”<br>&emsp;<br>&emsp;</p>
+<p>##四、Linux服务配置</p>
+<p>###1.设置NTP服务器<br>查看/etc/ntp.conf文件中是否有类似server 10.5.1.1的行；<br>使用命令ntpq –p查看ntp状态；<br>&emsp;<br>编辑ntp 的配置文件：<br>vi /etc/ntp.conf<br>server IP地址（提供ntp服务的机器）<br>&emsp;<br>去掉下列行的注释<br>restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap<br>上面为该局域网的网络和掩码<br>&emsp;<br>启动ntp服务：<br>service ntp start<br>&emsp;<br>&emsp;</p>
+<p>###2.字符交互界面帐户超时自动退出<br>查看/etc/profile文件中是否有TMOUT；<br>cat /etc/profile |grep -i TMOUT<br>&emsp;<br>在/etc/profile文件增加以下两行：<br>#vi /etc/profile<br>TMOUT=180<br>export TMOUT<br>改变这项设置后，重新登录才能有效<br>&emsp;<br>&emsp;</p>
+<p>###3.重要目录和文件的权限设置<br>执行以下命令检查目录和文件的权限设置情况：<br>ls -la /etc/<br>ls -la /etc/init.d/<br>ls -la /tmp<br>ls -la /etc/default/<br>ls -la /etc/rc.d/rc3 d.<br>ls -la /etc/rc.d/rc5.d<br>ls -la /etc/cron* /var/spool/cron*<br>&emsp;<br>权限修改：<br>使用chmod g-wx filename&amp;&amp; chmod  o-wx  命令修改文件或目录权限<br>&emsp;<br>&emsp;</p>
+<p>###4.删除服务中不必要的软件包并更新使用软件包<br>pm -qa 查看所有的安装包<br>执行下列命令，查看版本及大补丁号。<br>uname -a<br>执行下列命令，查看各包的补丁号<br>rpm -qa<br>&emsp;<br>卸载不必要的软件包,及时更新软件包<br>&emsp;<br>&emsp;</p>
+<p>##五、其他配置要求</p>
+<p>###1.禁止root登录FTP<br>在/etc/vsftpd/ftpusers文件中加入下列行<br>root</p>
+<p>###2.禁止匿名账户登录FTP<br>参考配置操作：<br>以 vsftpd 为例：<br>打开/etc/vsftpd/vsftpd.conf文件，修改下列行为：<br>anonymous_enable=NO<br>&emsp;<br>&emsp;</p>
+<p>##六、文件系统安全</p>
+<p>###1.敏感文件权限<br>/etc/fsatb，属主：root，权限644；<br>/etc/server，属主：root，权限：600；<br>/etc/aliases，属主：root，权限：755； /etc/securetty，属主：root，权限：400；<br>&emsp;<br>&emsp;</p>
+<p>###2.删除无需要的危险文件<br>/etc/hosts.equiv<br>/etc/hosts.equiv<br>~/.rhosts<br>~/.shosts</p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
+  <div class="random-toc">
+    <h2>目录</h2>
+    
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+    <a href="/2019/07/20/1 day/8/" class="prev">&larr; 上一篇 Drupal Drupalgeddon 2远程代码执行漏洞CVE-2018-7600</a>
+  
+
+  
+
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by liu-ctrl using
+      <a href="http://hexo.io">Hexo</a> & <a href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="https://avatars3.githubusercontent.com/u/13285397?s=460&v=4">
+    <p id="description"></p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      <a href="https://github.com/Baileyswu">
+        
+          <i class="icon iconfont github">&#xe606;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="http://weibo.com/Danliwoo">
+        
+          <i class="icon iconfont weibo">&#xe602;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="mailto:wulidan0530@live.com">
+        
+          M
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<div id="btn-view">Hide</div>
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":["flash"],"timer":true,"delay":1500000,"shuffle":true,"count":12};
+var unsplashConfig = {"gravity":"center"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+
+var backgroundColor = "34495E";
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+
