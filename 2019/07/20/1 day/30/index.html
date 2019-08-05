@@ -1,0 +1,352 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="author" content="liu-ctrl">
+  
+  
+  
+  
+    <meta name="description" content="linux上搭建Wordpress（LNMP）1、安装nginx可以选择yum安装或者编译安装这里我使用的是编译安装安装环境：yum -y install gcc gcc-c ++yum -y install pcre pcre-develyum -y install zlib zlib-develyum -y install openssl openssl-devel&emsp;把ngin...">
+  
+  <title>linux上搭建Wordpress（LNMP） [ liu ]</title>
+  
+  
+    <link rel="shortcut icon" href="/hollow.ico">
+  
+  
+  <link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+  
+</head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+    <div class="item prev">
+      <a href="/2019/07/20/1 day/1/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        漏洞复现（CVE-2015-5254）
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2019/07/20/1 day/6/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704）
+      </div>
+    </div>
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onclick="openUserCard()">
+          <img id="avatar" src="https://avatars3.githubusercontent.com/u/13285397?s=460&v=4">
+          <div id="homelink">liu</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/index.html">Home</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/categories">Categories</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="https://github.com/Baileyswu">Github</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  
+
+  <article id="post">
+    <h1>linux上搭建Wordpress（LNMP）</h1>
+    <p class="page-title-sub">
+      <span id="post-title-date">Created at 2019-07-20</span>
+      
+        <span id="post-title-updated">Updated at 2019-08-05</span>
+      
+      
+      <span id="post-title-categories">Category
+      
+      
+        
+        
+        <a href="/categories/服务搭建/">服务搭建</a>
+      
+      </span>
+      
+      
+      <span id="post-title-tags">
+      Tag
+      
+      
+        
+        
+        <a href="/tags/linux上搭建Wordpress（LNMP）/">linux上搭建Wordpress（LNMP）</a>
+      
+      </span>
+      
+    </p>
+    
+    <h1 id="linux上搭建Wordpress（LNMP）"><a href="#linux上搭建Wordpress（LNMP）" class="headerlink" title="linux上搭建Wordpress（LNMP）"></a>linux上搭建Wordpress（LNMP）</h1><p>1、安装nginx<br>可以选择yum安装或者编译安装<br>这里我使用的是编译安装<br>安装环境：<br>yum -y install gcc gcc-c ++<br>yum -y install pcre pcre-devel<br>yum -y install zlib zlib-devel<br>yum -y install openssl openssl-devel<br>&emsp;<br>把nginx1.12.2的包下载下来<br>tar -xzvf   nginx-1.12.2.tar.gz<br>useradd nginx -s / sbin / nologin -M<br>cd / usr / local / src / nginx-1.12.2<br>mkdir -p / data / server<br>&emsp;<br>把nginx1.12.2的包下载下来<br>tar -xzvf   nginx-1.12.2.tar.gz<br>useradd nginx -s / sbin / nologin -M<br>cd / usr / local / src / nginx-1.12.2<br>mkdir -p / data / server<br>&emsp;<br>./configure <br>  –prefix=/data/server/nginx <br>  –sbin-path=/data/server/nginx/sbin/nginx <br>  –conf-path=/etc/nginx/nginx.conf <br>  –error-log-path=/var/log/nginx/error.log <br>  –http-log-path=/var/log/nginx/access.log <br>  –pid-path=/var/run/nginx/nginx.pid  <br>  –lock-path=/var/lock/nginx.lock <br>  –user=nginx <br>  –group=nginx <br>  –with-http_ssl_module <br>  –with-http_flv_module <br>  –with-http_stub_status_module <br>  –with-http_gzip_static_module <br>  –http-client-body-temp-path=/var/tmp/nginx/client/ <br>  –http-proxy-temp-path=/var/tmp/nginx/proxy/ <br>  –http-fastcgi-temp-path=/var/tmp/nginx/fcgi/ <br>  –http-uwsgi-temp-path=/var/tmp/nginx/uwsgi <br>  –http-scgi-temp-path=/var/tmp/nginx/scgi <br>  –with-pcre<br>  &emsp;<br>  make &amp;&amp; make install<br>mkdir  -p  /data/server/nginx/logs/<br>mkdir -p /var/tmp/nginx/client/<br>touch  /data/server/nginx/logs/error.log<br>&emsp;<br>启动nginx：/data/server/nginx/sbin/nginx<br>安装完成，访问页面<br><a href="https://imgchr.com/i/egjyyd" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egjyyd.png" alt="egjyyd.png"></a><br>&emsp;<br>&emsp;<br>2、安装PHP<br>yum -y install php-fpm-5.4.16-42.el7.x86_64.rpm<br>yum -y install php<br>yum install php-fpm php-mysql<br>yum -y install php-mysql php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-snmp php-soap curl curl-devel<br>然后开启PHP即可systemctl start php-fpm<br>&emsp;<br>&emsp;<br>3、修改nginx的配置文件<br>上面安装ngin的位置在/data/server<br>手动将配置文件拷到/data/server这个目录中，cp -r /usr/local/src/nginx-1.12.2/conf  /data/server/nginx/<br>cd /data/server/nginx/conf<br><a href="https://imgchr.com/i/egjhY8" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egjhY8.png" alt="egjhY8.png"></a><br>修改vim /data/server/nginx/conf/nginx.conf<br><a href="https://imgchr.com/i/egjXkV" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egjXkV.png" alt="egjXkV.png"></a><br>把user前面的注释#号删除，把后面的用户名改为www<br><a href="https://imgchr.com/i/egvp6J" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egvp6J.png" alt="egvp6J.png"></a><br>在这里添加解析类型，index.php<br><a href="https://imgchr.com/i/egvepD" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egvepD.png" alt="egvepD.png"></a><br>location ~ .php$ {<br>             root           html;<br>             fastcgi_pass   127.0.0.1:9000;<br>             fastcgi_index  index.php;<br>             fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;<br>             include        fastcgi_params;<br>         }<br>把注释去掉修改为上图所示页面，保存退出。<br>&emsp;<br>创建www这个用户:useradd -m www<br>passwd www<br>(设置密码)<br>&emsp;<br>修改nginx配置文件后，需要重新启动nginx服务<br>/data/server/nginx/sbin/nginx -s stop(关闭服务)<br>/data/server/nginx/sbin/nginx（启动服务）<br>/data/server/nginx/sbin/nginx -s reload（重新加载）<br>&emsp;<br>这里我的发布目录是/data/server/nginx/html<br>为了检测是否配置成功ngin.conf配置文件<br>cd /data/server/nginx/html<br>vim 1.php<br>&emsp;<br><?php
+    phpinfo();
+?><br>我在发布目录创建一个1.php文件，在里面写了一个phpinfo<br><a href="https://imgchr.com/i/egv3AP" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egv3AP.png" alt="egv3AP.png"></a><br>访问一下1.php<br><a href="https://imgchr.com/i/egvdns" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egvdns.png" alt="egvdns.png"></a><br>发现成功解析，如果解析不成功，可能会显示页面空白，或者是直接下载文件。<br>出现解析不成功，就是说明配置文件错误。<br>&emsp;<br>&emsp;<br>4、安装mysql<br>这里我选择的是yum安装的<br>4.1下载并安装mysql官方的yum源<br>wget -i -c <a href="http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm" target="_blank" rel="noopener">http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm</a><br> yum -y install mysql57-community-release-el7-10.noarch.rpm<br> &emsp;<br> 4.2yum安装mysql<br>yum -y install mysql-community-server<br>&emsp;<br>4.3mysql数据库设置<br>先开启数据库<br>systemctl start  mysqld.service<br>查看mysql的状态<br>systemctl  status  mysqld.service<br>&emsp;<br>4.4通过查找mysql的日志找到密码<br>grep “password” /var/log/mysqld.log<br>后面出现的就是mysql的密码<br>&emsp;<br>4.5进入数据库且进行改密码<br>输入此命令进入数据库<br>mysql -uroot -p<br>输入初始密码，此时不能做任何事情，因为MySQL默认必须修改密码之后才能操作数据库<br>因为mysql数据库密码程度有限<br>set global validate_password_policy=0;<br>set global validate_password_length=1;<br>alter user ‘root’@’localhost’ identified by ‘123456’;<br>这里就把密码成功改为123456了。<br>&emsp;<br>4.6创建Wordpress数据库<br>mysql -uroot -p<br>create databse wordpress;    （创建Wordpress数据库）<br><a href="https://imgchr.com/i/egvshT" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egvshT.png" alt="egvshT.png"></a><br>show database;<br>use wordpress;<br>grant all on wordpress.* to wordpress@’localhost’ identified by’123456’;<br>flush privileges;<br>exit<br><a href="https://imgchr.com/i/egvfBR" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egvfBR.png" alt="egvfBR.png"></a><br>&emsp;<br>&emsp;<br>5、下载Wordpress<br>这里我安装的是Wordpress4.9.7<br>这里我使用的网站是<a href="https://wordpress.org/download/releases/" target="_blank" rel="noopener">https://wordpress.org/download/releases/</a><br><a href="https://imgchr.com/i/egv79O" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egv79O.png" alt="egv79O.png"></a><br>下载完成后解压。<br>把这个wordpress放到nginx的发布目录中<br>mv ./wordpress /data/server/nginx/html/<br>&emsp;<br>&emsp;<br>6、修改Wordpress配置文件<br>cd /data/server/nginx/html/wordpress<br>cp -r wp-config-sample.php wp-config.php（拷贝配置文件）<br>修改wp-config.php<br>vim wp-config.php<br><a href="https://imgchr.com/i/egvOud" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egvOud.png" alt="egvOud.png"></a><br>修改数据库名字、账号、密码（这里修改的是mysql中创建的数据库名字、用户、密码）<br>&emsp;<br>&emsp;<br>7、访问<a href="http://192.168.199.220/wordpress/" target="_blank" rel="noopener">http://192.168.199.220/wordpress/</a><br><a href="https://imgchr.com/i/egvjHI" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egvjHI.png" alt="egvjHI.png"></a><br>填写信息，点击install Wordpress<br><a href="https://imgchr.com/i/egvzUP" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egvzUP.png" alt="egvzUP.png"></a><br>选择登陆就行了账户上一步设置的admin账户，密码lpp981116…<br><a href="https://imgchr.com/i/egxC8S" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egxC8S.png" alt="egxC8S.png"></a></p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <div class="random-toc">
+    <h2>Table of Content</h2>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#linux上搭建Wordpress（LNMP）"><span class="toc-text">linux上搭建Wordpress（LNMP）</span></a></li></ol>
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+    <a href="/2019/07/20/1 day/1/" class="prev">&larr; Prev post 漏洞复现（CVE-2015-5254）</a>
+  
+
+  
+
+  
+    <a href="/2019/07/20/1 day/6/" class="next">Next post Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704） &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by liu-ctrl using
+      <a href="http://hexo.io">Hexo</a> & <a href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="https://avatars3.githubusercontent.com/u/13285397?s=460&v=4">
+    <p id="description"></p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      <a href="https://github.com/Baileyswu">
+        
+          <i class="icon iconfont github">&#xe606;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="http://weibo.com/Danliwoo">
+        
+          <i class="icon iconfont weibo">&#xe602;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="mailto:wulidan0530@live.com">
+        
+          M
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<div id="btn-view">Hide</div>
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":["flash"],"timer":true,"delay":1500000,"shuffle":true,"count":12};
+var unsplashConfig = {"gravity":"center"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+
+var backgroundColor = "34495E";
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+
