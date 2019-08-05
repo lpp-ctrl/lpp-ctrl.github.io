@@ -16,12 +16,10 @@
   
   
   
-    <meta name="description" content="漏洞原理：DNS协议支持使用axfr类型的记录，进行区域传送，用来解决主从同步的问题。如果管理员在配置DNS服务器的时候没有限制允许获取记录的来源，将会导致DNS域传送漏洞。&emsp;&emsp;
-漏洞复现：靶机：192.168.199.174&emsp;
-
-在Linux下，我们可以通过使用dig命令来发送DNS请求，比如我们dig @192.168.199.174 www.vulhub....">
+    <meta name="description" content="漏洞原理：AppWeb可以进行认证配置，其认证方式包括以下三种：
+basic 传统HTTP基础认证digest 改进版HTTP基础认证，认证成功后将使用Cookie来保存状态，而不用再传递Authorization头form 表单认证其7.0.3之前的版本中，对于digest和form两种认证方式，如果用户传入的密码为null（也就是没有传递密码参数），appweb将因为一个逻辑错误导致直接...">
   
-  <title>DNS域传送漏洞 [ liu ]</title>
+  <title>APPWeb认证绕过漏洞CVE-2018-8715 [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -41,21 +39,21 @@
 <div class="side-navigate hide-area">
   
     <div class="item prev">
-      <a href="/2019/07/20/1 day/8/">
+      <a href="/2019/07/05/1 day/7/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        Drupal Drupalgeddon 2远程代码执行漏洞CVE-2018-7600
+        DNS域传送漏洞
       </div>
     </div>
   
   
     <div class="item next">
-      <a href="/2019/07/10/1 day/2/">
+      <a href="/2019/07/02/1 day/3/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        CouchDB 未授权访问漏洞CVE-2017-12635
+        CouchDB任意命令执行漏洞（CVE-2017-12636）
       </div>
     </div>
   
@@ -132,41 +130,60 @@
   
 
   <article id="post">
-    <h1>DNS域传送漏洞</h1>
+    <h1>APPWeb认证绕过漏洞CVE-2018-8715</h1>
     <p class="page-title-sub">
-      <span id="post-title-date">Created at 2019-07-20</span>
+      <span id="post-title-date">撰写于 2019-07-03</span>
       
-        <span id="post-title-updated">Updated at 2019-07-22</span>
+        <span id="post-title-updated">修改于 2019-08-05</span>
       
+      
+      <span id="post-title-categories">分类
+      
+      
+        
+        
+        <a href="/categories/漏洞复现/">漏洞复现</a>
+      
+      </span>
       
       
       <span id="post-title-tags">
-      Tag
+      标签
       
       
         
         
-        <a href="/tags/DNS域传送漏洞/">DNS域传送漏洞</a>
+        <a href="/tags/APPWeb认证绕过漏洞CVE-2018-8715/">APPWeb认证绕过漏洞CVE-2018-8715</a>
       
       </span>
       
     </p>
     
-    <h2 id="漏洞原理："><a href="#漏洞原理：" class="headerlink" title="漏洞原理："></a>漏洞原理：</h2><p>DNS协议支持使用axfr类型的记录，进行区域传送，用来解决主从同步的问题。如果管理员在配置DNS服务器的时候没有限制允许获取记录的来源，将会导致DNS域传送漏洞。<br>&emsp;<br>&emsp;</p>
-<h2 id="漏洞复现："><a href="#漏洞复现：" class="headerlink" title="漏洞复现："></a>漏洞复现：</h2><p>靶机：192.168.199.174<br>&emsp;</p>
+    <hr>
+<h2 id="漏洞原理："><a href="#漏洞原理：" class="headerlink" title="漏洞原理："></a>漏洞原理：</h2><p>AppWeb可以进行认证配置，其认证方式包括以下三种：</p>
+<p>basic 传统HTTP基础认证<br>digest 改进版HTTP基础认证，认证成功后将使用Cookie来保存状态，而不用再传递Authorization头<br>form 表单认证<br>其7.0.3之前的版本中，对于digest和form两种认证方式，如果用户传入的密码为null（也就是没有传递密码参数），appweb将因为一个逻辑错误导致直接认证成功，并返回session。<br>&emsp;<br>&emsp;</p>
+<h2 id="漏洞复现："><a href="#漏洞复现：" class="headerlink" title="漏洞复现："></a>漏洞复现：</h2><p>靶机IP：192.168.199.120:8080<br>攻击者IP：192.168.199.187<br>&emsp;</p>
 <ol>
-<li>在Linux下，我们可以通过使用dig命令来发送DNS请求，比如我们dig @192.168.199.174 <a href="http://www.vulhub.org" target="_blank" rel="noopener">www.vulhub.org</a> 获取域名<a href="http://www.vulhub.org在DNS服务器上的A记录。" target="_blank" rel="noopener">www.vulhub.org在DNS服务器上的A记录。</a><br>dig @192.168.199.174 <a href="http://www.vulhub.org" target="_blank" rel="noopener">www.vulhub.org</a></li>
+<li>访问<a href="http://192.168.199.120:8080/" target="_blank" rel="noopener">http://192.168.199.120:8080/</a></li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/fda0426c64c2faf66d2c1d6e80ac9151/xmlnote/WEBRESOURCEaf4cb6be2a2a3f2affce7ed7c6e08196/11428" alt><br>发送axfr类型的DNS请求，dig @192.168.199.174 -t axfr vulhub.org<br>&emsp;</p>
-<p><img src="https://note.youdao.com/yws/public/resource/fda0426c64c2faf66d2c1d6e80ac9151/xmlnote/WEBRESOURCEdba1e185f9d02f9e9965044d851f42d0/11437" alt><br>可见我们获得了所有vulhub.org的所有子域名记录，这里存在DNS域传送漏洞。<br>我们也可以通过nmap script 来扫描漏洞：nmap –script dns-zone-transfer.nse –script-args “dns-zone-transfer.domain=vulhub.org” -Pn -p 53 192.168.199.174<br>&emsp;</p>
-<p><img src="https://note.youdao.com/yws/public/resource/fda0426c64c2faf66d2c1d6e80ac9151/xmlnote/WEBRESOURCE196668c3f20dc6a8275fe65051832039/11444" alt></p>
+<p><a href="https://imgchr.com/i/egevm6" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egevm6.png" alt="egevm6.png"></a><br>弹跳出需要输入用户和密码<br>访问<a href="http://192.168.199.120:8080/" target="_blank" rel="noopener">http://192.168.199.120:8080/</a><br>使用burp进行拦截</p>
+<p><a href="https://imgchr.com/i/egm9te" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egm9te.png" alt="egm9te.png"></a><br>&emsp;<br>&emsp;</p>
+<ol start="2">
+<li>把请求改为下图所示</li>
+</ol>
+<p><a href="https://imgchr.com/i/egme78" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egme78.png" alt="egme78.png"></a><br>第一行改为GET http:192.168.199.120:8080/ HTTP/1.1<br>再最后提交的数据加上Authorization: Digest username=joshua<br>响应码200，请求成功。<br>找到所对应的session，如下图所示<br>&emsp;<br>&emsp;<br><a href="https://imgchr.com/i/egm3Xq" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egm3Xq.png" alt="egm3Xq.png"></a><br>Set-Cookie: -http-session-=10::http.session::24576424eedf84681c2b32c82b8b0bbb; path=/; domain=192.168.199.120; httponly<br>&emsp;<br>&emsp;</p>
+<ol start="3">
+<li>再把一开始的包改为，如下图所示<br>改为POST请求</li>
+</ol>
+<p><a href="https://imgchr.com/i/egmsnx" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egmsnx.png" alt="egmsnx.png"></a><br>再把这个POST请求复制到代理中放掉即可</p>
+<p><a href="https://imgchr.com/i/egm7Hf" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egm7Hf.png" alt="egm7Hf.png"></a></p>
 
   </article>
   <div class="random-toc-area">
-  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
-  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
   <div class="random-toc">
-    <h2>Table of Content</h2>
+    <h2>目录</h2>
     <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理："><span class="toc-text">漏洞原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞复现："><span class="toc-text">漏洞复现：</span></a></li></ol>
   </div>
 </div>
@@ -174,13 +191,13 @@
   
 <nav id="pagination">
   
-    <a href="/2019/07/20/1 day/8/" class="prev">&larr; Prev post Drupal Drupalgeddon 2远程代码执行漏洞CVE-2018-7600</a>
+    <a href="/2019/07/05/1 day/7/" class="prev">&larr; 上一篇 DNS域传送漏洞</a>
   
 
   
 
   
-    <a href="/2019/07/10/1 day/2/" class="next">Next post CouchDB 未授权访问漏洞CVE-2017-12635 &rarr;</a>
+    <a href="/2019/07/02/1 day/3/" class="next">下一篇 CouchDB任意命令执行漏洞（CVE-2017-12636） &rarr;</a>
   
 </nav>
 

@@ -1,8 +1,6 @@
 
 
 
-  
-
 
 
 
@@ -18,9 +16,12 @@
   
   
   
-    <meta name="description" content>
+    <meta name="description" content="漏洞原理：DNS协议支持使用axfr类型的记录，进行区域传送，用来解决主从同步的问题。如果管理员在配置DNS服务器的时候没有限制允许获取记录的来源，将会导致DNS域传送漏洞。&emsp;&emsp;
+漏洞复现：靶机：192.168.199.174&emsp;
+
+在Linux下，我们可以通过使用dig命令来发送DNS请求，比如我们dig @192.168.199.174 www.vulhub....">
   
-  <title>标签: Drupal Drupalgeddon 2远程代码执行漏洞CVE-2018-7600 [ liu ]</title>
+  <title>DNS域传送漏洞 [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -39,6 +40,24 @@
 <body>
 <div class="side-navigate hide-area">
   
+    <div class="item prev">
+      <a href="/2019/07/10/1 day/2/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        CouchDB 未授权访问漏洞CVE-2017-12635
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2019/07/03/1 day/4/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        APPWeb认证绕过漏洞CVE-2018-8715
+      </div>
+    </div>
   
 </div>
 <div id="outer-container" class="hide-area">
@@ -71,7 +90,7 @@
           </li>
         
           
-            <li class="active">
+            <li>
           
             <a href="/tags">Tags</a>
             
@@ -110,107 +129,74 @@
     <div id="content-inner">
       
       
-  <div id="tag">
-    <h1>Drupal Drupalgeddon 2远程代码执行漏洞CVE-2018-7600</h1>
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-          
-        
-      
-      
-      <div class="post-title-item">
   
-  <a href="/2019/07/20/1 day/8/">
-  
-    Drupal Drupalgeddon 2远程代码执行漏洞CVE-2018-7600
-  
-  </a>
-  <p class="page-title-sub">
-    <span id="post-title-date">7-20</span>
-    
-    <span id="post-title-categories">分类
-    
-    
+
+  <article id="post">
+    <h1>DNS域传送漏洞</h1>
+    <p class="page-title-sub">
+      <span id="post-title-date">撰写于 2019-07-05</span>
+      
+        <span id="post-title-updated">修改于 2019-08-05</span>
       
       
-      <a href="/categories/漏洞复现/">漏洞复现</a>
-    
-    </span>
-    
-    
-    <span id="post-title-tags">
-    标签
-    
-    
-      
-      
-      <a href="/tags/Drupal-Drupalgeddon-2远程代码执行漏洞CVE-2018-7600/">Drupal Drupalgeddon 2远程代码执行漏洞CVE-2018-7600</a>
-    
-    </span>
-    
-    
-      <br>
-      
-      
-    
-  </p>
-  
-</div>
-      
-    
+      <span id="post-title-categories">分类
       
       
         
+        
+        <a href="/categories/漏洞复现/">漏洞复现</a>
+      
+      </span>
       
       
+      <span id="post-title-tags">
+      标签
+      
+      
+        
+        
+        <a href="/tags/DNS域传送漏洞/">DNS域传送漏洞</a>
+      
+      </span>
+      
+    </p>
     
+    <h2 id="漏洞原理："><a href="#漏洞原理：" class="headerlink" title="漏洞原理："></a>漏洞原理：</h2><p>DNS协议支持使用axfr类型的记录，进行区域传送，用来解决主从同步的问题。如果管理员在配置DNS服务器的时候没有限制允许获取记录的来源，将会导致DNS域传送漏洞。<br>&emsp;<br>&emsp;</p>
+<h2 id="漏洞复现："><a href="#漏洞复现：" class="headerlink" title="漏洞复现："></a>漏洞复现：</h2><p>靶机：192.168.199.174<br>&emsp;</p>
+<ol>
+<li>在Linux下，我们可以通过使用dig命令来发送DNS请求，比如我们dig @192.168.199.174 <a href="http://www.vulhub.org" target="_blank" rel="noopener">www.vulhub.org</a> 获取域名<a href="http://www.vulhub.org在DNS服务器上的A记录。" target="_blank" rel="noopener">www.vulhub.org在DNS服务器上的A记录。</a><br>dig @192.168.199.174 <a href="http://www.vulhub.org" target="_blank" rel="noopener">www.vulhub.org</a></li>
+</ol>
+<p><a href="https://imgchr.com/i/egKvgH" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egKvgH.png" alt="egKvgH.png"></a><br>发送axfr类型的DNS请求，dig @192.168.199.174 -t axfr vulhub.org<br>&emsp;</p>
+<p><a href="https://imgchr.com/i/egM9bt" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egM9bt.png" alt="egM9bt.png"></a><br>可见我们获得了所有vulhub.org的所有子域名记录，这里存在DNS域传送漏洞。<br>我们也可以通过nmap script 来扫描漏洞：nmap –script dns-zone-transfer.nse –script-args “dns-zone-transfer.domain=vulhub.org” -Pn -p 53 192.168.199.174<br>&emsp;</p>
+<p><a href="https://imgchr.com/i/egMiUf" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egMiUf.png" alt="egMiUf.png"></a></p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
+  <div class="random-toc">
+    <h2>目录</h2>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理："><span class="toc-text">漏洞原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞复现："><span class="toc-text">漏洞复现：</span></a></li></ol>
   </div>
+</div>
 
   
+<nav id="pagination">
+  
+    <a href="/2019/07/10/1 day/2/" class="prev">&larr; 上一篇 CouchDB 未授权访问漏洞CVE-2017-12635</a>
+  
+
+  
+
+  
+    <a href="/2019/07/03/1 day/4/" class="next">下一篇 APPWeb认证绕过漏洞CVE-2018-8715 &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
 
       
       

