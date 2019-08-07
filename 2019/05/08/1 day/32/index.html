@@ -1,8 +1,6 @@
 
 
 
-  
-
 
 
 
@@ -18,9 +16,11 @@
   
   
   
-    <meta name="description" content>
+    <meta name="description" content="centos7下安装tomcat8安装tomcat需要依赖Java环境&emsp;
+tomcat一键安装脚本#!/bin/bash
+#对jdk,tomcat进行解压mkdir -p /data/servercd /usr/local/src/tar -xzvf apache-tomcat-8.5.40.tar.gztar -xzvf jdk-8u201-linux-x64.tar.gzmv ...">
   
-  <title>Tag: nginx文件解析漏洞 [ liu ]</title>
+  <title>centos7安装PHP和nginx [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -39,6 +39,24 @@
 <body>
 <div class="side-navigate hide-area">
   
+    <div class="item prev">
+      <a href="/2019/06/11/1 day/11/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        Linux基线加固
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2019/05/08/1 day/31/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        centos7安装PHP和nginx
+      </div>
+    </div>
   
 </div>
 <div id="outer-container" class="hide-area">
@@ -71,7 +89,7 @@
           </li>
         
           
-            <li class="active">
+            <li>
           
             <a href="/tags">Tags</a>
             
@@ -110,131 +128,71 @@
     <div id="content-inner">
       
       
-  <div id="tag">
-    <h1>nginx文件解析漏洞</h1>
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-          
-        
-      
-      
-      <div class="post-title-item">
   
-  <a href="/2019/07/21/1 day/5/">
-  
-    nginx文件解析漏洞
-  
-  </a>
-  <p class="page-title-sub">
-    <span id="post-title-date">7-21</span>
-    
-    <span id="post-title-categories">Category
-    
-    
+
+  <article id="post">
+    <h1>centos7安装PHP和nginx</h1>
+    <p class="page-title-sub">
+      <span id="post-title-date">Created at 2019-05-08</span>
+      
+        <span id="post-title-updated">Updated at 2019-08-07</span>
       
       
-      <a href="/categories/漏洞复现/">漏洞复现</a>
-    
-    </span>
-    
-    
-    <span id="post-title-tags">
-    Tag
-    
-    
-      
-      
-      <a href="/tags/nginx文件解析漏洞/">nginx文件解析漏洞</a>
-    
-    </span>
-    
-    
-      <br>
-      
-      
-    
-  </p>
-  
-</div>
-      
-    
+      <span id="post-title-categories">Category
       
       
         
+        
+        <a href="/categories/服务搭建/">服务搭建</a>
+      
+      </span>
       
       
-    
+      <span id="post-title-tags">
+      Tag
       
       
         
-      
-      
-    
-      
-      
         
+        <a href="/tags/centos7安装PHP和nginx/">centos7安装PHP和nginx</a>
       
+      </span>
       
+    </p>
     
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
+    <h1 id="centos7下安装tomcat8"><a href="#centos7下安装tomcat8" class="headerlink" title="centos7下安装tomcat8"></a>centos7下安装tomcat8</h1><p>安装tomcat需要依赖Java环境<br>&emsp;</p>
+<h2 id="tomcat一键安装脚本"><a href="#tomcat一键安装脚本" class="headerlink" title="tomcat一键安装脚本"></a>tomcat一键安装脚本</h2><p>#!/bin/bash</p>
+<p>#对jdk,tomcat进行解压<br>mkdir -p /data/server<br>cd /usr/local/src/<br>tar -xzvf apache-tomcat-8.5.40.tar.gz<br>tar -xzvf jdk-8u201-linux-x64.tar.gz<br>mv /usr/local/src/apache-tomcat-8.5.40 /data/server/tomcat8<br>mv /usr/local/src/jdk1.8.0_201 /data/server/jdk1.8</p>
+<p>#对/etc/profile改变环境变量<br>cat &gt;&gt;/etc/profile&lt;&lt;EOF<br>export JAVA_HOME=/data/server/jdk1.8<br>export CLASSPATH=.:JAVA_HOME/lib/dt.jar:$JAVA_HOME/jib/tools.jar<br>export PATH=$PATH:$JAVA_HOME/bin<br>EOF<br>#启动tomcat<br>java -version<br>source /etc/profile<br>systemctl stop firewalld.service<br>/data/server/tomcat8/bin/startup.sh<br>i=<code>netstat -pantu |grep 8080|wc -l</code><br>if [ $i -ge 1 ];then<br>echo “tomcat启动成功”<br>else<br>echo “tomcat启动失败”<br>fi<br>&emsp;<br>&emsp;</p>
+<h2 id="设置开机自动安装tomcat"><a href="#设置开机自动安装tomcat" class="headerlink" title="设置开机自动安装tomcat"></a>设置开机自动安装tomcat</h2><p>1.首先将Tomcat配置为系统服务。vi /usr/lib/systemd/system/tomcat8.service<br>修改脚本中的内容为<br><a href="https://imgchr.com/i/eRaWTS" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/eRaWTS.png" alt="eRaWTS.png"></a><br>[Unit]<br>Description=Tomcat8<br>After=syslog.target network.target remote-fs.target nss-lookup.target<br>&emsp;<br>[Service]<br>Type=forking<br>Environment=’JAVA_HOME=/data/server/jdk1.8’<br>Environment=’CATALINA_PID=/data/server/tomcat8/bin/tomcat.pid’<br>Environment=’CATALINA_HOME=/data/server/tomcat8/‘<br>Environment=’CATALINA_BASE=/data/server/tomcat8/‘<br>Environment=’CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC’<br>&emsp;<br>ExecStart=/data/server/tomcat8/bin/startup.sh<br>ExecReload=/bin/kill -s HUP $MAINPID<br>ExecStop=/bin/kill -s QUIT $MAINPID<br>PrivateTmp=true<br>&emsp;<br>[Install]<br>WantedBy=multi-user.target<br>&emsp;<br>&emsp;<br>2.将tomcat服务配置开机<br>systemctl  enable  tomcat8：设置tomcat8开机启动<br>systemctl  start  tomcat8：启动tomcat8服务<br>&emsp;<br>&emsp;<br>3.reboot重启虚拟机<br>开机后netstat  -pantu |grep 8080<br>或者ps aux |grep tomcat<br>如果存在即代表tomcat开机自启成功</p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <div class="random-toc">
+    <h2>Table of Content</h2>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#centos7下安装tomcat8"><span class="toc-text">centos7下安装tomcat8</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tomcat一键安装脚本"><span class="toc-text">tomcat一键安装脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置开机自动安装tomcat"><span class="toc-text">设置开机自动安装tomcat</span></a></li></ol></li></ol>
   </div>
+</div>
 
   
+<nav id="pagination">
+  
+    <a href="/2019/06/11/1 day/11/" class="prev">&larr; Prev post Linux基线加固</a>
+  
+
+  
+
+  
+    <a href="/2019/05/08/1 day/31/" class="next">Next post centos7安装PHP和nginx &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
 
       
       
