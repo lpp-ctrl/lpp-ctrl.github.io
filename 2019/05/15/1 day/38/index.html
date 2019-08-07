@@ -1,8 +1,6 @@
 
 
 
-  
-
 
 
 
@@ -18,9 +16,9 @@
   
   
   
-    <meta name="description" content>
+    <meta name="description" content="centos7中安装ansible&emsp;ansible是新出现的自动化运维工具，基于Python开发，集合了众多运维工具（puppet、cfengine、chef、func、fabric）的优点，实现了批量系统配置、批量程序部署、批量运行命令等功能。&emsp;首先安装ansible需要python环境先查看python -V，查看python环境是否存在如果不存在进行安装python...">
   
-  <title>Tag: centos7中csvn的安装及脚本一键安装 [ liu ]</title>
+  <title>centos7安装ansible [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -39,6 +37,24 @@
 <body>
 <div class="side-navigate hide-area">
   
+    <div class="item prev">
+      <a href="/2019/05/15/1 day/37/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        centos7安装snort
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2019/05/11/1 day/35/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        centos7安装dokuwiki
+      </div>
+    </div>
   
 </div>
 <div id="outer-container" class="hide-area">
@@ -71,7 +87,7 @@
           </li>
         
           
-            <li class="active">
+            <li>
           
             <a href="/tags">Tags</a>
             
@@ -110,173 +126,67 @@
     <div id="content-inner">
       
       
-  <div id="tag">
-    <h1>centos7中csvn的安装及脚本一键安装</h1>
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-          
-        
-      
-      
-      <div class="post-title-item">
   
-  <a href="/2019/05/10/1 day/34/">
-  
-    centos7中csvn的安装及脚本一键安装
-  
-  </a>
-  <p class="page-title-sub">
-    <span id="post-title-date">5-10</span>
-    
-    <span id="post-title-categories">Category
-    
-    
+
+  <article id="post">
+    <h1>centos7安装ansible</h1>
+    <p class="page-title-sub">
+      <span id="post-title-date">Created at 2019-05-15</span>
+      
+        <span id="post-title-updated">Updated at 2019-08-07</span>
       
       
-      <a href="/categories/服务搭建/">服务搭建</a>
-    
-    </span>
-    
-    
-    <span id="post-title-tags">
-    Tag
-    
-    
-      
-      
-      <a href="/tags/centos7中csvn的安装及脚本一键安装/">centos7中csvn的安装及脚本一键安装</a>
-    
-    </span>
-    
-    
-      <br>
-      
-      
-    
-  </p>
-  
-</div>
-      
-    
+      <span id="post-title-categories">Category
       
       
         
+        
+        <a href="/categories/服务搭建/">服务搭建</a>
+      
+      </span>
       
       
-    
+      <span id="post-title-tags">
+      Tag
       
       
         
-      
-      
-    
-      
-      
         
+        <a href="/tags/centos7安装ansible/">centos7安装ansible</a>
       
+      </span>
       
+    </p>
     
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
+    <h1 id="centos7中安装ansible"><a href="#centos7中安装ansible" class="headerlink" title="centos7中安装ansible"></a>centos7中安装ansible</h1><p>&emsp;<br>ansible是新出现的自动化运维工具，基于Python开发，集合了众多运维工具（puppet、cfengine、chef、func、fabric）的优点，实现了批量系统配置、批量程序部署、批量运行命令等功能。<br>&emsp;<br>首先安装ansible需要python环境<br>先查看python -V，查看python环境是否存在<br>如果不存在进行安装pythony<br>&emsp;<br>&lt;1&gt;下载jkd包<br>cd  /usr/local/src  &amp;&amp;wget   <a href="https://download.oracle.com/otn/java/jdk/8u211-b12/478a62b7d4e34b78b671c754eaaf38ab/jdk-8u211-linux-x64.tar.gz下载jdk包" target="_blank" rel="noopener">https://download.oracle.com/otn/java/jdk/8u211-b12/478a62b7d4e34b78b671c754eaaf38ab/jdk-8u211-linux-x64.tar.gz下载jdk包</a><br>&emsp;<br>&emsp;<br>&lt;2&gt;解压jdk源码包<br>tar  -xzvf  jdk-8u201-linux-x64.tar.gz<br>&emsp;<br>&emsp;<br>&lt;3&gt;把jdk移动到/data/server/下<br>mv  /usr/local/src/jdk1.8  /data/server/<br>&emsp;<br>&emsp;<br>&lt;4&gt;添加环境变量<br>vim  /etc/profile在最后添加<br>export JAVA_HOME=/data/server/jdk1.8<br>export CLASSPATH=.:JAVA_HOME/lib/dt.jar:$JAVA_HOME/jib/tools.jar<br>export PATH=$PATH:$JAVA_HOME/bin<br>&emsp;<br>&emsp;<br>&lt;5&gt;重新加载环境变量<br>source  /etc/profile<br>&emsp;<br>&emsp;<br>主机IP：172.31.1.249<br>从机1：172.31.6.60<br>从机2：172.31.6.246（且三台机器都在一个网段）<br>1.yum  -y  insatll  ansible    下载ansible<br>&emsp;<br>&emsp;<br>2.查看ansible版本<br>ansible  -version<br>&emsp;<br>&emsp;<br>3.ssh-keygen  生成公钥（在主上进行操作）<br>ssh-copy-id  -i  <a href="mailto:root@172.31.6.60" target="_blank" rel="noopener">root@172.31.6.60</a>（后面是从机IP）<br>ssh-copy-id  -i  <a href="mailto:root@172.31.6.246" target="_blank" rel="noopener">root@172.31.6.246</a> （后面是从机IP）<br>&emsp;<br>&emsp;<br>4.vim  /etc/ansible/hosts（注：这步在主上操作，从机上不用修改）<br>目的是在ansible的节点上添加可控制节点<br><a href="https://imgchr.com/i/eIQcB8" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eIQcB8.png" alt="eIQcB8.png"></a><br>添加<br>[group1]<br>172.31.6.90<br>172.31.6.246<br>&emsp;<br>&emsp;<br>5.测试是否成功<br>ansible group1 -m ping<br>成功会出现下图所示页面<br><a href="https://imgchr.com/i/eIQIcq" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eIQIcq.png" alt="eIQIcq.png"></a><br>脚本是放在/usr/local/src/redis.sh<br>一键对其他机器的脚本进行操作，先把脚本全部拷到/usr/local/src中<br>然后输入下面命令即可<br>ansible group1 -m command -a “/usr/local/src/redis.sh”</p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <div class="random-toc">
+    <h2>Table of Content</h2>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#centos7中安装ansible"><span class="toc-text">centos7中安装ansible</span></a></li></ol>
   </div>
+</div>
 
   
+<nav id="pagination">
+  
+    <a href="/2019/05/15/1 day/37/" class="prev">&larr; Prev post centos7安装snort</a>
+  
+
+  
+
+  
+    <a href="/2019/05/11/1 day/35/" class="next">Next post centos7安装dokuwiki &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
 
       
       

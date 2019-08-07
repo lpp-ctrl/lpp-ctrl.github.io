@@ -1,0 +1,350 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="author" content="liu-ctrl">
+  
+  
+  
+  
+    <meta name="description" content="流量包分析2019.6.16&emsp;LAN网段范围：10.22.15.0/24（10.22.15.0到10.22.15.0.255）域名：geeographic.com域控制器：10.22.15.2 - Geeographic-DC局域网网段：10.22.15.1局域网段广播地址：10.22.15.255要调查的Windows客户端的IP地址：10.22.15.119回答以下的问题：&e...">
+  
+  <title>流量包分析2019.6.16 [ liu ]</title>
+  
+  
+    <link rel="shortcut icon" href="/hollow.ico">
+  
+  
+  <link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+  
+</head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+    <div class="item prev">
+      <a href="/2019/07/02/1 day/3/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        CouchDB任意命令执行漏洞（CVE-2017-12636）
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2019/06/11/1 day/11/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        Linux基线加固
+      </div>
+    </div>
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onclick="openUserCard()">
+          <img id="avatar" src="https://avatars3.githubusercontent.com/u/13285397?s=460&v=4">
+          <div id="homelink">liu</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/index.html">Home</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/categories">Categories</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="https://github.com/Baileyswu">Github</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  
+
+  <article id="post">
+    <h1>流量包分析2019.6.16</h1>
+    <p class="page-title-sub">
+      <span id="post-title-date">Created at 2019-06-16</span>
+      
+        <span id="post-title-updated">Updated at 2019-08-07</span>
+      
+      
+      <span id="post-title-categories">Category
+      
+      
+        
+        
+        <a href="/categories/流量分析/">流量分析</a>
+      
+      </span>
+      
+      
+      <span id="post-title-tags">
+      Tag
+      
+      
+        
+        
+        <a href="/tags/流量包分析2019-6-16/">流量包分析2019.6.16</a>
+      
+      </span>
+      
+    </p>
+    
+    <h1 id="流量包分析2019-6-16"><a href="#流量包分析2019-6-16" class="headerlink" title="流量包分析2019.6.16"></a>流量包分析2019.6.16</h1><p>&emsp;<br>LAN网段范围：10.22.15.0/24（10.22.15.0到10.22.15.0.255）<br>域名：geeographic.com<br>域控制器：10.22.15.2 - Geeographic-DC<br>局域网网段：10.22.15.1<br>局域网段广播地址：10.22.15.255<br>要调查的Windows客户端的IP地址：10.22.15.119<br>回答以下的问题：<br>&emsp;<br>&emsp;<br>在分析流量包之前要先统计一下包的大小、以及主要是用的什么协议等问题。<br>这个可以通过Wireshark和科来同时结合得到。<br><a href="https://imgchr.com/i/eI3Yn0" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eI3Yn0.png" alt="eI3Yn0.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/eI3wh4" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eI3wh4.png" alt="eI3wh4.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/eI3WND" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eI3WND.png" alt="eI3WND.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/eI8A5F" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eI8A5F.png" alt="eI8A5F.png"></a><br>可通过科来和Wireshark分析出这个流量包一共10231条数据，以及用协议比较多的几个协议有HTTPS、HTTP、TCP等。<br>&emsp;<br>&emsp;<br>1、恶意流量开始的日期和时间是多少？<br>由以下的步骤可看出是在1247条流量开始进行对恶意流量的访问。<br>开始的时间就是1247这条流量的时间，恶意流量开始的时间和日期就是下图红色区域所标记的<br><a href="https://imgchr.com/i/eI8J8H" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eI8J8H.png" alt="eI8J8H.png"></a><br>&emsp;<br>&emsp;<br>2、受感染的Windows主机的MAC地址是多少？<br>一般受感染的主机是收发流量最多的，可以通过科来中的矩阵看到大致的流量收发的情况，可以初步判断为最多的那个就是受感染的IP地址。<br><a href="https://imgchr.com/i/eI8art" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eI8art.png" alt="eI8art.png"></a><br>双击进去那个最多的点，可以看到下图所示。<br><a href="https://imgchr.com/i/eI8sPg" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eI8sPg.png" alt="eI8sPg.png"></a><br>可以看出受感染的IP地址就是10.22.15.119，也可看出受感染的Mac地址是00:11:2F:D1:6E:52<br>&emsp;<br>&emsp;<br>3、受感染的Windows主机的主机名是什么？<br>在Wireshark中搜索栏中搜索kerberos.CNameString，找到10.22.15.119对应的流量，找到cname<br><a href="https://imgchr.com/i/eI8cxs" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eI8cxs.png" alt="eI8cxs.png"></a><br>对应的受感染Windows主机的主机名就是danger-win-pc$<br>&emsp;<br>&emsp;<br>4、受感染的Windows主机上使用的用户帐户名是什么？<br>也是通过3的方式，多找几个<br><a href="https://imgchr.com/i/eI8hZV" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eI8hZV.png" alt="eI8hZV.png"></a><br>受感染Windows主机上使用的账户名就是carlos.danger<br>&emsp;<br>&emsp;<br>5、pcap中的哪个URL返回了Windows可执行文件？<br>在http搜索中发现了第1690条存在问题。<br><a href="https://imgchr.com/i/eI85IU" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eI85IU.png" alt="eI85IU.png"></a><br>DOS其实是是磁盘操作系统的缩写，是个人计算机上的一类操作系统。使用DOS模式可以执行很多程序。<br>而这条流量则在DOS模式，其实非常危险且这个请求的文件非常大，导出到桌面，然后到<a href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener">https://www.virustotal.com/gui/home/upload</a><br>把导出文件拖到此网站上一进行检测，得出下面结果<br><a href="https://imgchr.com/i/eI87RJ" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eI87RJ.png" alt="eI87RJ.png"></a><br>在Wireshark进行分析时，搜索http，找到1690和上面对应的1247，是一个数据传送的整个过程。<br><a href="https://imgchr.com/i/eI8Oqx" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eI8Oqx.png" alt="eI8Oqx.png"></a><br>查看1690条数据下面打开HTTP详情，可看到请求的URL<br><a href="https://imgchr.com/i/eI8vdK" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eI8vdK.png" alt="eI8vdK.png"></a><br>此URL就是受感染的来源，<a href="http://shumbildac.com/WES/fatog.php?l=ngul5.xap" target="_blank" rel="noopener">http://shumbildac.com/WES/fatog.php?l=ngul5.xap</a><br>&emsp;<br>&emsp;<br>6、该URL中Windows可执行文件的大小是多少？<br>执行文件的大小可直接在Wireshark中的导出文件找到http对应的1690对应的那条数据<br><a href="https://imgchr.com/i/eIGZo8" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eIGZo8.png" alt="eIGZo8.png"></a><br>该URL中Windows可执行文件的大小是439kb<br>&emsp;<br>&emsp;<br>7、该URL的Windows可执行文件的SHA256哈希是什么？<br>由上面第5步在网页中可查看到哈希值，如下图所示<br><a href="https://imgchr.com/i/eIGtFU" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eIGtFU.png" alt="eIGtFU.png"></a><br>所以可执行文件的哈希值就是97f149f146b0ec63c32abff204ae27638f0310536172b0f718f1a91a5672fe71</p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <div class="random-toc">
+    <h2>Table of Content</h2>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#流量包分析2019-6-16"><span class="toc-text">流量包分析2019.6.16</span></a></li></ol>
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+    <a href="/2019/07/02/1 day/3/" class="prev">&larr; Prev post CouchDB任意命令执行漏洞（CVE-2017-12636）</a>
+  
+
+  
+
+  
+    <a href="/2019/06/11/1 day/11/" class="next">Next post Linux基线加固 &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by liu-ctrl using
+      <a href="http://hexo.io">Hexo</a> & <a href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="https://avatars3.githubusercontent.com/u/13285397?s=460&v=4">
+    <p id="description"></p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      <a href="https://github.com/Baileyswu">
+        
+          <i class="icon iconfont github">&#xe606;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="http://weibo.com/Danliwoo">
+        
+          <i class="icon iconfont weibo">&#xe602;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="mailto:wulidan0530@live.com">
+        
+          M
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<div id="btn-view">Hide</div>
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":["flash"],"timer":true,"delay":1500000,"shuffle":true,"count":12};
+var unsplashConfig = {"gravity":"center"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+
+var backgroundColor = "34495E";
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+
