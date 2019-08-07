@@ -1,8 +1,6 @@
 
 
 
-  
-
 
 
 
@@ -18,9 +16,9 @@
   
   
   
-    <meta name="description" content>
+    <meta name="description" content="centos7安装snort&emsp;1.下载daq包和snort包wget https://www.snort.org/downloads/snort/daq-2.0.6.tar.gzwget https://www.snort.org/downloads/snort/snort-2.9.14.1.tar.gz&emsp;&emsp;2.解压包tar xvzf daq-2.0.6.tar...">
   
-  <title>Tag: Nginx 文件名逻辑漏洞（CVE-2013-4547） [ liu ]</title>
+  <title>centos7安装snort [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -39,6 +37,24 @@
 <body>
 <div class="side-navigate hide-area">
   
+    <div class="item prev">
+      <a href="/2019/06/11/1 day/11/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        Linux基线加固
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2019/05/11/1 day/35/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        centos7安装dokuwiki
+      </div>
+    </div>
   
 </div>
 <div id="outer-container" class="hide-area">
@@ -71,7 +87,7 @@
           </li>
         
           
-            <li class="active">
+            <li>
           
             <a href="/tags">Tags</a>
             
@@ -110,161 +126,67 @@
     <div id="content-inner">
       
       
-  <div id="tag">
-    <h1>Nginx 文件名逻辑漏洞（CVE-2013-4547）</h1>
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-          
-        
-      
-      
-      <div class="post-title-item">
   
-  <a href="/2019/07/10/1 day/9/">
-  
-    Nginx 文件名逻辑漏洞（CVE-2013-4547）
-  
-  </a>
-  <p class="page-title-sub">
-    <span id="post-title-date">7-10</span>
-    
-    <span id="post-title-categories">Category
-    
-    
+
+  <article id="post">
+    <h1>centos7安装snort</h1>
+    <p class="page-title-sub">
+      <span id="post-title-date">Created at 2019-05-15</span>
+      
+        <span id="post-title-updated">Updated at 2019-08-07</span>
       
       
-      <a href="/categories/漏洞复现/">漏洞复现</a>
-    
-    </span>
-    
-    
-    <span id="post-title-tags">
-    Tag
-    
-    
-      
-      
-      <a href="/tags/Nginx-文件名逻辑漏洞（CVE-2013-4547）/">Nginx 文件名逻辑漏洞（CVE-2013-4547）</a>
-    
-    </span>
-    
-    
-      <br>
-      
-      
-    
-  </p>
-  
-</div>
-      
-    
+      <span id="post-title-categories">Category
       
       
         
+        
+        <a href="/categories/服务搭建/">服务搭建</a>
+      
+      </span>
       
       
+      <span id="post-title-tags">
+      Tag
+      
+      
+        
+        
+        <a href="/tags/centos7安装snort/">centos7安装snort</a>
+      
+      </span>
+      
+    </p>
     
+    <h1 id="centos7安装snort"><a href="#centos7安装snort" class="headerlink" title="centos7安装snort"></a>centos7安装snort</h1><p>&emsp;<br>1.下载daq包和snort包<br>wget <a href="https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz" target="_blank" rel="noopener">https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz</a><br>wget <a href="https://www.snort.org/downloads/snort/snort-2.9.14.1.tar.gz" target="_blank" rel="noopener">https://www.snort.org/downloads/snort/snort-2.9.14.1.tar.gz</a><br>&emsp;<br>&emsp;<br>2.解压包<br>tar xvzf daq-2.0.6.tar.gz<br>cd daq-2.0.6<br>./configure &amp;&amp; make &amp;&amp; sudo make install<br>&emsp;<br>tar xvzf snort-2.9.14.1.tar.gz<br>cd snort-2.9.14.1<br>./configure –enable-sourcefire &amp;&amp; make &amp;&amp; sudo make install（报错）<br>&emsp;<br>&emsp;<br>3.安装snort的时候报错<br>报错信息，如下图所示<br><a href="https://imgchr.com/i/e5ginK" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/e5ginK.png" alt="e5ginK.png"></a><br>使用<br>./configure –disable-open-appid<br>make &amp;&amp; make install即可解决此错误<br>&emsp;<br>wget <a href="https://www.snort.org/downloads/community/community-rules.tar.gz" target="_blank" rel="noopener">https://www.snort.org/downloads/community/community-rules.tar.gz</a> -O community-rules.tar.gz<br>tar -xvzf community-rules.tar.gz<br> mv community-rules/ /data/server/snort/rules<br> &emsp;<br> &emsp;<br> 使用snort -V查看一下版本<br> <a href="https://imgchr.com/i/e5glB8" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/e5glB8.png" alt="e5glB8.png"></a></p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <div class="random-toc">
+    <h2>Table of Content</h2>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#centos7安装snort"><span class="toc-text">centos7安装snort</span></a></li></ol>
   </div>
+</div>
 
   
+<nav id="pagination">
+  
+    <a href="/2019/06/11/1 day/11/" class="prev">&larr; Prev post Linux基线加固</a>
+  
+
+  
+
+  
+    <a href="/2019/05/11/1 day/35/" class="next">Next post centos7安装dokuwiki &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
 
       
       
