@@ -16,11 +16,9 @@
   
   
   
-    <meta name="description" content="centos7下安装tomcat8安装tomcat需要依赖Java环境&emsp;
-tomcat一键安装脚本#!/bin/bash
-#对jdk,tomcat进行解压mkdir -p /data/servercd /usr/local/src/tar -xzvf apache-tomcat-8.5.40.tar.gztar -xzvf jdk-8u201-linux-x64.tar.gzmv ...">
+    <meta name="description" content="centos7中csvn的安装及脚本一键安装1.安装依赖环境csvn的搭建是要依赖Java环境的，可以直接安装jdk包即可在Java官方网站找到jdk包进行安装https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html选择自己对应的版本和系统mkdir -p /data/server...">
   
-  <title>centos7安装tomcat8 [ liu ]</title>
+  <title>centos7中csvn的安装及脚本一键安装 [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -40,21 +38,21 @@ tomcat一键安装脚本#!/bin/bash
 <div class="side-navigate hide-area">
   
     <div class="item prev">
-      <a href="/2019/05/10/1 day/33/">
+      <a href="/2019/05/11/1 day/36/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        centos7设置tomcat后台密码
+        centos7安装DHCP
       </div>
     </div>
   
   
     <div class="item next">
-      <a href="/2019/05/08/1 day/31/">
+      <a href="/2019/05/10/1 day/33/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        centos7安装PHP和nginx
+        centos7设置tomcat后台密码
       </div>
     </div>
   
@@ -131,9 +129,9 @@ tomcat一键安装脚本#!/bin/bash
   
 
   <article id="post">
-    <h1>centos7安装tomcat8</h1>
+    <h1>centos7中csvn的安装及脚本一键安装</h1>
     <p class="page-title-sub">
-      <span id="post-title-date">Created at 2019-05-08</span>
+      <span id="post-title-date">Created at 2019-05-10</span>
       
         <span id="post-title-updated">Updated at 2019-08-07</span>
       
@@ -154,17 +152,19 @@ tomcat一键安装脚本#!/bin/bash
       
         
         
-        <a href="/tags/centos7安装tomcat8/">centos7安装tomcat8</a>
+        <a href="/tags/centos7中csvn的安装及脚本一键安装/">centos7中csvn的安装及脚本一键安装</a>
       
       </span>
       
     </p>
     
-    <h1 id="centos7下安装tomcat8"><a href="#centos7下安装tomcat8" class="headerlink" title="centos7下安装tomcat8"></a>centos7下安装tomcat8</h1><p>安装tomcat需要依赖Java环境<br>&emsp;</p>
-<h2 id="tomcat一键安装脚本"><a href="#tomcat一键安装脚本" class="headerlink" title="tomcat一键安装脚本"></a>tomcat一键安装脚本</h2><p>#!/bin/bash</p>
-<p>#对jdk,tomcat进行解压<br>mkdir -p /data/server<br>cd /usr/local/src/<br>tar -xzvf apache-tomcat-8.5.40.tar.gz<br>tar -xzvf jdk-8u201-linux-x64.tar.gz<br>mv /usr/local/src/apache-tomcat-8.5.40 /data/server/tomcat8<br>mv /usr/local/src/jdk1.8.0_201 /data/server/jdk1.8</p>
-<p>#对/etc/profile改变环境变量<br>cat &gt;&gt;/etc/profile&lt;&lt;EOF<br>export JAVA_HOME=/data/server/jdk1.8<br>export CLASSPATH=.:JAVA_HOME/lib/dt.jar:$JAVA_HOME/jib/tools.jar<br>export PATH=$PATH:$JAVA_HOME/bin<br>EOF<br>#启动tomcat<br>java -version<br>source /etc/profile<br>systemctl stop firewalld.service<br>/data/server/tomcat8/bin/startup.sh<br>i=<code>netstat -pantu |grep 8080|wc -l</code><br>if [ $i -ge 1 ];then<br>echo “tomcat启动成功”<br>else<br>echo “tomcat启动失败”<br>fi<br>&emsp;<br>&emsp;</p>
-<h2 id="设置开机自动安装tomcat"><a href="#设置开机自动安装tomcat" class="headerlink" title="设置开机自动安装tomcat"></a>设置开机自动安装tomcat</h2><p>1.首先将Tomcat配置为系统服务。vi /usr/lib/systemd/system/tomcat8.service<br>修改脚本中的内容为<br><a href="https://imgchr.com/i/eRaWTS" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/eRaWTS.png" alt="eRaWTS.png"></a><br>[Unit]<br>Description=Tomcat8<br>After=syslog.target network.target remote-fs.target nss-lookup.target<br>&emsp;<br>[Service]<br>Type=forking<br>Environment=’JAVA_HOME=/data/server/jdk1.8’<br>Environment=’CATALINA_PID=/data/server/tomcat8/bin/tomcat.pid’<br>Environment=’CATALINA_HOME=/data/server/tomcat8/‘<br>Environment=’CATALINA_BASE=/data/server/tomcat8/‘<br>Environment=’CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC’<br>&emsp;<br>ExecStart=/data/server/tomcat8/bin/startup.sh<br>ExecReload=/bin/kill -s HUP $MAINPID<br>ExecStop=/bin/kill -s QUIT $MAINPID<br>PrivateTmp=true<br>&emsp;<br>[Install]<br>WantedBy=multi-user.target<br>&emsp;<br>&emsp;<br>2.将tomcat服务配置开机<br>systemctl  enable  tomcat8：设置tomcat8开机启动<br>systemctl  start  tomcat8：启动tomcat8服务<br>&emsp;<br>&emsp;<br>3.reboot重启虚拟机<br>开机后netstat  -pantu |grep 8080<br>或者ps aux |grep tomcat<br>如果存在即代表tomcat开机自启成功</p>
+    <h1 id="centos7中csvn的安装及脚本一键安装"><a href="#centos7中csvn的安装及脚本一键安装" class="headerlink" title="centos7中csvn的安装及脚本一键安装"></a>centos7中csvn的安装及脚本一键安装</h1><p>1.安装依赖环境<br>csvn的搭建是要依赖Java环境的，可以直接安装jdk包即可<br>在Java官方网站找到jdk包进行安装<br><a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a><br>选择自己对应的版本和系统<br>mkdir -p /data/server/java/<br>tar -zxvf jdk-8u171-linux-x64.tar.gz -C /usr/local/java/<br>&emsp;<br>设置环境变量<br>vim /etc/profile<br>在末尾添加<br>export JAVA_HOME=/data/server/java/jdk1.8.0_171<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib<br>export PATH=${JAVA_HOME}/bin:$PATH<br>&emsp;<br>使环境变量生效<br>source /etc/profile<br>&emsp;<br>添加软链接<br>ln -s /data/server/java/jdk1.8.0_171/bin/java /usr/bin/java<br>java -version<br>&emsp;<br>&emsp;<br>2.找到csvn下载源，weget  <a href="https://downloads-guests.open.collab.net/files/documents/61/17071/CollabNetSubversionEdge-5.2.0_linux-x86_64.tar.gz" target="_blank" rel="noopener">https://downloads-guests.open.collab.net/files/documents/61/17071/CollabNetSubversionEdge-5.2.0_linux-x86_64.tar.gz</a><br>把csvn下载到/usr/local/src/<br>tar -xzvf  CollabNetSubversionEdge-5.2.0_linux-x86_64.tar.gz<br>mv  /usr/local/src/csvn  /data/server/<br>&emsp;<br>&emsp;<br>3.添加用户，因为csvn服务要求不能用root用户执行<br>useradd csvn<br>echo 123456|passwd –stdin csvn<br>&emsp;<br>&emsp;<br>4.修改属主属组权限<br>chown -R csvn:csvn /data/server/csvn<br>chown  csvn. /data/server/csvn/data/conf/httpd.conf<br>chown root:csvn /data/server/csvn/lib/httpd_bind/httpd_bind<br>chmod u+s /data/server/csvn/lib/httpd_bind/httpd_bind<br>&emsp;<br>&emsp;<br>5.在/etc/sudoers添加下面一行使csvn可以使用sudo<br>csvn ALL=(ALL) ALL<br>但是这样做其实是不安全的，如果别人拿到csvn用户的权限，可以直接提权为root<br>&emsp;<br>&emsp;<br>6.关闭防火墙和SELINUX<br>systemctl  stop  firewalld<br>setenforce 0<br>&emsp;<br>&emsp;<br>7.启动csvn服务<br>/data/server/csvn/bin/csvn-httpd install<br>/data/server/csvn/bin/csvn start<br>&emsp;<br>&emsp;<br>8.查看csvn是否开启<br>netstat  -pantu |grep 3343  (csvn的端口是3343)<br>ps  aux |grep csvn<br>&emsp;<br>&emsp;<br>9.在浏览器上直接访问出来的一个网址，把localhost换成自己的IP地址即可。<br>用户和密码都是admin<br>&emsp;<br>&emsp;</p>
+<h2 id="脚本一键安装CSVN"><a href="#脚本一键安装CSVN" class="headerlink" title="脚本一键安装CSVN"></a>脚本一键安装CSVN</h2><p>#!/bin/bash<br>#判断Java环境是否存在，不存在进行安装<br>java -version<br>if [ $? -eq 0 ];then<br>echo “java存在”<br>else<br>cd /usr/local/src/ &amp;&amp; tar -xzvf jdk-8u201-linux-x64.tar.gz<br>mkdir /data/server<br>mv /usr/local/src/jdk1.8.0_201 /data/server/jdk1.8</p>
+<p>cat &gt;&gt; /etc/profile &lt;&lt;EOF<br>export JAVA_HOME=/data/server/jdk1.8<br>export CLASSPATH=.:JAVA_HOME/lib/dt.jar:/data/server/jdk1.8/jib/tools.jar<br>export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/data/server/jdk1.8/bin:/root/bin:/data/server/jdk1.8/bin<br>EOF<br>source /etc/profile<br>fi</p>
+<p>#关闭防火墙<br>systemctl stop firewalld</p>
+<p>#安装csvn<br>useradd -m csvn<br>echo 123 |passwd –stdin csvn</p>
+<p>cat &gt;&gt; /etc/sudoers &lt;&lt;EOF<br>csvn   ALL=(ALL)   ALL<br>EOF</p>
+<p>#sudo -E /data/csvn/bin/csvn install<br>mkdir /data/server/csvn<br>cd /usr/local/src/ &amp;&amp; tar -xzvf CollabNetSubversionEdge-5.2.0_linux-x86_64.tar.gz &amp;&amp; mv /usr/local/src/csvn /data/server/<br>&emsp;<br>&emsp;<br><a href="https://imgchr.com/i/e5D17d" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/e5D17d.png" alt="e5D17d.png"></a><br>执行脚本即出现上图所表示的页面。<br>&emsp;<br>在网页上输入上图最后一行，把localhost换为自己的IP，即出现登录页面<br><a href="https://imgchr.com/i/e5DUc8" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/e5DUc8.png" alt="e5DUc8.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/e5DB7j" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/e5DB7j.png" alt="e5DB7j.png"></a></p>
 
   </article>
   <div class="random-toc-area">
@@ -172,20 +172,20 @@ tomcat一键安装脚本#!/bin/bash
   <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
   <div class="random-toc">
     <h2>Table of Content</h2>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#centos7下安装tomcat8"><span class="toc-text">centos7下安装tomcat8</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tomcat一键安装脚本"><span class="toc-text">tomcat一键安装脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置开机自动安装tomcat"><span class="toc-text">设置开机自动安装tomcat</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#centos7中csvn的安装及脚本一键安装"><span class="toc-text">centos7中csvn的安装及脚本一键安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本一键安装CSVN"><span class="toc-text">脚本一键安装CSVN</span></a></li></ol></li></ol>
   </div>
 </div>
 
   
 <nav id="pagination">
   
-    <a href="/2019/05/10/1 day/33/" class="prev">&larr; Prev post centos7设置tomcat后台密码</a>
+    <a href="/2019/05/11/1 day/36/" class="prev">&larr; Prev post centos7安装DHCP</a>
   
 
   
 
   
-    <a href="/2019/05/08/1 day/31/" class="next">Next post centos7安装PHP和nginx &rarr;</a>
+    <a href="/2019/05/10/1 day/33/" class="next">Next post centos7设置tomcat后台密码 &rarr;</a>
   
 </nav>
 

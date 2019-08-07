@@ -1,8 +1,6 @@
 
 
 
-  
-
 
 
 
@@ -18,9 +16,9 @@
   
   
   
-    <meta name="description" content>
+    <meta name="description" content="centos7安装dokuwiki1.下载dokuwiki依赖环境dokuwiki依赖的环境有PHP，另外需要下载gcc、gcc-c++、apacheyum -y install php gcc gcc-c++&emsp;&emsp;2.下载dokuwiki的源码包，先在/usr/local/src下，wget https://download.dokuwiki.org/out/dokuwi...">
   
-  <title>Tag: Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704） [ liu ]</title>
+  <title>centos7安装dokuwiki [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -39,6 +37,24 @@
 <body>
 <div class="side-navigate hide-area">
   
+    <div class="item prev">
+      <a href="/2019/06/11/1 day/11/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        Linux基线加固
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2019/05/11/1 day/36/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        centos7安装DHCP
+      </div>
+    </div>
   
 </div>
 <div id="outer-container" class="hide-area">
@@ -71,7 +87,7 @@
           </li>
         
           
-            <li class="active">
+            <li>
           
             <a href="/tags">Tags</a>
             
@@ -110,155 +126,67 @@
     <div id="content-inner">
       
       
-  <div id="tag">
-    <h1>Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704）</h1>
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-          
-        
-      
-      
-      <div class="post-title-item">
   
-  <a href="/2019/07/20/1 day/6/">
-  
-    Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704）
-  
-  </a>
-  <p class="page-title-sub">
-    <span id="post-title-date">7-20</span>
-    
-    <span id="post-title-categories">Category
-    
-    
+
+  <article id="post">
+    <h1>centos7安装dokuwiki</h1>
+    <p class="page-title-sub">
+      <span id="post-title-date">Created at 2019-05-11</span>
+      
+        <span id="post-title-updated">Updated at 2019-08-07</span>
       
       
-      <a href="/categories/漏洞复现/">漏洞复现</a>
-    
-    </span>
-    
-    
-    <span id="post-title-tags">
-    Tag
-    
-    
-      
-      
-      <a href="/tags/Drupal-小于7-32-“Drupalgeddon”-SQL注入漏洞（CVE-2014-3704）/">Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704）</a>
-    
-    </span>
-    
-    
-      <br>
-      
-      
-    
-  </p>
-  
-</div>
-      
-    
+      <span id="post-title-categories">Category
       
       
         
+        
+        <a href="/categories/服务搭建/">服务搭建</a>
+      
+      </span>
       
       
-    
+      <span id="post-title-tags">
+      Tag
       
       
         
-      
-      
-    
-      
-      
         
+        <a href="/tags/centos7安装dokuwiki/">centos7安装dokuwiki</a>
       
+      </span>
       
+    </p>
     
-      
-      
-        
-      
-      
-    
+    <h1 id="centos7安装dokuwiki"><a href="#centos7安装dokuwiki" class="headerlink" title="centos7安装dokuwiki"></a>centos7安装dokuwiki</h1><p>1.下载dokuwiki依赖环境<br>dokuwiki依赖的环境有PHP，另外需要下载gcc、gcc-c++、apache<br>yum -y install php gcc gcc-c++<br>&emsp;<br>&emsp;<br>2.下载dokuwiki的源码包，先在/usr/local/src下，<br>wget <a href="https://download.dokuwiki.org/out/dokuwiki-8a269cc015a64b40e4c918699f1e1142.tgz" target="_blank" rel="noopener">https://download.dokuwiki.org/out/dokuwiki-8a269cc015a64b40e4c918699f1e1142.tgz</a><br>tar -xzvf dokuwiki<br>mv  /usr/local/src/dokuwiki  /var/www/html/wiki<br>因为/var/www/html是apache的默认上传目录，所以把wiki放在此目录下。<br>&emsp;<br>&emsp;<br>3.给wiki权限<br>httpd自动默认生成了一个apache用户，给wiki一个apache用户的权限<br>chown  -R  apache:apache  /var/www/html/wiki<br>&emsp;<br>&emsp;<br>4.启动httpd服务<br>service  httpd  start或者systemctl  start  start<br>&emsp;<br>&emsp;<br>5.在这里前面由于下载的PHP的版本较低，使用yum更新失败，下面进行配置yum源<br>清除下载过的PHP：yum  -y  remove  php*<br>yum -y install php72w php72w-cli php72w-fpm php72w-common php72w-devel<br>yum -y install php72w php72w-cli php72w-fpm php72w-common php72w-devel php72w-embedded php72w-gd php72w-mbstring php72w-mysqlnd php72w-opcache php72w-pdo php72w-xml<br>之后php -v查看版本即可<br>&emsp;<br>&emsp;<br>6.关闭防火墙和SElinx<br>systemctl stop  firewalld<br>《1》setenforce  0(临时关闭)<br>《2》修改配置文件且重启虚拟机<br>修改/etc/selinx/config<br>将其中的SELINX=enforcing改成SELINX=disabled即可<br>&emsp;<br>&emsp;<br>7.访问网页<br><a href="http://172.31.1.249/wiki/install.php" target="_blank" rel="noopener">http://172.31.1.249/wiki/install.php</a><br>其中改为自己的IP地址即可<br><a href="https://imgchr.com/i/e5rfRP" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/e5rfRP.png" alt="e5rfRP.png"></a><br>出现dokuwili的安装页面进行安装即可</p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <div class="random-toc">
+    <h2>Table of Content</h2>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#centos7安装dokuwiki"><span class="toc-text">centos7安装dokuwiki</span></a></li></ol>
   </div>
+</div>
 
   
+<nav id="pagination">
+  
+    <a href="/2019/06/11/1 day/11/" class="prev">&larr; Prev post Linux基线加固</a>
+  
+
+  
+
+  
+    <a href="/2019/05/11/1 day/36/" class="next">Next post centos7安装DHCP &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
 
       
       

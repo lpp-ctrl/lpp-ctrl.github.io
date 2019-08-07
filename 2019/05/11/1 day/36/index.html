@@ -1,8 +1,6 @@
 
 
 
-  
-
 
 
 
@@ -18,9 +16,9 @@
   
   
   
-    <meta name="description" content>
+    <meta name="description" content="centos7安装DHCP&emsp;首先DHCP是动态主机设置协议，Dynamic Host Configuration Protocol，DHCP。DHCP就是给电脑分配IP地址，其中包括：自动分配，动态分配，手工分配。&emsp;1.安装DHCP服务首先要安装dhcp的包，直接yum install dhcp -y  //dhcp-comon dhcpclient dhcp&emsp;...">
   
-  <title>Tag: Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704） [ liu ]</title>
+  <title>centos7安装DHCP [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -39,6 +37,24 @@
 <body>
 <div class="side-navigate hide-area">
   
+    <div class="item prev">
+      <a href="/2019/05/11/1 day/35/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        centos7安装dokuwiki
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2019/05/10/1 day/34/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        centos7中csvn的安装及脚本一键安装
+      </div>
+    </div>
   
 </div>
 <div id="outer-container" class="hide-area">
@@ -71,7 +87,7 @@
           </li>
         
           
-            <li class="active">
+            <li>
           
             <a href="/tags">Tags</a>
             
@@ -110,155 +126,68 @@
     <div id="content-inner">
       
       
-  <div id="tag">
-    <h1>Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704）</h1>
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-          
-        
-      
-      
-      <div class="post-title-item">
   
-  <a href="/2019/07/20/1 day/6/">
-  
-    Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704）
-  
-  </a>
-  <p class="page-title-sub">
-    <span id="post-title-date">7-20</span>
-    
-    <span id="post-title-categories">Category
-    
-    
+
+  <article id="post">
+    <h1>centos7安装DHCP</h1>
+    <p class="page-title-sub">
+      <span id="post-title-date">Created at 2019-05-11</span>
+      
+        <span id="post-title-updated">Updated at 2019-08-07</span>
       
       
-      <a href="/categories/漏洞复现/">漏洞复现</a>
-    
-    </span>
-    
-    
-    <span id="post-title-tags">
-    Tag
-    
-    
-      
-      
-      <a href="/tags/Drupal-小于7-32-“Drupalgeddon”-SQL注入漏洞（CVE-2014-3704）/">Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704）</a>
-    
-    </span>
-    
-    
-      <br>
-      
-      
-    
-  </p>
-  
-</div>
-      
-    
+      <span id="post-title-categories">Category
       
       
         
+        
+        <a href="/categories/服务搭建/">服务搭建</a>
+      
+      </span>
       
       
-    
+      <span id="post-title-tags">
+      Tag
       
       
         
-      
-      
-    
-      
-      
         
+        <a href="/tags/centos7安装DHCP/">centos7安装DHCP</a>
       
+      </span>
       
+    </p>
     
-      
-      
-        
-      
-      
-    
+    <h1 id="centos7安装DHCP"><a href="#centos7安装DHCP" class="headerlink" title="centos7安装DHCP"></a>centos7安装DHCP</h1><p>&emsp;<br>首先DHCP是动态主机设置协议，Dynamic Host Configuration Protocol，DHCP。DHCP就是给电脑分配IP地址，其中包括：自动分配，动态分配，手工分配。<br>&emsp;<br>1.安装DHCP服务首先要安装dhcp的包，<br>直接yum install dhcp -y  //dhcp-comon dhcpclient dhcp<br>&emsp;<br>&emsp;<br>2.把DHCP的配置文件复制到/etc下<br>cp -r /usr/share/doc/dhcp-4.2.5/dhcpd.conf.example /etc/dhcp/dhcpd.conf<br>&emsp;<br>&emsp;<br>3.现在我自己的IP地址是172.31.5.169。<br>vim  /etc/dhcp/dhcpd.conf   进入dhcp配置文件中<br><a href="https://imgchr.com/i/e5s2mF" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/e5s2mF.png" alt="e5s2mF.png"></a><br>&emsp;<br>#</p>
+<h1 id="DHCP-Server-Configuration-file"><a href="#DHCP-Server-Configuration-file" class="headerlink" title="DHCP Server Configuration file."></a>DHCP Server Configuration file.</h1><h1 id="see-usr-share-doc-dhcp-dhcpd-conf-example"><a href="#see-usr-share-doc-dhcp-dhcpd-conf-example" class="headerlink" title="see /usr/share/doc/dhcp*/dhcpd.conf.example"></a>see /usr/share/doc/dhcp*/dhcpd.conf.example</h1><h1 id="see-dhcpd-conf-5-man-page"><a href="#see-dhcpd-conf-5-man-page" class="headerlink" title="see dhcpd.conf(5) man page"></a>see dhcpd.conf(5) man page</h1><p>#<br>subnet 172.31.5.0 netmask 255.255.5.0{<br>range 172.31.5.0 172.31.5.100;<br>option routers 172.31.5.1;<br>option broadcast-address 172.31.5.1;<br>default-lease-time 600;<br>  max-lease-time 7200;<br>}<br>&emsp;<br>&emsp;<br>特别注意：<br>注意配置文件的格式，后面必须跟；<br>并且不能忘记两个{    }<br>根据自己的IP来修改配置文件，IP最后一位是0，其他三位必须和自己的IP一致。<br>&emsp;<br>修改完配置文件后，source  /etc/dhcp/dhcpd.conf<br>&emsp;<br>&emsp;<br>4.启动DHCP服务<br>service  dhcpd  start或者systemctl  start  dhcpd  启动服务<br>之后检查服务有没有开启netstat  -pantu |grep  dhcpd  或 ps  aux |grep dhcpd<br>可查看到dhcp服务开启的是67端口。<br>&emsp;<br>开始是，在启动gdhcp服务时，有错误。<br><a href="https://imgchr.com/i/e5y8AJ" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/e5y8AJ.png" alt="e5y8AJ.png"></a><br>Job for dhcpd.service failed because the control process exited with error code. See “systemctl status dhcpd.service” and “journalctl -xe” for details.<br>【报错的原因是dhcp的配置文件的格式或者配置的IP等错误】</p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <div class="random-toc">
+    <h2>Table of Content</h2>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#centos7安装DHCP"><span class="toc-text">centos7安装DHCP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DHCP-Server-Configuration-file"><span class="toc-text">DHCP Server Configuration file.</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#see-usr-share-doc-dhcp-dhcpd-conf-example"><span class="toc-text">see /usr/share/doc/dhcp*/dhcpd.conf.example</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#see-dhcpd-conf-5-man-page"><span class="toc-text">see dhcpd.conf(5) man page</span></a></li></ol>
   </div>
+</div>
 
   
+<nav id="pagination">
+  
+    <a href="/2019/05/11/1 day/35/" class="prev">&larr; Prev post centos7安装dokuwiki</a>
+  
+
+  
+
+  
+    <a href="/2019/05/10/1 day/34/" class="next">Next post centos7中csvn的安装及脚本一键安装 &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
 
       
       

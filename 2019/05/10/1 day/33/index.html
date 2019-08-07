@@ -1,8 +1,6 @@
 
 
 
-  
-
 
 
 
@@ -18,9 +16,9 @@
   
   
   
-    <meta name="description" content>
+    <meta name="description" content="centos7设置tomcat后台密码在安装好的tomcat8的环境下，给tomcat设置后台登陆账号和密码&emsp;1.首先改一下tomcat用户的配置文件，也就是/data/server/tomcat8/conf/tomcat-users.xml&emsp;就是对tomcat8进行用户和密码的添加。&emsp;&emsp;2.再对/data/server/tomcat8/webapps...">
   
-  <title>Tag: Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704） [ liu ]</title>
+  <title>centos7设置tomcat后台密码 [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -39,6 +37,24 @@
 <body>
 <div class="side-navigate hide-area">
   
+    <div class="item prev">
+      <a href="/2019/05/10/1 day/34/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        centos7中csvn的安装及脚本一键安装
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2019/05/08/1 day/32/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        centos7安装tomcat8
+      </div>
+    </div>
   
 </div>
 <div id="outer-container" class="hide-area">
@@ -71,7 +87,7 @@
           </li>
         
           
-            <li class="active">
+            <li>
           
             <a href="/tags">Tags</a>
             
@@ -110,155 +126,72 @@
     <div id="content-inner">
       
       
-  <div id="tag">
-    <h1>Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704）</h1>
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-          
-        
-      
-      
-      <div class="post-title-item">
   
-  <a href="/2019/07/20/1 day/6/">
-  
-    Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704）
-  
-  </a>
-  <p class="page-title-sub">
-    <span id="post-title-date">7-20</span>
-    
-    <span id="post-title-categories">Category
-    
-    
+
+  <article id="post">
+    <h1>centos7设置tomcat后台密码</h1>
+    <p class="page-title-sub">
+      <span id="post-title-date">Created at 2019-05-10</span>
+      
+        <span id="post-title-updated">Updated at 2019-08-07</span>
       
       
-      <a href="/categories/漏洞复现/">漏洞复现</a>
-    
-    </span>
-    
-    
-    <span id="post-title-tags">
-    Tag
-    
-    
-      
-      
-      <a href="/tags/Drupal-小于7-32-“Drupalgeddon”-SQL注入漏洞（CVE-2014-3704）/">Drupal 小于7.32 “Drupalgeddon” SQL注入漏洞（CVE-2014-3704）</a>
-    
-    </span>
-    
-    
-      <br>
-      
-      
-    
-  </p>
-  
-</div>
-      
-    
+      <span id="post-title-categories">Category
       
       
         
+        
+        <a href="/categories/服务搭建/">服务搭建</a>
+      
+      </span>
       
       
-    
+      <span id="post-title-tags">
+      Tag
       
       
         
-      
-      
-    
-      
-      
         
+        <a href="/tags/centos7设置tomcat后台密码/">centos7设置tomcat后台密码</a>
       
+      </span>
       
+    </p>
     
-      
-      
-        
-      
-      
-    
+    <h1 id="centos7设置tomcat后台密码"><a href="#centos7设置tomcat后台密码" class="headerlink" title="centos7设置tomcat后台密码"></a>centos7设置tomcat后台密码</h1><p>在安装好的tomcat8的环境下，给tomcat设置后台登陆账号和密码<br>&emsp;<br>1.首先改一下tomcat用户的配置文件，也就是/data/server/tomcat8/conf/tomcat-users.xml<br><role rolename="tomcat"><br><role rolename="role1"><br><role rolename="manager-gui"><br><role rolename="admin-gui"><br><user username="tomcat7" password="666666" roles="tomcat,manager-gui,admin-gui"><br><user username="both" password="123456" roles="tomcat,role1"><br><user username="role1" password="111111" roles="role1"><br><img src="https://www.mdeditor.com/images/logos/markdown.png" alt="markdown" title="markdown"><br>&emsp;<br><a href="https://imgchr.com/i/e5aw2F" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/e5aw2F.png" alt="e5aw2F.png"></a><br>就是对tomcat8进行用户和密码的添加。<br>&emsp;<br>&emsp;<br>2.再对/data/server/tomcat8/webapps/manager/META-INF/context.xml   进行改变</user></user></user></role></role></role></role></p>
+<!-- 
+ <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+         allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />
+-->
+<p>注释这段信息，对Java进行注释就是<!-- 内容 --><br>&emsp;<br><a href="https://imgchr.com/i/e5aW8O" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/e5aW8O.png" alt="e5aW8O.png"></a><br>本来是没有注释的，添加注释即可。<br>注释的意义是为了使所有的IP都能通过网页进行登录，如果不注释只能访问127段的IP<br>&emsp;<br>&emsp;<br>3.开启tomcat服务：systemctl  restart  tomcat8<br>关闭防火墙：systemctl  stop  firewalld<br>访问自己的IP:8080即可<br><a href="https://imgchr.com/i/e5aXRS" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/e5aXRS.png" alt="e5aXRS.png"></a><br>&emsp;<br>点击上面的Manager App或者Host Manager<br>出来登录的用户名和密码，<br><a href="https://imgchr.com/i/e50tUI" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/e50tUI.png" alt="e50tUI.png"></a><br>这样已经成功设置tomcat后台密码</p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <div class="random-toc">
+    <h2>Table of Content</h2>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#centos7设置tomcat后台密码"><span class="toc-text">centos7设置tomcat后台密码</span></a></li></ol>
   </div>
+</div>
 
   
+<nav id="pagination">
+  
+    <a href="/2019/05/10/1 day/34/" class="prev">&larr; Prev post centos7中csvn的安装及脚本一键安装</a>
+  
+
+  
+
+  
+    <a href="/2019/05/08/1 day/32/" class="next">Next post centos7安装tomcat8 &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
 
       
       
