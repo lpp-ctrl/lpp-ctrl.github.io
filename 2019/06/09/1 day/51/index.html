@@ -16,10 +16,9 @@
   
   
   
-    <meta name="description" content="漏洞原理：AppWeb可以进行认证配置，其认证方式包括以下三种：
-basic 传统HTTP基础认证digest 改进版HTTP基础认证，认证成功后将使用Cookie来保存状态，而不用再传递Authorization头form 表单认证其7.0.3之前的版本中，对于digest和form两种认证方式，如果用户传入的密码为null（也就是没有传递密码参数），appweb将因为一个逻辑错误导致直接...">
+    <meta name="description" content="流量包分析2019.6.9&emsp;&emsp;&emsp;再利用科来的协议查看协议所占比例可看出流量包共6349条流量，其中协议主要是TCP和HTTP以及HTTPS和LDAP等&emsp;先分析出受感染的IP地址，在科来中的矩阵中可看到一般收发点最多的就是受感染的IP地址所以受感染的IP地址就是10.100.9.107&emsp;&emsp;1、活动的日期和时间（格林威治标准时间或UTC...">
   
-  <title>APPWeb认证绕过漏洞CVE-2018-8715 [ liu ]</title>
+  <title>流量包分析2019.6.9 [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -39,21 +38,21 @@ basic 传统HTTP基础认证digest 改进版HTTP基础认证，认证成功后�
 <div class="side-navigate hide-area">
   
     <div class="item prev">
-      <a href="/2019/07/05/1 day/7/">
+      <a href="/2019/06/11/1 day/11/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        DNS域传送漏洞
+        Linux基线加固
       </div>
     </div>
   
   
     <div class="item next">
-      <a href="/2019/07/02/1 day/3/">
+      <a href="/2019/05/15/1 day/38/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        CouchDB任意命令执行漏洞（CVE-2017-12636）
+        centos7安装ansible
       </div>
     </div>
   
@@ -130,11 +129,11 @@ basic 传统HTTP基础认证digest 改进版HTTP基础认证，认证成功后�
   
 
   <article id="post">
-    <h1>APPWeb认证绕过漏洞CVE-2018-8715</h1>
+    <h1>流量包分析2019.6.9</h1>
     <p class="page-title-sub">
-      <span id="post-title-date">撰写于 2019-07-03</span>
+      <span id="post-title-date">撰写于 2019-06-09</span>
       
-        <span id="post-title-updated">修改于 2019-08-05</span>
+        <span id="post-title-updated">修改于 2019-08-08</span>
       
       
       <span id="post-title-categories">分类
@@ -142,7 +141,7 @@ basic 传统HTTP基础认证digest 改进版HTTP基础认证，认证成功后�
       
         
         
-        <a href="/categories/漏洞复现/">漏洞复现</a>
+        <a href="/categories/流量分析/">流量分析</a>
       
       </span>
       
@@ -153,30 +152,13 @@ basic 传统HTTP基础认证digest 改进版HTTP基础认证，认证成功后�
       
         
         
-        <a href="/tags/APPWeb认证绕过漏洞CVE-2018-8715/">APPWeb认证绕过漏洞CVE-2018-8715</a>
+        <a href="/tags/流量包分析2019-6-9/">流量包分析2019.6.9</a>
       
       </span>
       
     </p>
     
-    <hr>
-<h2 id="漏洞原理："><a href="#漏洞原理：" class="headerlink" title="漏洞原理："></a>漏洞原理：</h2><p>AppWeb可以进行认证配置，其认证方式包括以下三种：</p>
-<p>basic 传统HTTP基础认证<br>digest 改进版HTTP基础认证，认证成功后将使用Cookie来保存状态，而不用再传递Authorization头<br>form 表单认证<br>其7.0.3之前的版本中，对于digest和form两种认证方式，如果用户传入的密码为null（也就是没有传递密码参数），appweb将因为一个逻辑错误导致直接认证成功，并返回session。<br>&emsp;<br>&emsp;</p>
-<h2 id="漏洞复现："><a href="#漏洞复现：" class="headerlink" title="漏洞复现："></a>漏洞复现：</h2><p>靶机IP：192.168.199.120:8080<br>攻击者IP：192.168.199.187<br>&emsp;</p>
-<ol>
-<li>访问<a href="http://192.168.199.120:8080/" target="_blank" rel="noopener">http://192.168.199.120:8080/</a></li>
-</ol>
-<p><a href="https://imgchr.com/i/egevm6" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egevm6.png" alt="egevm6.png"></a><br>弹跳出需要输入用户和密码<br>访问<a href="http://192.168.199.120:8080/" target="_blank" rel="noopener">http://192.168.199.120:8080/</a><br>使用burp进行拦截</p>
-<p><a href="https://imgchr.com/i/egm9te" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egm9te.png" alt="egm9te.png"></a><br>&emsp;<br>&emsp;</p>
-<ol start="2">
-<li>把请求改为下图所示</li>
-</ol>
-<p><a href="https://imgchr.com/i/egme78" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egme78.png" alt="egme78.png"></a><br>第一行改为GET http:192.168.199.120:8080/ HTTP/1.1<br>再最后提交的数据加上Authorization: Digest username=joshua<br>响应码200，请求成功。<br>找到所对应的session，如下图所示<br>&emsp;<br>&emsp;<br><a href="https://imgchr.com/i/egm3Xq" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egm3Xq.png" alt="egm3Xq.png"></a><br>Set-Cookie: -http-session-=10::http.session::24576424eedf84681c2b32c82b8b0bbb; path=/; domain=192.168.199.120; httponly<br>&emsp;<br>&emsp;</p>
-<ol start="3">
-<li>再把一开始的包改为，如下图所示<br>改为POST请求</li>
-</ol>
-<p><a href="https://imgchr.com/i/egmsnx" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egmsnx.png" alt="egmsnx.png"></a><br>再把这个POST请求复制到代理中放掉即可</p>
-<p><a href="https://imgchr.com/i/egm7Hf" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/05/egm7Hf.png" alt="egm7Hf.png"></a></p>
+    <h1 id="流量包分析2019-6-9"><a href="#流量包分析2019-6-9" class="headerlink" title="流量包分析2019.6.9"></a>流量包分析2019.6.9</h1><p>&emsp;<br><a href="https://imgchr.com/i/eoeQ8x" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eoeQ8x.png" alt="eoeQ8x.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/eoetVH" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eoetVH.png" alt="eoetVH.png"></a><br>&emsp;<br><img src="https://s2.ax1x.com/2019/08/07/eoedPI.png" alt="eoedPI.png"><br>再利用科来的协议查看协议所占比例<br><a href="https://imgchr.com/i/eoewGt" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eoewGt.png" alt="eoewGt.png"></a><br>可看出流量包共6349条流量，其中协议主要是TCP和HTTP以及HTTPS和LDAP等<br>&emsp;<br>先分析出受感染的IP地址，在科来中的矩阵中可看到<br><a href="https://imgchr.com/i/eoeyqg" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eoeyqg.png" alt="eoeyqg.png"></a><br>一般收发点最多的就是受感染的IP地址<br><a href="https://imgchr.com/i/eoe2Is" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eoe2Is.png" alt="eoe2Is.png"></a><br>所以受感染的IP地址就是10.100.9.107<br>&emsp;<br>&emsp;<br>1、活动的日期和时间（格林威治标准时间或UTC）<br>由5可知感染的流量的具体编号，感染的编号为679<br><a href="https://imgchr.com/i/eoe4zV" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eoe4zV.png" alt="eoe4zV.png"></a><br>受感染的时间即为上图红色区域所示。<br>&emsp;<br>&emsp;<br>2、受感染的Windows计算机的帐户名称或用户名<br>从前面已知受感染的IP地址就是10.100.9.107<br>在Wireshark中搜索kerberos.CNameString找到相应受感染的IP地址对应的流量。<br><a href="https://imgchr.com/i/eoebdJ" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eoebdJ.png" alt="eoebdJ.png"></a><br>所以可知受感染的账户名是headless-pc$<br>&emsp;<br>&emsp;<br>3、受感染的Windows计算机的主机名<br>搜索用户名也是同上，在Wireshark中搜索kerberos.CNameString，找到搜感染的IP地址对应的，不过要多找几个<br><a href="https://imgchr.com/i/eoeqo9" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eoeqo9.png" alt="eoeqo9.png"></a><br>所以受感染的用户名是ichabod.crane<br>&emsp;<br>&emsp;<br>4、受感染的Windows计算机的MAC地址<br>在Wireshark中搜索tcp，打开受感染IP地址所对应的流量，并看清受感染IP地址是源地址和目标地址。<br><a href="https://imgchr.com/i/eoejRx" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eoejRx.png" alt="eoejRx.png"></a><br>我选择的流量受感染IP地址107是目标地址<br>所以受感染的MAC地址是00:50:8b:2a:96:0a<br>&emsp;<br>&emsp;<br>5、SHA256文件哈希来自pcap的任何恶意软件<br>这是什么类型的感染<br>在科来中的协议中找到HTTP协议，<br><a href="https://imgchr.com/i/eomCee" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eomCee.png" alt="eomCee.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/eomEWt" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eomEWt.png" alt="eomEWt.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/eomZSP" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/eomZSP.png" alt="eomZSP.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/eommy8" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/08/eommy8.png" alt="eommy8.png"></a><br>可看到以上的IP地址和受感染的IP地址有来往。<br>在Wireshark中搜索http.request.method == “GET”<br>&emsp;<br><a href="https://imgchr.com/i/eom1Fs" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/08/eom1Fs.png" alt="eom1Fs.png"></a><br>&emsp;<br>追踪一下HTTP流，可查看到<br><a href="https://imgchr.com/i/eom3Yn" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/08/eom3Yn.png" alt="eom3Yn.png"></a><br>DOS其实是是磁盘操作系统的缩写，是个人计算机上的一类操作系统。使用DOS模式可以执行很多程序。<br>而这条流量则在DOS模式，其实非常危险且这个请求的文件非常大，导出到桌面，然后到<a href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener">https://www.virustotal.com/gui/home/upload</a><br>把导出文件拖到此网站上一进行检测，得出下面结果<br>&emsp;<br><a href="https://imgchr.com/i/eomtyT" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/08/eomtyT.png" alt="eomtyT.png"></a><br>可得出哈希值是396223eeec49493a52dd9d8ba5348a332bf064483a358db79d8bb8d22e6eb62c</p>
 
   </article>
   <div class="random-toc-area">
@@ -184,20 +166,20 @@ basic 传统HTTP基础认证digest 改进版HTTP基础认证，认证成功后�
   <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
   <div class="random-toc">
     <h2>目录</h2>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞原理："><span class="toc-text">漏洞原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞复现："><span class="toc-text">漏洞复现：</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#流量包分析2019-6-9"><span class="toc-text">流量包分析2019.6.9</span></a></li></ol>
   </div>
 </div>
 
   
 <nav id="pagination">
   
-    <a href="/2019/07/05/1 day/7/" class="prev">&larr; 上一篇 DNS域传送漏洞</a>
+    <a href="/2019/06/11/1 day/11/" class="prev">&larr; 上一篇 Linux基线加固</a>
   
 
   
 
   
-    <a href="/2019/07/02/1 day/3/" class="next">下一篇 CouchDB任意命令执行漏洞（CVE-2017-12636） &rarr;</a>
+    <a href="/2019/05/15/1 day/38/" class="next">下一篇 centos7安装ansible &rarr;</a>
   
 </nav>
 
