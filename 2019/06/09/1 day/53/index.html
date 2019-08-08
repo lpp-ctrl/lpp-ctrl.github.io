@@ -16,9 +16,9 @@
   
   
   
-    <meta name="description" content="centos7安装snort&emsp;1.下载daq包和snort包wget https://www.snort.org/downloads/snort/daq-2.0.6.tar.gzwget https://www.snort.org/downloads/snort/snort-2.9.14.1.tar.gz&emsp;&emsp;2.解压包tar xvzf daq-2.0.6.tar...">
+    <meta name="description" content="流量分析2018.5.31LAN网段：10.10.10.0/24（10.10.10.0至10.10.10.255）广播地址：10.10.10.255域控制器：10.10.10.3（DYNACCOUNTIC-DC）域名：dynaccountic.com&emsp;&emsp;在分析此流量包之前，可以利用Wireshark进行统计一下，如下图所示&emsp;&emsp;利用Wireshark统计...">
   
-  <title>centos7安装snort [ liu ]</title>
+  <title>流量包分析2019.5.31 [ liu ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -38,21 +38,21 @@
 <div class="side-navigate hide-area">
   
     <div class="item prev">
-      <a href="/2019/06/09/1 day/53/">
+      <a href="/2019/06/09/1 day/51/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        流量包分析2019.5.31
+        流量包分析2019.6.9
       </div>
     </div>
   
   
     <div class="item next">
-      <a href="/2019/05/15/1 day/38/">
+      <a href="/2019/05/15/1 day/37/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        centos7安装ansible
+        centos7安装snort
       </div>
     </div>
   
@@ -129,11 +129,11 @@
   
 
   <article id="post">
-    <h1>centos7安装snort</h1>
+    <h1>流量包分析2019.5.31</h1>
     <p class="page-title-sub">
-      <span id="post-title-date">Created at 2019-05-15</span>
+      <span id="post-title-date">Created at 2019-06-09</span>
       
-        <span id="post-title-updated">Updated at 2019-08-07</span>
+        <span id="post-title-updated">Updated at 2019-08-09</span>
       
       
       <span id="post-title-categories">Category
@@ -141,7 +141,7 @@
       
         
         
-        <a href="/categories/服务搭建/">服务搭建</a>
+        <a href="/categories/流量分析/">流量分析</a>
       
       </span>
       
@@ -152,13 +152,13 @@
       
         
         
-        <a href="/tags/centos7安装snort/">centos7安装snort</a>
+        <a href="/tags/流量包分析2019-5-31/">流量包分析2019.5.31</a>
       
       </span>
       
     </p>
     
-    <h1 id="centos7安装snort"><a href="#centos7安装snort" class="headerlink" title="centos7安装snort"></a>centos7安装snort</h1><p>&emsp;<br>1.下载daq包和snort包<br>wget <a href="https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz" target="_blank" rel="noopener">https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz</a><br>wget <a href="https://www.snort.org/downloads/snort/snort-2.9.14.1.tar.gz" target="_blank" rel="noopener">https://www.snort.org/downloads/snort/snort-2.9.14.1.tar.gz</a><br>&emsp;<br>&emsp;<br>2.解压包<br>tar xvzf daq-2.0.6.tar.gz<br>cd daq-2.0.6<br>./configure &amp;&amp; make &amp;&amp; sudo make install<br>&emsp;<br>tar xvzf snort-2.9.14.1.tar.gz<br>cd snort-2.9.14.1<br>./configure –enable-sourcefire &amp;&amp; make &amp;&amp; sudo make install（报错）<br>&emsp;<br>&emsp;<br>3.安装snort的时候报错<br>报错信息，如下图所示<br><a href="https://imgchr.com/i/e5ginK" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/e5ginK.png" alt="e5ginK.png"></a><br>使用<br>./configure –disable-open-appid<br>make &amp;&amp; make install即可解决此错误<br>&emsp;<br>wget <a href="https://www.snort.org/downloads/community/community-rules.tar.gz" target="_blank" rel="noopener">https://www.snort.org/downloads/community/community-rules.tar.gz</a> -O community-rules.tar.gz<br>tar -xvzf community-rules.tar.gz<br> mv community-rules/ /data/server/snort/rules<br> &emsp;<br> &emsp;<br> 使用snort -V查看一下版本<br> <a href="https://imgchr.com/i/e5glB8" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/07/e5glB8.png" alt="e5glB8.png"></a></p>
+    <h1 id="流量分析2018-5-31"><a href="#流量分析2018-5-31" class="headerlink" title="流量分析2018.5.31"></a>流量分析2018.5.31</h1><p>LAN网段：10.10.10.0/24（10.10.10.0至10.10.10.255）<br>广播地址：10.10.10.255<br>域控制器：10.10.10.3（DYNACCOUNTIC-DC）<br>域名：dynaccountic.com<br>&emsp;<br>&emsp;<br>在分析此流量包之前，可以利用Wireshark进行统计一下，如下图所示<br><a href="https://imgchr.com/i/eHkKUA" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/09/eHkKUA.png" alt="eHkKUA.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/eHkYDg" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/09/eHkYDg.png" alt="eHkYDg.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/eHkB80" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/09/eHkB80.png" alt="eHkB80.png"></a><br>利用Wireshark统计可看出共有3297个流量，以及所占据的协议比例等问题，有利于更好的分析流量包<br>&emsp;<br>&emsp;<br>1、感染的日期/时间<br>感染的时间可由最后分析出的存在问题的文件，追踪那条有问题的IP地址的HTTP流<br><a href="https://imgchr.com/i/eHkRa9" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/09/eHkRa9.png" alt="eHkRa9.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/eHk7rD" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/09/eHk7rD.png" alt="eHk7rD.png"></a><br>追踪的HTTP中的流中的时间就是感染的时间和日期。<br>&emsp;<br>&emsp;<br>2、受感染用户的IP地址：<br><a href="https://imgchr.com/i/eHA9sS" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/09/eHA9sS.png" alt="eHA9sS.png"></a><br>利用科来的矩阵看到，右侧的一点收发信息最多，所以初步判断此点是受感染的，双击点进去，可看到目的地址，这一栏，如果在矩阵中这个受感染最多的在左边就是看的是源地址，如果是在右边看的就是目标地址。<br><a href="https://imgchr.com/i/eHAFaj" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/09/eHAFaj.png" alt="eHAFaj.png"></a><br>根据科来的矩阵和Wireshark中的流量可分析出受感染的IP地址就是10.10.10.209<br>&emsp;<br>&emsp;<br>3、受感染用户的MAC地址：<br>在上一步已知受感染的IP地址，可在科来中的诊断中看到相对应的Mac地址<br><a href="https://imgchr.com/i/eHAGJ1" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/09/eHAGJ1.png" alt="eHAGJ1.png"></a><br>所以即可知受感染用户的Mac地址是00:30:67:F1:2D:63<br>&emsp;<br>&amp;emsp；<br>4、受感染用户的主机名：<br>在Wireshark中搜索kerberos.CNameString，找到受感染IP209对应的，点开下面有cname,，如下图所示<br><a href="https://imgchr.com/i/eHAaLD" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/09/eHAaLD.png" alt="eHAaLD.png"></a><br>所以即可知道受感染用户的主机名是batiste-pc$<br>&emsp;<br>&emsp;<br>5、受感染用户的帐户名称：<br>也是和上部找受感染主机名的方法一样，在Wireshark中搜索kerberos.CNameString，找到受感染IP209对应的，多点开即可，即可找到，如下图所示<br><a href="https://imgchr.com/i/eHAcSP" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/09/eHAcSP.png" alt="eHAcSP.png"></a><br>由此可知受感染用户的主机名是winford.batiste<br>&emsp;<br>&emsp;<br>6、涉及什么恶意软件，这种感染的可能来源<br>与此感染相关的指示符（IP地址，域，URL和文件哈希值，如果有）<br>在Wireshark中搜索http，可发现如下图所示的文件，应该是二进制执行文件，追踪了一下HTTP流，发现有些问题，于是把文件导出到桌面，拖到<a href="https://www.virustotal.com/#/home/upload这个网站上" target="_blank" rel="noopener">https://www.virustotal.com/#/home/upload这个网站上</a><br>&emsp;<br><a href="https://imgchr.com/i/eHAhwQ" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/09/eHAhwQ.png" alt="eHAhwQ.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/eHAqyT" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/09/eHAqyT.png" alt="eHAqyT.png"></a><br>发现了该文件存在问题。<br>而该文件的哈希值是5a9d6b124d7dc7724ae7bf2af892c433a566fd7dfab8ba29f53cf45921bac9d4<br>与此相关的IP地址也可从Wireshark中查看到，<br>&emsp;<br><a href="https://imgchr.com/i/eHAjw4" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/09/eHAjw4.png" alt="eHAjw4.png"></a><br>与此文件相关的IP地址就是95.110.193.132</p>
 
   </article>
   <div class="random-toc-area">
@@ -166,20 +166,20 @@
   <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
   <div class="random-toc">
     <h2>Table of Content</h2>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#centos7安装snort"><span class="toc-text">centos7安装snort</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#流量分析2018-5-31"><span class="toc-text">流量分析2018.5.31</span></a></li></ol>
   </div>
 </div>
 
   
 <nav id="pagination">
   
-    <a href="/2019/06/09/1 day/53/" class="prev">&larr; Prev post 流量包分析2019.5.31</a>
+    <a href="/2019/06/09/1 day/51/" class="prev">&larr; Prev post 流量包分析2019.6.9</a>
   
 
   
 
   
-    <a href="/2019/05/15/1 day/38/" class="next">Next post centos7安装ansible &rarr;</a>
+    <a href="/2019/05/15/1 day/37/" class="next">Next post centos7安装snort &rarr;</a>
   
 </nav>
 
