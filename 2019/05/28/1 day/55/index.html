@@ -1,0 +1,350 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="author" content="liu-ctrl">
+  
+  
+  
+  
+    <meta name="description" content="流量分析——2019.5.28&emsp;&emsp;&emsp;&emsp;1）被感染的Windows VM的IP地址是什么？可根据科来的矩阵，以及Wireshark中的流量分析可以看出如下图可视&emsp;所以受感染的IP地址是172.16.165.165&emsp;&emsp;2）被感染的Windows VM的主机名是什么？在用Wireshark协议统计中看到DHCP以及HTTP协议等...">
+  
+  <title>流量包分析2019.5.28 [ liu ]</title>
+  
+  
+    <link rel="shortcut icon" href="/hollow.ico">
+  
+  
+  <link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+  
+</head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+    <div class="item prev">
+      <a href="/2019/05/29/1 day/56/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        流量包分析2019.5.29
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2019/05/20/1 day/57/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        流量包分析2019.5.20
+      </div>
+    </div>
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onclick="openUserCard()">
+          <img id="avatar" src="https://avatars3.githubusercontent.com/u/13285397?s=460&v=4">
+          <div id="homelink">liu</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/index.html">Home</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/categories">Categories</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="https://github.com/Baileyswu">Github</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  
+
+  <article id="post">
+    <h1>流量包分析2019.5.28</h1>
+    <p class="page-title-sub">
+      <span id="post-title-date">撰写于 2019-05-28</span>
+      
+        <span id="post-title-updated">修改于 2019-08-11</span>
+      
+      
+      <span id="post-title-categories">分类
+      
+      
+        
+        
+        <a href="/categories/流量分析/">流量分析</a>
+      
+      </span>
+      
+      
+      <span id="post-title-tags">
+      标签
+      
+      
+        
+        
+        <a href="/tags/流量包分析2019-5-28/">流量包分析2019.5.28</a>
+      
+      </span>
+      
+    </p>
+    
+    <h1 id="流量分析——2019-5-28"><a href="#流量分析——2019-5-28" class="headerlink" title="流量分析——2019.5.28"></a>流量分析——2019.5.28</h1><p>&emsp;<br><a href="https://imgchr.com/i/evF8RH" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evF8RH.png" alt="evF8RH.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/evFaeP" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evFaeP.png" alt="evFaeP.png"></a><br>&emsp;<br>&emsp;<br>1）被感染的Windows VM的IP地址是什么？<br>可根据科来的矩阵，以及Wireshark中的流量分析可以看出如下图可视<br><a href="https://imgchr.com/i/evFBFS" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evFBFS.png" alt="evFBFS.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/evFrWQ" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evFrWQ.png" alt="evFrWQ.png"></a><br>所以受感染的IP地址是172.16.165.165<br>&emsp;<br>&emsp;<br>2）被感染的Windows VM的主机名是什么？<br>在用Wireshark协议统计中看到DHCP以及HTTP协议等。<br>通过Wireshark搜索DHCP，可查看出如下图所示<br>一般查看受感染的主机名时可直接在Wireshark中搜索kerberos.CNameString，查看cname选项即可看出。<br>但由于这个是抓的虚拟机内部的包不存在kerberos.CNameString，而在统计协议时也发现有DHCP协议，DHCP协议中会出现主机名，所以可以根据DHCP协议有出现主机名来入手。<br><a href="https://imgchr.com/i/evFRe0" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evFRe0.png" alt="evFRe0.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/evFTSJ" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evFTSJ.png" alt="evFTSJ.png"></a><br>&emsp;<br>上图显示的有主机名，故对应的主机名就是K34EN6W3N-PC<br>&emsp;<br>&emsp;<br>3）受感染虚拟机的MAC地址是多少？<br>由1已知受感染的虚拟机的IP地址为172.16.165.165。<br>打开科来的诊断中有此IP所对应的MAC地址，该MAC地址即为受感染的虚拟机的MAC地址<br><a href="https://imgchr.com/i/evkATf" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evkATf.png" alt="evkATf.png"></a><br>&emsp;<br>所以，受感染的虚拟机的MAC地址为F0:19:AF:02:9B:F1<br>&emsp;<br>&emsp;<br>4）受感染网站的IP地址是什么？<br>由协议统计看出HTTP协议的占据比例大，可以分析一下HTTP。<br>在科来中找到协议，双击HTTP<br><a href="https://imgchr.com/i/evkefg" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evkefg.png" alt="evkefg.png"></a><br>&emsp;<br>点击进去可看到受感染的用户和几个用户的流量。<br><a href="https://imgchr.com/i/evkMXn" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evkMXn.png" alt="evkMXn.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/evkdXR" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evkdXR.png" alt="evkdXR.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/evksAK" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evksAK.png" alt="evksAK.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/evk5HP" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evk5HP.png" alt="evk5HP.png"></a><br>可看出受感染的IP和以上四个地址有关联，可主要分析以上四个IP地址。<br>利用Wireshark的导出HTTP文件，看到<br><a href="https://imgchr.com/i/evk74S" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evk74S.png" alt="evk74S.png"></a><br>&emsp;<br>先从文件大的开始分析，可根据前面的编号找到具体的流量进行分析。<br>首先看到<a href="http://www.bing.com，使用Wireshark追踪了HTTP流，如下图所示，都是正常的请求，可以判断为正常请求。" target="_blank" rel="noopener">www.bing.com，使用Wireshark追踪了HTTP流，如下图所示，都是正常的请求，可以判断为正常请求。</a><br><a href="https://imgchr.com/i/evkq3Q" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evkq3Q.png" alt="evkq3Q.png"></a><br>&emsp;<br>&emsp;<br>再来看<a href="http://www.ciniholland.nl，也是选择大的数据进行分析，追踪一下HTTP流。分析可以看出这也是正常的请求，下面包括java脚本等内容，也是正常访问，没有什么问题。" target="_blank" rel="noopener">www.ciniholland.nl，也是选择大的数据进行分析，追踪一下HTTP流。分析可以看出这也是正常的请求，下面包括java脚本等内容，也是正常访问，没有什么问题。</a><br><a href="https://imgchr.com/i/evASEV" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evASEV.png" alt="evASEV.png"></a><br>&emsp;<br>&emsp;<br>下面再来看，24corp-shop.com，也是从最大的流量进行分析。同样追踪一下HTTP流。前面也是正常请求和回应，如下图所示有个地址转换，转换的地址是src=’<a href="http://stand.trustandprobaterealty.com/，这个还不确定，可以导出到电脑中，然后在浏览器上访问此网址https://www.virustotal.com/#/home/upload" target="_blank" rel="noopener">http://stand.trustandprobaterealty.com/，这个还不确定，可以导出到电脑中，然后在浏览器上访问此网址https://www.virustotal.com/#/home/upload</a><br>把导出的文件拖到这个网页上进行检查。<br><a href="https://imgchr.com/i/evAZHx" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evAZHx.png" alt="evAZHx.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/evAMCD" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evAMCD.png" alt="evAMCD.png"></a><br>检查结果即没有问题，继续分析下面的。<br>&emsp;<br>&emsp;<br>然后再对stand.trustandprobaterealty.com这个网址进行分析流量，还是分析从分析最大的开始。<br>这里有四个一样大小的，应该是请求的同一个文件多次请求，如下图所示<br><a href="https://imgchr.com/i/evAlgH" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evAlgH.png" alt="evAlgH.png"></a><br>&emsp;<br>追踪HTTP流，如下图可视<br><a href="https://imgchr.com/i/evA8KA" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evA8KA.png" alt="evA8KA.png"></a><br>&emsp;<br>可看出里面有敏感性字体比如：Windows、system32、sys等，这时应该是这个文件出现问题，把这个文件源码导出到电脑中。然后在浏览器上访问此网址<a href="https://www.virustotal.com/#/home/upload" target="_blank" rel="noopener">https://www.virustotal.com/#/home/upload</a><br>把导出的文件拖到这个网页上进行检查，即可出现下图所示，也说明这个文件存在问题。<br>&emsp;<br><img src="https://s2.ax1x.com/2019/08/11/evANUf.png" alt="evANUf.png"><br>同时也可看出这个stand.trustandprobaterealty.com网址在前面出现过，也就是24corp-shop.com网站中的转换地址，所以可以判定为用户点击24corp-shop.com页面中的某个选项，出现跳转页面，把页面跳转到stand.trustandprobaterealty.com。因此可以判断为是24corp-shop.com是受感染的网站，同时用科来找到受感染的网站的那条流量，打开，科来中的协议选择HTTP协议，找到24corp-shop.com受感染网站对应的，会出现如下图所示<br>&emsp;<br><a href="https://imgchr.com/i/evAU58" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evAU58.png" alt="evAU58.png"></a><br>&emsp;<br>由此可看出受感染的的网站的IP即为源地址：188.225.73.100。<br>&emsp;<br>&emsp;<br>5）受感染网站的域名是什么？<br>由4可制受感染的域名就是24corp-shop.com<br>&emsp;<br>&emsp;<br>6）提供漏洞攻击包和恶意软件的IP地址是什么？<br>提供漏洞攻击包和恶意软件的就是4）中分析的stand.trustandprobaterealty.com<br>对应的IP地址可在科来中找到协议，点进HTTP协议，找到stand.trustandprobaterealty.com提供漏洞的那条流量<br><a href="https://imgchr.com/i/evABvj" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evABvj.png" alt="evABvj.png"></a><br>&emsp;<br>其中的源地址就是对应的提供漏洞攻击包和恶意软件的IP地址：37.200.69.143<br>&emsp;<br>&emsp;<br>7）提供漏洞攻击包和恶意软件的域名是什么？<br>由上述分析就可知提供漏洞攻击包和恶意软件的域名是stand.trustandprobaterealty.com</p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
+  <div class="random-toc">
+    <h2>目录</h2>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#流量分析——2019-5-28"><span class="toc-text">流量分析——2019.5.28</span></a></li></ol>
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+    <a href="/2019/05/29/1 day/56/" class="prev">&larr; 上一篇 流量包分析2019.5.29</a>
+  
+
+  
+
+  
+    <a href="/2019/05/20/1 day/57/" class="next">下一篇 流量包分析2019.5.20 &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by liu-ctrl using
+      <a href="http://hexo.io">Hexo</a> & <a href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="https://avatars3.githubusercontent.com/u/13285397?s=460&v=4">
+    <p id="description"></p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      <a href="https://github.com/Baileyswu">
+        
+          <i class="icon iconfont github">&#xe606;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="http://weibo.com/Danliwoo">
+        
+          <i class="icon iconfont weibo">&#xe602;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="mailto:wulidan0530@live.com">
+        
+          M
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<div id="btn-view">Hide</div>
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":["flash"],"timer":true,"delay":1500000,"shuffle":true,"count":12};
+var unsplashConfig = {"gravity":"center"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+
+var backgroundColor = "34495E";
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+

@@ -1,0 +1,350 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="author" content="liu-ctrl">
+  
+  
+  
+  
+    <meta name="description" content="流量分析——2019.5.20&emsp;流量分析要从哪些方面入手？？？1、被攻击者的IP，攻击者的IP等信息2、都用到了哪些协议3、攻击了什么4、把文件溯源，查看到攻击者在电脑中都做了什么。&emsp;&emsp;被攻击地址IP：10.0.90.175可以直接使用科莱的矩阵，看到那个图，那个最初发射的点，即是被攻击的IP，双击点进去就可以看到IP地址等详细信息。&emsp;&emsp;ma...">
+  
+  <title>流量包分析2019.5.20 [ liu ]</title>
+  
+  
+    <link rel="shortcut icon" href="/hollow.ico">
+  
+  
+  <link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+  
+</head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+    <div class="item prev">
+      <a href="/2019/05/28/1 day/55/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        流量包分析2019.5.28
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2019/05/15/1 day/38/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        centos7安装ansible
+      </div>
+    </div>
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onclick="openUserCard()">
+          <img id="avatar" src="https://avatars3.githubusercontent.com/u/13285397?s=460&v=4">
+          <div id="homelink">liu</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/index.html">Home</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/categories">Categories</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="https://github.com/Baileyswu">Github</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  
+
+  <article id="post">
+    <h1>流量包分析2019.5.20</h1>
+    <p class="page-title-sub">
+      <span id="post-title-date">撰写于 2019-05-20</span>
+      
+        <span id="post-title-updated">修改于 2019-08-11</span>
+      
+      
+      <span id="post-title-categories">分类
+      
+      
+        
+        
+        <a href="/categories/流量分析/">流量分析</a>
+      
+      </span>
+      
+      
+      <span id="post-title-tags">
+      标签
+      
+      
+        
+        
+        <a href="/tags/流量包分析2019-5-20/">流量包分析2019.5.20</a>
+      
+      </span>
+      
+    </p>
+    
+    <h1 id="流量分析——2019-5-20"><a href="#流量分析——2019-5-20" class="headerlink" title="流量分析——2019.5.20"></a>流量分析——2019.5.20</h1><p>&emsp;<br>流量分析要从哪些方面入手？？？<br>1、被攻击者的IP，攻击者的IP等信息<br>2、都用到了哪些协议<br>3、攻击了什么<br>4、把文件溯源，查看到攻击者在电脑中都做了什么。<br>&emsp;<br>&emsp;<br>被攻击地址IP：10.0.90.175<br>可以直接使用科莱的矩阵，看到那个图，那个最初发射的点，即是被攻击的IP，双击点进去就可以看到IP地址等详细信息。<br><a href="https://imgchr.com/i/evVK6H" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evVK6H.png" alt="evVK6H.png"></a><br>&emsp;<br>&emsp;<br>mac地址：DELL_b1:53:fa<br>DNS域名解析协议中有MAC地址，所以在搜索栏中搜索dns，即可找到mac地址，选址source即可，这个就是被攻击的Mac地址。<br><a href="https://imgchr.com/i/evV10I" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evV10I.png" alt="evV10I.png"></a><br>&emsp;<br>&emsp;<br>主机名：在搜索栏搜索kerberos，点开下面的<br>kerberos选项，找到cname点开即可找到主机名。<br>被攻击的主机名是：seoul-4a67-pc<br><a href="https://imgchr.com/i/evV10I" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evV10I.png" alt="evV10I.png"></a><br>后面有PC$就是被攻击的用户名<br>&emsp;<br>&emsp;<br>被攻击的Windows用户帐户名：<br>在搜索栏中搜索kerberos.CNameString<br>而后面是REP的，是回复的包，里面有Windows用户账户名（多换几个就可以了）<br><a href="https://imgchr.com/i/evV0ns" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evV0ns.png" alt="evV0ns.png"></a><br>&emsp;<br>&emsp;<br>想要查看一个文件有没有病毒，可以用Wireshark工具点击文件，选择导出并且要求是http格式，然后存储为以.pcap结尾的，再在网页中打开VirusTotal<br><a href="https://www.virustotal.com/#/home/upload" target="_blank" rel="noopener">https://www.virustotal.com/#/home/upload</a><br>把导出文件拖进去即可。查看问价的哈希可在导出的文件中的属性中查看。<br>&emsp;<br>&emsp;<br>1、首先在分析一个包时，需要先看一下包中用到的协议<br>可以使用科莱，查看协议，如下图<br><a href="https://imgchr.com/i/evVD7q" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evVD7q.png" alt="evVD7q.png"></a><br>由图可知，经过物理层和数据链路层以及TCP层，而重点是在TCP层，TCP层是传输控制协议，是传输层的通信协议。<br>&emsp;<br>&emsp;<br>2、查看被侵入的主机的IP以及攻击者的IP地址<br>可以利用科莱工具中的矩阵<br><a href="https://imgchr.com/i/evVyNV" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evVyNV.png" alt="evVyNV.png"></a><br>可点开原点，可查看到下图页面<br>&emsp;<br><a href="https://imgchr.com/i/evVRc4" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evVRc4.png" alt="evVRc4.png"></a><br>其中源端口后面对应的就是被攻击者的IP地址。<br>然后分析TCP流量包，以及HTTP，看到被攻击者和攻击者联系频繁，可以判断这个是攻击者的IP地址，攻击者的IP地址为204.2.193.137<br><a href="https://imgchr.com/i/evV4BR" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evV4BR.png" alt="evV4BR.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/evVTN6" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evVTN6.png" alt="evVTN6.png"></a><br>&emsp;<br>&amp;emsp<br>3、因为FTP在此包中占据的比例较大，所以可以分析一下FTP，<br>在搜索栏中搜索ftp，出现下图可视图<br><a href="https://imgchr.com/i/evV74K" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evV74K.png" alt="evV74K.png"></a><br>可看到攻击者在被攻击者的电脑上的操作，访问了/目录，并且返回码是250（表示成功访问）。<br><a href="https://imgchr.com/i/evubXF" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evubXF.png" alt="evubXF.png"></a><br>在其中有一条是访问jpeg也就是照片，跟踪一下TCP流<br><a href="https://imgchr.com/i/evuX79" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evuX79.png" alt="evuX79.png"></a><br>&emsp;<br>可看到攻击者的一系列操作，我们可以看到他的一系列操作。<br>&emsp;<br>&emsp;<br>4、使用的是FTP文件传输协议，可以查看一下ftp-data（ftp-data就是传输的内容）<br><a href="https://imgchr.com/i/evuzfx" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evuzfx.png" alt="evuzfx.png"></a><br>可以从中看到攻击者有图片的下载<br>我们点数据，进行追踪流，出现了下图页面<br><a href="https://imgchr.com/i/evK91K" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evK91K.png" alt="evK91K.png"></a><br>把下面的显示保存数据的方式有ASCII换为原始数据，并save as（保存）即可。【注：保存的图片名一定是 .png结尾的】<br>&emsp;<br>&emsp;<br>5、打开刚才保存的原始数据，打开就是一张图片，给溯源回来了。<br><a href="https://imgchr.com/i/evKU3V" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evKU3V.png" alt="evKU3V.png"></a></p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
+  <div class="random-toc">
+    <h2>目录</h2>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#流量分析——2019-5-20"><span class="toc-text">流量分析——2019.5.20</span></a></li></ol>
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+    <a href="/2019/05/28/1 day/55/" class="prev">&larr; 上一篇 流量包分析2019.5.28</a>
+  
+
+  
+
+  
+    <a href="/2019/05/15/1 day/38/" class="next">下一篇 centos7安装ansible &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by liu-ctrl using
+      <a href="http://hexo.io">Hexo</a> & <a href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="https://avatars3.githubusercontent.com/u/13285397?s=460&v=4">
+    <p id="description"></p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      <a href="https://github.com/Baileyswu">
+        
+          <i class="icon iconfont github">&#xe606;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="http://weibo.com/Danliwoo">
+        
+          <i class="icon iconfont weibo">&#xe602;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="mailto:wulidan0530@live.com">
+        
+          M
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<div id="btn-view">Hide</div>
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":["flash"],"timer":true,"delay":1500000,"shuffle":true,"count":12};
+var unsplashConfig = {"gravity":"center"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+
+var backgroundColor = "34495E";
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+

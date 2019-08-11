@@ -1,0 +1,350 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="author" content="liu-ctrl">
+  
+  
+  
+  
+    <meta name="description" content="流量包分析——2019.6.9&emsp;首先在流量包分析之前，要统计一下包的大小，以及协议所占比例其中利用Wireshark中的统计功能&emsp;&emsp;&emsp;再利用科来的协议查看协议所占比例可看出流量包共6349条流量，其中协议主要是TCP和HTTP以及HTTPS和LDAP等&emsp;&emsp;1、先分析出受感染的IP地址，在科来中的矩阵中可看到一般收发点最多的就是受感染...">
+  
+  <title>流量包分析2019.6.9 [ liu ]</title>
+  
+  
+    <link rel="shortcut icon" href="/hollow.ico">
+  
+  
+  <link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+  
+</head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+    <div class="item prev">
+      <a href="/2019/06/09/1 day/51/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        流量包分析2019.6.9
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2019/06/09/1 day/53/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        流量包分析2019.5.31
+      </div>
+    </div>
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onclick="openUserCard()">
+          <img id="avatar" src="https://avatars3.githubusercontent.com/u/13285397?s=460&v=4">
+          <div id="homelink">liu</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/index.html">Home</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/categories">Categories</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="https://github.com/Baileyswu">Github</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  
+
+  <article id="post">
+    <h1>流量包分析2019.6.9</h1>
+    <p class="page-title-sub">
+      <span id="post-title-date">撰写于 2019-06-09</span>
+      
+        <span id="post-title-updated">修改于 2019-08-11</span>
+      
+      
+      <span id="post-title-categories">分类
+      
+      
+        
+        
+        <a href="/categories/流量分析/">流量分析</a>
+      
+      </span>
+      
+      
+      <span id="post-title-tags">
+      标签
+      
+      
+        
+        
+        <a href="/tags/流量包分析2019-6-9/">流量包分析2019.6.9</a>
+      
+      </span>
+      
+    </p>
+    
+    <h1 id="流量包分析——2019-6-9"><a href="#流量包分析——2019-6-9" class="headerlink" title="流量包分析——2019.6.9"></a>流量包分析——2019.6.9</h1><p>&emsp;<br>首先在流量包分析之前，要统计一下包的大小，以及协议所占比例<br>其中利用Wireshark中的统计功能<br><a href="https://imgchr.com/i/evpOjP" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evpOjP.png" alt="evpOjP.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/ev9JHO" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/ev9JHO.png" alt="ev9JHO.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/ev9NUe" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/ev9NUe.png" alt="ev9NUe.png"></a><br>&emsp;<br>再利用科来的协议查看协议所占比例<br><a href="https://imgchr.com/i/ev94vq" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/ev94vq.png" alt="ev94vq.png"></a><br>可看出流量包共6349条流量，其中协议主要是TCP和HTTP以及HTTPS和LDAP等<br>&emsp;<br>&emsp;<br>1、先分析出受感染的IP地址，在科来中的矩阵中可看到<br><a href="https://imgchr.com/i/ev9vx1" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/ev9vx1.png" alt="ev9vx1.png"></a><br>一般收发点最多的就是受感染的IP地址<br><a href="https://imgchr.com/i/evCCVO" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evCCVO.png" alt="evCCVO.png"></a><br>&emsp;<br>所以受感染的IP地址就是10.100.9.107<br>&emsp;<br>&emsp;<br>2、活动的日期和时间（格林威治标准时间或UTC）<br>由5可知感染的流量的具体编号，感染的编号为679<br><a href="https://imgchr.com/i/evCAGd" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evCAGd.png" alt="evCAGd.png"></a><br>受感染的时间即为上图红色区域所示。<br>&emsp;<br>&emsp;<br>3、受感染的Windows计算机的帐户名称或用户名<br>从前面已知受感染的IP地址就是10.100.9.107<br>在Wireshark中搜索kerberos.CNameString找到相应受感染的IP地址对应的流量。<br><a href="https://imgchr.com/i/evCMdS" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evCMdS.png" alt="evCMdS.png"></a><br>&emsp;<br>所以可知受感染的账户名是headless-pc$<br>&emsp;<br>&emsp;<br>4、受感染的Windows计算机的主机名<br>搜索用户名也是同上，在Wireshark中搜索kerberos.CNameString，找到搜感染的IP地址对应的，不过要多找几个<br><a href="https://imgchr.com/i/evCNLV" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evCNLV.png" alt="evCNLV.png"></a><br>所以受感染的用户名是ichabod.crane<br>&emsp;<br>&emsp;<br>5、受感染的Windows计算机的MAC地址<br>在Wireshark中搜索tcp，打开受感染IP地址所对应的流量，并看清受感染IP地址是源地址和目标地址。<br><a href="https://imgchr.com/i/evCwoF" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evCwoF.png" alt="evCwoF.png"></a><br>我选择的流量受感染IP地址107是目标地址<br>所以受感染的MAC地址是00:50:8b:2a:96:0a<br>&emsp;<br>&emsp;<br>6、SHA256文件哈希来自pcap的任何恶意软件<br>这是什么类型的感染<br>在科来中的协议中找到HTTP协议，<br><a href="https://imgchr.com/i/evCszR" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evCszR.png" alt="evCszR.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/evCgL6" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evCgL6.png" alt="evCgL6.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/evCbOP" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evCbOP.png" alt="evCbOP.png"></a><br>&emsp;<br><a href="https://imgchr.com/i/evPJte" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evPJte.png" alt="evPJte.png"></a><br>可看到以上的IP地址和受感染的IP地址有来往。<br>在Wireshark中搜索http.request.method == “GET”<br>&emsp;<br><a href="https://imgchr.com/i/evP0nP" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evP0nP.png" alt="evP0nP.png"></a><br>&emsp;<br>追踪一下HTTP流，可查看到<br><a href="https://imgchr.com/i/evP57T" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evP57T.png" alt="evP57T.png"></a><br>DOS其实是是磁盘操作系统的缩写，是个人计算机上的一类操作系统。使用DOS模式可以执行很多程序。<br>而这条流量则在DOS模式，其实非常危险且这个请求的文件非常大，导出到桌面，然后到<a href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener">https://www.virustotal.com/gui/home/upload</a><br>把导出文件拖到此网站上一进行检测，得出下面结果<br><a href="https://imgchr.com/i/evPTNF" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evPTNF.png" alt="evPTNF.png"></a><br>可得出哈希值是396223eeec49493a52dd9d8ba5348a332bf064483a358db79d8bb8d22e6eb62c</p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
+  <div class="random-toc">
+    <h2>目录</h2>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#流量包分析——2019-6-9"><span class="toc-text">流量包分析——2019.6.9</span></a></li></ol>
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+    <a href="/2019/06/09/1 day/51/" class="prev">&larr; 上一篇 流量包分析2019.6.9</a>
+  
+
+  
+
+  
+    <a href="/2019/06/09/1 day/53/" class="next">下一篇 流量包分析2019.5.31 &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by liu-ctrl using
+      <a href="http://hexo.io">Hexo</a> & <a href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="https://avatars3.githubusercontent.com/u/13285397?s=460&v=4">
+    <p id="description"></p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      <a href="https://github.com/Baileyswu">
+        
+          <i class="icon iconfont github">&#xe606;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="http://weibo.com/Danliwoo">
+        
+          <i class="icon iconfont weibo">&#xe602;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="mailto:wulidan0530@live.com">
+        
+          M
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<div id="btn-view">Hide</div>
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":["flash"],"timer":true,"delay":1500000,"shuffle":true,"count":12};
+var unsplashConfig = {"gravity":"center"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+
+var backgroundColor = "34495E";
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+
