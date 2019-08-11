@@ -1,0 +1,339 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="author" content="liu-ctrl">
+  
+  
+  
+  
+    <meta name="description" content="centos7安装ngx_lua_waf&emsp;过waf叫做bypass&emsp;安装ngx_lua_waf的用途：1、防止SQL注入，本地包含，本地溢出，fuzzing测试，XSS，SSRF等web攻击2、防止SVN/备份之类文件泄漏3、防止apachebench之类的压力测试工具的攻击4、屏蔽常见的扫描黑客工具，扫描器5、屏蔽常见的网络请求6、屏蔽照片附件类目录php执行权限7、防...">
+  
+  <title>centos7安装ngx_lua_waf [ liu ]</title>
+  
+  
+    <link rel="shortcut icon" href="/hollow.ico">
+  
+  
+  <link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+  
+</head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+  
+    <div class="item next">
+      <a href="/2019/07/28/1 day/39/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        centos7搭建ELK
+      </div>
+    </div>
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onclick="openUserCard()">
+          <img id="avatar" src="https://avatars3.githubusercontent.com/u/13285397?s=460&v=4">
+          <div id="homelink">liu</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/index.html">Home</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/categories">Categories</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="https://github.com/Baileyswu">Github</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  
+
+  <article id="post">
+    <h1>centos7安装ngx_lua_waf</h1>
+    <p class="page-title-sub">
+      <span id="post-title-date">Created at 2019-07-30</span>
+      
+        <span id="post-title-updated">Updated at 2019-08-11</span>
+      
+      
+      <span id="post-title-categories">Category
+      
+      
+        
+        
+        <a href="/categories/服务搭建/">服务搭建</a>
+      
+      </span>
+      
+      
+      <span id="post-title-tags">
+      Tag
+      
+      
+        
+        
+        <a href="/tags/centos7安装ngx-lua-waf/">centos7安装ngx_lua_waf</a>
+      
+      </span>
+      
+    </p>
+    
+    <h1 id="centos7安装ngx-lua-waf"><a href="#centos7安装ngx-lua-waf" class="headerlink" title="centos7安装ngx_lua_waf"></a>centos7安装ngx_lua_waf</h1><p>&emsp;<br>过waf叫做bypass<br>&emsp;<br>安装ngx_lua_waf的用途：<br>1、防止SQL注入，本地包含，本地溢出，fuzzing测试，XSS，SSRF等web攻击<br>2、防止SVN/备份之类文件泄漏<br>3、防止apachebench之类的压力测试工具的攻击<br>4、屏蔽常见的扫描黑客工具，扫描器<br>5、屏蔽常见的网络请求<br>6、屏蔽照片附件类目录php执行权限<br>7、防止webshell上传<br>&emsp;<br>一、安装依赖环境：<br>yum -y install gcc gcc-c++ wget git geoip-devel gd-devel pcre-deve libcurl-devel libxml2 libxml2-devel libgd-devel  openssl-devel lua-devel<br>&emsp;<br>&emsp;<br>二、下载解压安装luajit 2.0.5<br>这里我选择安装到/data/server/下<br>wget <a href="http://luajit.org/download/LuaJIT-2.0.5.tar.gz" target="_blank" rel="noopener">http://luajit.org/download/LuaJIT-2.0.5.tar.gz</a><br>tar -zxvf LuaJIT-2.0.5.tar.gz<br>cd LuaJIT-2.0.5<br>make install PREFIX=/data/server/luajit<br>&emsp;<br>创建软链接<br>ln -s /data/server/luajit/lib/libluajit-5.1.so.2 /lib64/libluajit-5.1.so.2<br>&emsp;<br>&emsp;<br>三、下载解压ngx_devel_kit<br>wget <a href="https://github.com/simpl/ngx_devel_kit/archive/v0.3.0.tar.gz" target="_blank" rel="noopener">https://github.com/simpl/ngx_devel_kit/archive/v0.3.0.tar.gz</a><br>tar -zxvf v0.3.0.tar.gz<br>&emsp;<br>下载解压lua-nginx-model（nginx的lua模块）<br>wget <a href="https://github.com/openresty/lua-nginx-module/archive/v0.10.14rc3.tar.gz" target="_blank" rel="noopener">https://github.com/openresty/lua-nginx-module/archive/v0.10.14rc3.tar.gz</a><br>tar -zxvf v0.10.14rc3.tar.gz<br>&emsp;<br>&emsp;<br>四、下载nginx安装包<br>这里我的版本是nginx-1.12.2<br>cd nginx-1.12.2<br>&emsp;<br>./configure <br>–prefix=/data/server/nginx <br>–error-log-path=/data/server/nginx/error.log <br>–http-log-path=/data/server/nginx/access.log <br>–with-http_ssl_module <br>–with-http_v2_module <br>–with-http_realip_module <br>–with-http_addition_module <br>–with-http_image_filter_module <br>–with-http_geoip_module <br>–with-http_sub_module <br>–with-http_dav_module <br>–with-http_flv_module <br>–with-http_mp4_module <br>–with-http_gunzip_module <br>–with-http_gzip_static_module <br>–with-http_random_index_module <br>–with-http_secure_link_module <br>–with-http_degradation_module <br>–with-http_slice_module <br>–with-http_stub_status_module <br>–with-pcre <br>–with-pcre-jit <br>–with-stream <br>–with-stream_ssl_module <br>–with-debug <br>–add-module=/usr/local/src/ngx_devel_kit-0.3.0 <br>–add-module=/usr/local/src/lua-nginx-module-0.10.11 <br>–with-ld-opt=”-Wl,-rpath,$LUAJIT_LIB” ;<br>&emsp;<br>make &amp;&amp; make install<br>&emsp;<br>&emsp;<br>五、下载ngx_lua_waf模块，修改配置文件<br>cd /usr/local/src/<br>git clone <a href="https://github.com/loveshell/ngx_lua_waf.git" target="_blank" rel="noopener">https://github.com/loveshell/ngx_lua_waf.git</a><br>mv ngx_lua_waf waf<br>mv ngx_lua_waf /data/server/nginx/conf/（把waf模块移动到nginx的配置文件下）<br>&emsp;<br>修改waf的模块的规则配置路径<br>vi /data/server/nginx/conf/waf/config.lua<br>修改为下图所示页面<br><a href="https://imgchr.com/i/evIr4O" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evIr4O.png" alt="evIr4O.png"></a><br>&emsp;<br>修改nginx的配置文件，使其加载waf功能模块<br>vi /data/server/nginx/conf/nginx.conf<br>&emsp;<br>    lua_package_path “/data/server/nginx/conf/waf/?.lua”;<br>    lua_shared_dict limit 10m;<br>    init_by_lua_file  /data/server/nginx/conf/waf/init.lua;<br>    access_by_lua_file /data/server/nginx/conf/waf/waf.lua;<br>填写自己的waf相对应的路径<br><a href="https://imgchr.com/i/evIgvd" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evIgvd.png" alt="evIgvd.png"></a><br>&emsp;<br>&emsp;<br>五、关闭防火墙、SELINUX，启动<br>systemctl stop firewalld<br>setenforce 0<br>/data/server/nginx/sbin/nginx<br>&emsp;<br>访问网站<a href="http://192.168.43.2/" target="_blank" rel="noopener">http://192.168.43.2/</a><br><a href="https://imgchr.com/i/evI4VP" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evI4VP.png" alt="evI4VP.png"></a><br>&emsp;<br>访问<a href="http://192.168.43.2/test.php?id=../etc/passwd" target="_blank" rel="noopener">http://192.168.43.2/test.php?id=../etc/passwd</a><br><a href="https://imgchr.com/i/evILKs" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/08/11/evILKs.png" alt="evILKs.png"></a></p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <div class="random-toc">
+    <h2>Table of Content</h2>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#centos7安装ngx-lua-waf"><span class="toc-text">centos7安装ngx_lua_waf</span></a></li></ol>
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+
+  
+
+  
+    <a href="/2019/07/28/1 day/39/" class="next">Next post centos7搭建ELK &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by liu-ctrl using
+      <a href="http://hexo.io">Hexo</a> & <a href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="https://avatars3.githubusercontent.com/u/13285397?s=460&v=4">
+    <p id="description"></p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      <a href="https://github.com/Baileyswu">
+        
+          <i class="icon iconfont github">&#xe606;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="http://weibo.com/Danliwoo">
+        
+          <i class="icon iconfont weibo">&#xe602;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="mailto:wulidan0530@live.com">
+        
+          M
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<div id="btn-view">Hide</div>
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":["flash"],"timer":true,"delay":1500000,"shuffle":true,"count":12};
+var unsplashConfig = {"gravity":"center"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+
+var backgroundColor = "34495E";
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+
